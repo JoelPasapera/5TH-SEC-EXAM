@@ -3,1285 +3,1035 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>English Review · II Monthly Exam — 4th Secondary</title>
+<title>Ensayo General · English Exam Review · 5th Sec</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --stage1:#4B3273; --stage2:#2C1A45; --stage3:#1C1130;
-  --gold:#F5B12A; --gold2:#E29A1A; --gold-soft:#FBD888;
-  --coral:#E5503D; --coral2:#C93B2B; --coral-soft:#F2B3A8;
-  --cream:#F2EADC; --cream2:#FBF6EC; --card:#FCF9F2;
-  --ink:#241636; --ink2:#33214F; --plum:#3D2B5E; --plum-soft:#5B4880;
-  --tx:#2A1B3F; --muted:#7A6B8A; --muted2:#9387A3; --line:#E6DAC6;
-  --green:#2FA15D; --green2:#26864E; --green-soft:#CDEBD6;
-  --hair:rgba(255,255,255,.08);
-  --disp:'Anton','Arial Narrow',system-ui,sans-serif;
-  --head:'Bricolage Grotesque','Trebuchet MS',system-ui,sans-serif;
-  --body:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
-  --mono:'Space Mono',ui-monospace,'Courier New',monospace;
-  --maxw:1220px;
-  --pad: clamp(22px, 3.5vw, 56px);
+  --ink:#1b1430; --paper:#fbf6ea; --paper2:#f3ead7;
+  --stage:#160f3d; --stage2:#241653;
+  --gold:#f3b53b; --gold-deep:#d6962a; --curtain:#d4453d;
+  --applause:#2aa564; --applause-deep:#1c7a49;
+  --muted:#6d6585; --line:#e6dcc4;
+  --shadow:0 18px 40px -22px rgba(22,15,61,.55);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
-body{font-family:var(--body); color:var(--tx); background:var(--stage3); overflow:hidden;
-  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility}
+body{font-family:"Inter",system-ui,sans-serif;color:var(--ink);background:var(--paper);overflow:hidden;-webkit-font-smoothing:antialiased}
 
-/* ---------- stage ---------- */
-.deck{position:fixed; inset:0; height:100dvh; width:100vw; overflow:hidden;
-  background:radial-gradient(78% 58% at 50% 16%, var(--stage1), var(--stage2) 52%, var(--stage3) 100%);
-  box-shadow:inset 0 0 260px 70px rgba(16,7,26,.65)}
-.deck::after{content:""; position:absolute; inset:0; pointer-events:none;
-  background:radial-gradient(58% 36% at 50% -4%, rgba(245,177,42,.12), transparent 62%)}
+/* ---------- top marquee bar ---------- */
+.topbar{position:fixed;top:0;left:0;right:0;height:60px;z-index:40;display:flex;align-items:center;gap:16px;
+  padding:0 clamp(12px,2.2vw,28px);background:var(--stage);border-bottom:2px solid var(--gold-deep);color:var(--paper)}
+.brand{display:flex;align-items:center;gap:9px;flex:0 0 auto;letter-spacing:.13em;font-family:"Oswald",sans-serif;
+  font-weight:600;font-size:clamp(11px,1.1vw,14px);text-transform:uppercase;white-space:nowrap}
+.brand .star{color:var(--gold);font-size:1.25em;line-height:1;filter:drop-shadow(0 0 6px rgba(243,181,59,.7))}
+.brand b{color:var(--gold)}
+.bulbs{flex:1 1 auto;display:flex;align-items:center;justify-content:center;gap:clamp(3px,.45vw,7px);overflow:hidden;min-width:0}
+.bulb{width:8px;height:8px;border-radius:50%;background:#3a2f6b;flex:0 0 auto;transition:background .35s,box-shadow .35s,transform .35s}
+.bulb.on{background:var(--gold);box-shadow:0 0 7px 1px rgba(243,181,59,.8);transform:scale(1.12)}
+.bulb.cur{background:#fff;box-shadow:0 0 11px 3px rgba(255,255,255,.9)}
+.hud{flex:0 0 auto;display:flex;align-items:center;gap:clamp(7px,1vw,12px)}
+.iconbtn{appearance:none;border:1.5px solid rgba(243,181,59,.5);background:transparent;color:var(--gold);width:38px;height:38px;
+  border-radius:11px;cursor:pointer;font-size:18px;display:grid;place-items:center;transition:background .2s,transform .15s;flex:0 0 auto}
+.iconbtn:hover{background:rgba(243,181,59,.16)}
+.iconbtn:active{transform:scale(.92)}
+.score,.counter{display:inline-flex;align-items:center;gap:6px;font-family:"Oswald",sans-serif;font-weight:500;
+  font-size:clamp(12px,1.2vw,15px);letter-spacing:.04em;background:rgba(255,255,255,.08);padding:7px 11px;border-radius:999px;white-space:nowrap}
+.score b{color:var(--gold);font-weight:700}
+.counter{color:#c8c0e6}
+@media (max-width:900px){ .counter{display:none} }
 
-/* progress + chrome */
-.prog{position:fixed; top:0; left:0; height:3px; z-index:60; width:0%;
-  background:linear-gradient(90deg,var(--gold),var(--coral)); transition:width .45s cubic-bezier(.4,0,.2,1);
-  box-shadow:0 0 12px rgba(245,177,42,.6)}
+/* ---------- deck & slides ---------- */
+.deck{position:fixed;inset:60px 0 0 0}
+.slide{position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;align-items:center;
+  padding:clamp(18px,2.6vw,40px) clamp(18px,4.5vw,72px) clamp(74px,9vh,92px);overflow-y:auto}
+.slide.is-active{display:flex;animation:slidein .5s cubic-bezier(.16,.84,.44,1)}
+@keyframes slidein{from{opacity:0;transform:translateY(14px) scale(.993)}to{opacity:1;transform:none}}
+.wrap{width:100%;max-width:1140px;margin:auto}
 
-.topbar{position:fixed; top:3px; left:0; right:0; height:52px; z-index:50; display:flex; align-items:center;
-  justify-content:space-between; gap:12px; padding:0 16px; background:#160E29; border-bottom:1px solid var(--hair)}
-.brand{font-family:var(--mono); font-size:.82rem; font-weight:700; letter-spacing:.12em; white-space:nowrap}
-.brand .st{color:var(--gold)} .brand .en{color:#EDE4F5} .brand .sec{color:var(--coral)}
-.dots{display:flex; gap:6px; align-items:center; flex-wrap:wrap; justify-content:center; max-width:50vw}
-.dot{width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,.18); cursor:pointer; transition:.2s; border:none; padding:0}
-.dot:hover{background:rgba(255,255,255,.45)}
-.dot.on{background:var(--gold); width:22px; border-radius:5px}
-.dot.seen{background:rgba(245,177,42,.4)}
-.tr{display:flex; gap:8px; align-items:center}
-.pill{font-family:var(--mono); font-size:.78rem; font-weight:700; color:#D9CEEA; background:rgba(255,255,255,.06);
-  border:1px solid var(--hair); border-radius:999px; padding:5px 12px; white-space:nowrap; display:flex; gap:6px; align-items:center}
-.pill .star{color:var(--gold)} .pill b{color:#fff}
-.icbtn{width:40px; height:40px; border-radius:11px; border:1px solid var(--hair); background:rgba(255,255,255,.05);
-  color:#EDE4F5; cursor:pointer; display:grid; place-items:center; transition:.16s}
-.icbtn:hover{background:var(--gold); color:var(--ink); border-color:transparent}
-.icbtn:focus-visible{outline:3px solid var(--gold); outline-offset:2px}
-.icbtn svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.eyebrow{font-family:"Oswald",sans-serif;font-weight:600;letter-spacing:.24em;text-transform:uppercase;
+  font-size:clamp(11px,1.3vw,15px);color:var(--curtain);display:flex;align-items:center;gap:11px;margin-bottom:12px}
+.eyebrow::before{content:"";width:28px;height:2px;background:var(--curtain);display:inline-block}
+.title{font-family:"Oswald",sans-serif;font-weight:700;line-height:1.02;letter-spacing:-.01em;
+  font-size:clamp(1.75rem,4.1vw,3.1rem);margin-bottom:8px}
+.lead{color:var(--muted);font-size:clamp(1rem,1.55vw,1.32rem);max-width:62ch;line-height:1.55;margin-bottom:20px}
+.sub{color:var(--muted);font-size:clamp(1rem,1.5vw,1.28rem);max-width:60ch;line-height:1.5;margin-bottom:22px}
 
-.botbar{position:fixed; bottom:0; left:0; right:0; height:62px; z-index:50; display:flex; align-items:center;
-  justify-content:space-between; gap:12px; padding:0 16px}
-.navbtn{font-family:var(--head); font-weight:700; font-size:clamp(.85rem,1.2vw,1rem); cursor:pointer; border:none;
-  padding:11px 20px; border-radius:12px; transition:.16s; display:inline-flex; align-items:center; gap:9px}
-.navbtn.prev{background:rgba(237,228,245,.92); color:var(--ink)}
-.navbtn.prev:hover{background:#fff; transform:translateX(-2px)}
-.navbtn.next{background:var(--gold); color:var(--ink); box-shadow:0 10px 26px -12px rgba(245,177,42,.7)}
-.navbtn.next:hover{background:var(--gold2); transform:translateX(2px)}
-.navbtn:focus-visible{outline:3px solid #fff; outline-offset:2px}
-.navbtn:disabled{opacity:.35; cursor:default; transform:none!important}
-.hint{font-family:var(--mono); font-size:.76rem; color:#B9A98F; letter-spacing:.04em; display:flex; gap:14px; align-items:center}
-.hint kbd{background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.18); border-bottom-width:2px; border-radius:5px; padding:1px 7px; color:#EDE4F5; font-family:var(--mono); font-size:.95em}
+/* dark stage slides */
+.slide.stage{background:radial-gradient(120% 90% at 50% 14%,var(--stage2) 0%,var(--stage) 58%,#0e0930 100%);color:var(--paper)}
+.slide.stage::before,.slide.stage::after{content:"";position:absolute;top:0;bottom:0;width:clamp(36px,7vw,110px);z-index:1;pointer-events:none;opacity:.5}
+.slide.stage::before{left:0;background:repeating-linear-gradient(90deg,#7a1f1c 0 14px,#a52c26 14px 28px);-webkit-mask:linear-gradient(90deg,#000,transparent);mask:linear-gradient(90deg,#000,transparent)}
+.slide.stage::after{right:0;background:repeating-linear-gradient(90deg,#a52c26 0 14px,#7a1f1c 14px 28px);-webkit-mask:linear-gradient(270deg,#000,transparent);mask:linear-gradient(270deg,#000,transparent)}
+.spot{position:absolute;left:50%;top:-12%;width:min(120vw,1100px);height:120%;transform:translateX(-50%);
+  background:radial-gradient(60% 65% at 50% 0%,rgba(243,181,59,.30) 0%,rgba(243,181,59,.08) 36%,transparent 62%);
+  pointer-events:none;z-index:0;animation:beam 7s ease-in-out infinite alternate}
+@keyframes beam{from{opacity:.75;transform:translateX(-52%) scaleX(.96)}to{opacity:1;transform:translateX(-48%) scaleX(1.04)}}
+.slide.stage .wrap{position:relative;z-index:2;text-align:center}
+.slide.stage .eyebrow{color:var(--gold);justify-content:center}
+.slide.stage .eyebrow::before{background:var(--gold)}
+.slide.stage .sub,.slide.stage .lead{color:#cfc8ea;margin-left:auto;margin-right:auto}
+.actno{font-family:"Anton",sans-serif;font-size:clamp(5rem,15vw,12rem);line-height:.86;color:var(--gold);text-shadow:0 0 38px rgba(243,181,59,.4);margin-bottom:4px}
+.acttitle{font-family:"Oswald",sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-size:clamp(1.7rem,3.8vw,2.9rem)}
 
-/* ---------- slides ---------- */
-.slide{position:absolute; inset:0; display:flex; overflow-y:auto; overflow-x:hidden;
-  padding:60px 16px 68px; opacity:0; visibility:hidden; transform:translateX(38px);
-  transition:opacity .42s ease, transform .42s ease, visibility .42s}
-.slide.on{opacity:1; visibility:visible; transform:none; z-index:5}
-.slide.before{transform:translateX(-38px)}
-.slide::-webkit-scrollbar{width:9px}
-.slide::-webkit-scrollbar-thumb{background:rgba(255,255,255,.16); border-radius:9px}
-.slide.cream::-webkit-scrollbar-thumb{background:rgba(60,43,94,.25)}
+/* hero */
+.hero-kick{font-family:"Oswald",sans-serif;font-weight:500;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);font-size:clamp(12px,1.5vw,17px);margin-bottom:16px}
+.hero-title{font-family:"Anton",sans-serif;font-size:clamp(3.2rem,11vw,8.5rem);line-height:.9;text-transform:uppercase;text-shadow:0 0 50px rgba(243,181,59,.35)}
+.hero-title .l2{color:var(--gold)}
+.hero-sub{font-size:clamp(1.05rem,2vw,1.5rem);color:#d7d0f0;margin-top:20px;line-height:1.5}
+.hero-tag{margin-top:6px;color:var(--curtain);font-family:"Oswald",sans-serif;letter-spacing:.18em;text-transform:uppercase;font-size:clamp(11px,1.3vw,15px);font-weight:600}
+.startcue{margin-top:30px;display:inline-flex;align-items:center;gap:12px;color:#efe9ff;font-size:clamp(.9rem,1.4vw,1.1rem);flex-wrap:wrap;justify-content:center}
+.kbd{font-family:"Oswald",sans-serif;font-weight:600;background:rgba(243,181,59,.16);border:1.5px solid rgba(243,181,59,.5);color:var(--gold);padding:5px 11px;border-radius:9px;letter-spacing:.05em}
 
-.sheet{margin:auto; width:min(var(--maxw),95%); background:var(--cream); border-radius:22px; padding:var(--pad);
-  box-shadow:0 34px 90px -30px rgba(10,4,20,.75); border:1px solid rgba(255,255,255,.5)}
-.sheet.stage{background:transparent; box-shadow:none; border:none}
+/* formula */
+.formula{background:var(--stage);color:var(--paper);border-radius:18px;padding:clamp(16px,2.2vw,28px) clamp(14px,3vw,36px);text-align:center;box-shadow:var(--shadow);margin-bottom:20px;position:relative;overflow:hidden}
+.formula::after{content:"";position:absolute;inset:0;background:radial-gradient(70% 120% at 50% -20%,rgba(243,181,59,.22),transparent 60%);pointer-events:none}
+.fx{font-family:"Oswald",sans-serif;font-weight:600;font-size:clamp(1.1rem,2.7vw,2rem);display:flex;flex-wrap:wrap;gap:.45em 0;align-items:center;justify-content:center;position:relative;z-index:1}
+.tok{padding:.12em .5em;border-radius:10px;margin:0 .12em}
+.tok.s{background:rgba(255,255,255,.12)} .tok.aux{background:var(--gold);color:var(--ink)} .tok.pp{background:var(--curtain);color:#fff}
+.tok.q{background:#5b50a8;color:#fff} .tok.opt{background:rgba(255,255,255,.07);color:#cfc8ea;font-weight:500;font-size:.78em}
+.plus{color:var(--gold);margin:0 .15em;font-weight:700}
 
-/* eyebrow + titles */
-.eyebrow{font-family:var(--mono); font-size:clamp(.72rem,1.15vw,.92rem); font-weight:700; letter-spacing:.18em;
-  text-transform:uppercase; color:var(--coral2); display:inline-flex; align-items:center; gap:9px}
-.eyebrow::before{content:""; width:26px; height:2px; background:var(--coral); display:inline-block; border-radius:2px}
-.s-title{font-family:var(--head); font-weight:800; line-height:1.03; letter-spacing:-.015em; color:var(--ink);
-  font-size:clamp(1.9rem,4.3vw,3.4rem); margin:.16em 0 .12em}
-.s-sub{font-size:clamp(1rem,1.6vw,1.42rem); color:var(--muted); font-weight:500; max-width:42ch; line-height:1.35}
-.s-head{margin-bottom:clamp(14px,2.2vw,24px)}
+/* generic cards & grids */
+.grid{display:grid;gap:clamp(11px,1.5vw,17px)}
+.g2{grid-template-columns:repeat(2,1fr)} .g3{grid-template-columns:repeat(3,1fr)} .g4{grid-template-columns:repeat(4,1fr)}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:clamp(13px,1.7vw,21px);box-shadow:var(--shadow)}
+.card h3{font-family:"Oswald",sans-serif;font-weight:600;font-size:clamp(1rem,1.6vw,1.32rem);margin-bottom:8px;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.card h3 .tag{font-size:.66em;font-weight:600;letter-spacing:.04em;color:#fff;background:var(--curtain);padding:3px 9px;border-radius:7px;text-transform:uppercase}
+.card h3 .tag.pos{background:var(--applause)} .card h3 .tag.q{background:var(--stage2)}
+.card p{color:var(--muted);font-size:clamp(.9rem,1.3vw,1.08rem);line-height:1.5}
+.ex{font-size:clamp(1rem,1.45vw,1.3rem);line-height:1.7;color:var(--ink)}
+.kw{color:var(--gold-deep);font-weight:700;border-bottom:3px solid var(--gold);padding-bottom:1px}
+.aux{color:var(--curtain);font-weight:700}
+.pp{font-weight:700;border-bottom:3px solid var(--curtain);padding-bottom:1px}
+.ok{color:var(--applause-deep);font-weight:700} .no{color:var(--curtain);font-weight:700}
 
-/* formula chips */
-.fbox{background:linear-gradient(160deg,var(--ink2),var(--ink)); border-radius:16px; padding:clamp(15px,2.2vw,22px);
-  box-shadow:0 16px 34px -18px rgba(20,10,40,.7); margin-bottom:clamp(14px,2vw,18px)}
-.fchips{display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:center}
-.fchip{font-family:var(--head); font-weight:700; font-size:clamp(.95rem,1.5vw,1.28rem); padding:11px 18px; border-radius:11px; line-height:1.1; text-align:center}
-.fchip.subj{background:rgba(255,255,255,.08); color:#E7DCF5; border:1.5px solid rgba(255,255,255,.22)}
-.fchip.aux{background:var(--gold); color:var(--ink)}
-.fchip.part{background:var(--coral); color:#fff}
-.fchip.cond{background:rgba(229,80,61,.16); color:#F4B5AB; border:1.5px solid var(--coral)}
-.fchip.res{background:var(--gold); color:var(--ink)}
-.fchip.pres{background:rgba(245,177,42,.14); color:var(--gold-soft); border:1.5px solid var(--gold)}
-.plus{color:#8B7BA8; font-weight:700; font-size:1.3em; font-family:var(--mono)}
-.fnote{text-align:center; color:#A99BC4; font-family:var(--mono); font-size:.82rem; margin-top:11px; letter-spacing:.02em}
+/* vocab chips */
+.chips{display:flex;flex-wrap:wrap;gap:9px}
+.vchip{background:#fff;border:1px solid var(--line);border-radius:13px;padding:10px 14px;box-shadow:var(--shadow);display:flex;align-items:center;gap:10px;min-width:0}
+.vchip .ico{font-size:clamp(1.3rem,2.3vw,1.95rem);line-height:1}
+.vchip .w{font-family:"Oswald",sans-serif;font-weight:600;font-size:clamp(.92rem,1.45vw,1.22rem)}
+.vchip .es{display:block;color:var(--muted);font-size:clamp(.72rem,1vw,.9rem);font-weight:500}
 
-/* two-column */
-.cols{display:grid; grid-template-columns:1fr 1fr; gap:clamp(16px,2.6vw,34px); align-items:start}
-.cols.s{grid-template-columns:1.1fr .9fr}
-@media(max-width:900px){.cols,.cols.s{grid-template-columns:1fr; gap:18px}}
+/* notes & contrasts */
+.note{display:flex;gap:11px;align-items:flex-start;background:var(--paper2);border-left:4px solid var(--gold);border-radius:0 12px 12px 0;padding:12px 15px;margin-top:16px;font-size:clamp(.9rem,1.3vw,1.06rem);line-height:1.5}
+.note .b{font-size:1.3em;line-height:1}
+.contrast{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.contrast>div{border-radius:14px;padding:14px 16px}
+.pp-b{background:#eef7f0;border:1px solid #cfe9d8} .ps-b{background:#fdeeed;border:1px solid #f4cfcc}
+.contrast h4{font-family:"Oswald",sans-serif;font-weight:600;margin-bottom:6px;font-size:clamp(1rem,1.5vw,1.2rem)}
+.pp-b h4{color:var(--applause-deep)} .ps-b h4{color:var(--curtain)}
+.contrast p{color:var(--muted);font-size:clamp(.86rem,1.25vw,1.04rem);line-height:1.5}
 
-/* info cards */
-.card{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:clamp(14px,1.9vw,20px);
-  box-shadow:0 6px 18px -14px rgba(40,20,70,.35)}
-.card h4{font-family:var(--head); font-weight:700; font-size:clamp(1rem,1.5vw,1.28rem); color:var(--ink); margin-bottom:9px;
-  display:flex; align-items:center; gap:8px}
-.card h4 .tag{font-family:var(--mono); font-size:.62em; font-weight:700; letter-spacing:.08em; padding:3px 8px; border-radius:6px; text-transform:uppercase}
-.tag.g{background:var(--green-soft); color:var(--green2)} .tag.c{background:#FBE2DD; color:var(--coral2)} .tag.y{background:#FBEFCE; color:var(--gold2)}
-.card p, .card li{font-size:clamp(.95rem,1.45vw,1.18rem); color:var(--tx); line-height:1.5}
-.card ul{list-style:none; display:flex; flex-direction:column; gap:7px}
-.card li{display:flex; gap:9px; align-items:flex-start}
-.card li::before{content:"›"; color:var(--coral); font-weight:800; flex:none}
-.en{font-family:var(--mono); font-weight:700; color:var(--ink2)}
-.hl{background:linear-gradient(180deg,transparent 56%, rgba(245,177,42,.5) 56%); padding:0 .1em; font-weight:700; color:var(--ink)}
-.hl.c{background:linear-gradient(180deg,transparent 56%, rgba(229,80,61,.32) 56%)}
-.hl.g{background:linear-gradient(180deg,transparent 56%, rgba(47,161,93,.32) 56%)}
-.u-g{color:var(--green2); font-weight:700; text-decoration:underline 2px var(--green)}
-.u-c{color:var(--coral2); font-weight:700; text-decoration:underline 2px var(--coral)}
+/* timeline svg */
+.tl{width:100%;max-width:760px;height:auto;margin:2px auto 16px;display:block}
+.tl-mini{width:100%;height:auto;display:block;margin-top:6px}
 
-/* rules */
-.rules{display:flex; flex-direction:column; gap:11px; margin-top:clamp(12px,1.8vw,16px)}
-.rule{display:flex; gap:12px; align-items:flex-start; font-size:clamp(1rem,1.5vw,1.28rem); color:var(--tx); line-height:1.42}
-.rule .ic{flex:none; width:30px; height:30px; border-radius:9px; display:grid; place-items:center; font-family:var(--mono);
-  font-weight:700; font-size:.92rem; margin-top:1px; background:var(--gold); color:var(--ink)}
-.rule.c .ic{background:var(--coral); color:#fff} .rule.g .ic{background:var(--green); color:#fff}
+/* verb table */
+.verbwrap{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+.vcol{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
+.vcol .vh{background:var(--stage);color:var(--gold);font-family:"Oswald",sans-serif;font-weight:600;padding:9px 13px;font-size:clamp(.82rem,1.25vw,1.04rem);text-align:center}
+.vcol table{width:100%;border-collapse:collapse;font-size:clamp(.78rem,1.15vw,1rem)}
+.vcol td{padding:5px 13px;border-bottom:1px solid var(--line);color:var(--ink)}
+.vcol tr:last-child td{border-bottom:none}
+.vcol td:first-child{font-weight:600;color:var(--muted)}
+.vcol .pp{border-bottom:2px solid var(--curtain)}
 
-/* examples */
-.exs{margin-top:clamp(12px,1.8vw,16px)}
-.exs .lbl{font-family:var(--mono); font-size:.76rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted2); margin-bottom:9px}
-.ex{font-family:var(--mono); font-weight:700; font-size:clamp(.95rem,1.45vw,1.2rem); color:var(--ink2); background:var(--card);
-  border:1px solid var(--line); border-radius:11px; padding:11px 15px 11px 36px; margin-bottom:8px; line-height:1.4; position:relative}
-.ex::before{content:"›"; color:var(--gold2); font-weight:800; font-size:1.25em; position:absolute; left:14px; top:8px}
-.ex b{color:var(--ink)} .ex .gl{display:block; font-family:var(--body); font-weight:500; font-size:.82em; color:var(--muted); margin-top:3px}
+/* fix rows (theory + exercise) */
+.fixwrap{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.fixcard{background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:13px 16px}
+.fixwrong{color:var(--curtain);font-weight:600;text-decoration:line-through;text-decoration-color:rgba(212,69,61,.45);font-size:clamp(.93rem,1.35vw,1.15rem)}
+.fixright{color:var(--applause-deep);font-weight:700;font-size:clamp(.95rem,1.4vw,1.18rem);margin-top:4px}
+.fixn{color:var(--muted);font-size:clamp(.8rem,1.15vw,.98rem);margin-top:5px;line-height:1.45}
 
-/* tip / warn box */
-.tip{display:flex; gap:13px; align-items:flex-start; background:#FBF1D8; border-left:5px solid var(--gold);
-  border-radius:12px; padding:14px 18px; font-size:clamp(.95rem,1.42vw,1.15rem); color:var(--tx); line-height:1.45; margin-top:clamp(12px,1.8vw,16px)}
-.tip.warn{background:#FCE7E2; border-left-color:var(--coral)}
-.tip .ic{flex:none; font-size:1.3rem; line-height:1.2}
-.tip b{color:var(--ink)}
+/* ---------- exercises ---------- */
+.instr{display:flex;align-items:center;gap:12px;margin-bottom:16px;color:var(--muted);font-size:clamp(.95rem,1.4vw,1.14rem)}
+.instr .num{font-family:"Anton",sans-serif;background:var(--gold);color:var(--ink);width:clamp(34px,3.8vw,44px);height:clamp(34px,3.8vw,44px);border-radius:12px;display:grid;place-items:center;font-size:clamp(1.05rem,1.9vw,1.5rem);flex:0 0 auto}
+.qcard{background:#fff;border:1px solid var(--line);border-radius:16px;padding:clamp(12px,1.5vw,19px);box-shadow:var(--shadow);display:flex;flex-direction:column;gap:11px}
+.tiles{display:flex;flex-wrap:wrap;gap:6px}
+.tile{font-family:"Oswald",sans-serif;font-weight:600;font-size:clamp(1rem,1.6vw,1.35rem);width:clamp(28px,3.2vw,40px);height:clamp(32px,3.6vw,44px);border-radius:9px;display:grid;place-items:center;background:var(--paper2);border:1px solid var(--line);text-transform:uppercase}
+.tile.sol{background:var(--applause);color:#fff;border-color:var(--applause-deep);animation:pop .35s}
+@keyframes pop{0%{transform:scale(.7)}60%{transform:scale(1.12)}100%{transform:scale(1)}}
+.hint{color:var(--muted);font-size:clamp(.8rem,1.15vw,.98rem);font-style:italic}
+.prompt{display:flex;flex-wrap:wrap;gap:6px}
+.pw{background:var(--paper2);border:1px dashed var(--gold-deep);border-radius:8px;padding:5px 10px;font-size:clamp(.84rem,1.25vw,1.04rem);font-weight:500}
+.solrow{font-size:clamp(1rem,1.45vw,1.28rem);font-weight:600;color:var(--applause-deep);display:none}
+.solrow.show{display:block;animation:slidein .35s}
+.revealbtn{align-self:flex-start;appearance:none;border:none;cursor:pointer;font-family:"Oswald",sans-serif;font-weight:600;letter-spacing:.04em;text-transform:uppercase;font-size:clamp(.76rem,1.05vw,.92rem);background:var(--stage);color:var(--gold);padding:8px 15px;border-radius:10px;transition:transform .15s,filter .2s}
+.revealbtn:hover{filter:brightness(1.18)} .revealbtn:active{transform:scale(.95)} .revealbtn[disabled]{opacity:.4;cursor:default}
 
-/* mistakes */
-.mis-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:8px}
-@media(max-width:760px){.mis-grid{grid-template-columns:1fr}}
-.mis{background:var(--card); border:1px solid var(--line); border-radius:13px; padding:14px 16px}
-.mis .bad,.mis .good{font-family:var(--mono); font-weight:700; font-size:clamp(.92rem,1.4vw,1.15rem); display:flex; gap:9px; align-items:flex-start; line-height:1.35}
-.mis .bad{color:var(--coral2)} .mis .bad .m{text-decoration:line-through 2px}
-.mis .good{color:var(--green2); margin-top:7px}
-.mis .bad::before{content:"✗"; font-weight:800} .mis .good::before{content:"✓"; font-weight:800}
-.mis .why{font-family:var(--body); font-weight:500; font-size:.86rem; color:var(--muted); margin-top:8px; line-height:1.35}
+.exitem{background:#fff;border:1px solid var(--line);border-radius:15px;padding:clamp(11px,1.4vw,17px);box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px}
+.exq{font-size:clamp(.96rem,1.45vw,1.22rem);font-weight:500;line-height:1.45}
+.exq .blank{display:inline-block;min-width:46px;border-bottom:2.5px dashed var(--gold-deep);text-align:center;font-weight:700;color:var(--gold-deep)}
+.exq .base{font-weight:700;font-size:1.08em}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{appearance:none;border:1.5px solid var(--line);background:var(--paper);cursor:pointer;border-radius:11px;padding:8px 15px;font-family:inherit;font-size:clamp(.88rem,1.25vw,1.08rem);font-weight:600;color:var(--ink);transition:transform .12s,background .2s,border-color .2s,color .2s}
+.opt:hover:not(.lock){border-color:var(--gold-deep);transform:translateY(-1px)}
+.opt.correct{background:var(--applause);border-color:var(--applause-deep);color:#fff;cursor:default}
+.opt.wrong{background:var(--curtain);border-color:#a93029;color:#fff;animation:shake .4s}
+.opt.lock{cursor:default} .opt.dim{opacity:.42}
+@keyframes shake{10%,90%{transform:translateX(-2px)}30%,70%{transform:translateX(4px)}50%{transform:translateX(-5px)}}
+.optfull{display:flex;flex-direction:column;gap:8px}
+.opt.line{text-align:left;white-space:normal;line-height:1.4;font-weight:500;padding:10px 14px}
+.why{display:none;font-size:clamp(.8rem,1.15vw,.98rem);color:var(--applause-deep);background:#eef7f0;border-radius:10px;padding:8px 12px;line-height:1.45}
+.why.show{display:block;animation:slidein .3s}
 
-/* comparison table */
-.cmp{width:100%; border-collapse:separate; border-spacing:0; border-radius:14px; overflow:hidden; background:var(--card);
-  box-shadow:0 12px 30px -20px rgba(40,20,70,.5); font-size:clamp(.92rem,1.45vw,1.18rem)}
-.cmp th,.cmp td{padding:clamp(10px,1.5vw,15px) clamp(12px,1.7vw,18px); text-align:left; border-bottom:1px solid var(--line)}
-.cmp thead th{background:var(--ink); color:#fff; font-family:var(--head); font-weight:700; font-size:clamp(.98rem,1.55vw,1.3rem)}
-.cmp thead th:first-child{background:var(--ink2)}
-.cmp td:first-child{font-weight:700; color:var(--muted); background:#F6EFE0}
-.cmp .z{color:var(--gold2); font-family:var(--mono); font-weight:700}
-.cmp .f{color:var(--coral2); font-family:var(--mono); font-weight:700}
-.cmp tr:last-child td{border-bottom:none}
-
-/* conjugation grid */
-.conj{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:8px}
-@media(max-width:760px){.conj{grid-template-columns:1fr}}
-.conj .cc{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:13px 15px}
-.conj .cc .h{font-family:var(--mono); font-size:.74rem; letter-spacing:.1em; text-transform:uppercase; font-weight:700; margin-bottom:7px}
-.conj .pos .h{color:var(--green2)} .conj .neg .h{color:var(--coral2)} .conj .q .h{color:var(--gold2)}
-.conj .cc p{font-family:var(--mono); font-weight:700; font-size:clamp(.9rem,1.35vw,1.12rem); color:var(--ink2); line-height:1.5}
-.conj .cc p b{color:var(--coral2)}
-
-/* irregular groups */
-.igrid{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:13px; margin-top:8px}
-.igroup{background:var(--card); border:1px solid var(--line); border-radius:13px; padding:13px 15px}
-.igroup .gh{font-family:var(--head); font-weight:700; font-size:clamp(.92rem,1.35vw,1.1rem); color:var(--ink); margin-bottom:9px; display:flex; align-items:center; gap:8px}
-.igroup .gh .pat{font-family:var(--mono); font-size:.68em; font-weight:700; color:var(--gold2); background:#FBEFCE; padding:3px 8px; border-radius:6px}
-.itab{width:100%; font-family:var(--mono); font-size:clamp(.82rem,1.25vw,1.02rem); border-collapse:collapse}
-.itab td{padding:3px 4px; line-height:1.45}
-.itab td:nth-child(1){color:var(--muted)} .itab td:nth-child(2){color:var(--ink2)} .itab td:nth-child(3){color:var(--coral2); font-weight:700}
-.itab .ar{color:var(--muted2)}
-
-/* exercise: choices */
-.qa{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:clamp(11px,1.5vw,15px);
-  margin-bottom:10px; box-shadow:0 6px 18px -14px rgba(40,20,70,.35)}
-.qa .num{font-family:var(--mono); font-size:.8rem; color:var(--coral2); font-weight:700; letter-spacing:.08em}
-.q{font-size:clamp(1rem,1.5vw,1.26rem); color:var(--tx); font-weight:500; margin:5px 0 10px; line-height:1.4}
-.q .gap{display:inline-block; min-width:62px; border-bottom:2.5px dotted var(--coral); margin:0 4px; vertical-align:bottom}
-.choices{display:flex; gap:11px; flex-wrap:wrap}
-.choice{position:relative; font-family:var(--mono); font-weight:700; font-size:clamp(.92rem,1.4vw,1.2rem); background:#F5EEDF;
-  color:var(--ink2); border:2px solid transparent; border-radius:11px; padding:9px 17px; cursor:pointer; transition:.16s; overflow:visible}
-.choice:hover:not(:disabled){background:#EDE3CF; transform:translateY(-1px)}
-.choice:focus-visible{outline:3px solid var(--gold); outline-offset:2px}
-.choice.right{background:var(--green-soft); color:var(--green2)}
-.choice.bad{background:#FBE0DB; color:var(--coral2); animation:shake .35s}
-.choice:disabled{cursor:default}
-@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
-.ink{position:absolute; left:50%; top:50%; transform:translate(-50%,-50%) rotate(-2.6deg); pointer-events:none; overflow:visible}
-.ink ellipse{fill:none; stroke:var(--green); stroke-width:3.4; stroke-linecap:round; filter:drop-shadow(0 1px 1px rgba(38,134,78,.25))}
-.fb{margin-top:8px; font-size:clamp(.9rem,1.38vw,1.1rem); color:var(--green2); font-weight:600; display:none; line-height:1.4}
-.fb.show{display:block; animation:pop .3s}
-.fb .x{color:var(--coral2)}
-@keyframes pop{from{opacity:0; transform:translateY(5px)}to{opacity:1; transform:none}}
-
-/* exercise: reveal */
-.reveal{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:clamp(12px,1.6vw,17px);
-  cursor:pointer; transition:.18s; margin-bottom:12px; box-shadow:0 6px 18px -14px rgba(40,20,70,.35)}
-.reveal:hover{border-color:var(--coral); transform:translateY(-1px)}
-.reveal:focus-visible{outline:3px solid var(--coral); outline-offset:2px}
-.reveal .num{font-family:var(--mono); font-size:.8rem; color:var(--coral2); font-weight:700; letter-spacing:.08em}
-.reveal .prompt{font-size:clamp(1rem,1.45vw,1.24rem); color:var(--tx); margin:5px 0 11px; line-height:1.42; font-weight:500}
-.reveal .prompt .w{font-family:var(--mono); font-weight:700; color:var(--coral2); text-decoration:line-through 2px}
-.reveal .ab{position:relative}
-.reveal .answer{font-family:var(--mono); font-weight:700; font-size:clamp(.95rem,1.45vw,1.22rem); color:var(--green2);
-  line-height:1.45; filter:blur(8px); opacity:.32; transition:filter .35s, opacity .35s; user-select:none}
-.reveal.open .answer{filter:none; opacity:1; user-select:auto}
-.reveal .answer .corr{color:var(--green2); text-decoration:underline 2px var(--green)}
-.reveal .rh{position:absolute; inset:0; display:flex; align-items:center; gap:8px; justify-content:center; font-family:var(--body);
-  font-weight:600; font-size:clamp(.84rem,1.25vw,1.02rem); color:var(--coral2); transition:.25s; pointer-events:none}
-.reveal.open .rh{opacity:0}
-.reveal .rh svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2}
-
-/* vocab cards */
-.vocab{display:grid; grid-template-columns:repeat(auto-fill,minmax(146px,1fr)); gap:13px; margin-top:6px}
-.vcard{background:var(--card); border:1px solid var(--line); border-radius:15px; padding:17px 11px; text-align:center;
-  cursor:pointer; transition:.18s; box-shadow:0 6px 18px -14px rgba(40,20,70,.35)}
-.vcard:hover{transform:translateY(-3px); border-color:var(--gold); box-shadow:0 14px 28px -16px rgba(245,177,42,.5)}
-.vcard:focus-visible{outline:3px solid var(--gold); outline-offset:2px}
-.vcard .emo{font-size:clamp(2.1rem,3.6vw,2.8rem); line-height:1; display:block; margin-bottom:9px}
-.vcard .word{font-family:var(--mono); font-weight:700; font-size:clamp(.96rem,1.45vw,1.24rem); color:var(--coral2); opacity:0; transform:translateY(4px); transition:.25s}
-.vcard.open .word{opacity:1; transform:none}
-.vcard .tap{font-size:.74rem; color:var(--muted2); font-weight:600; letter-spacing:.04em}
-.vcard.open .tap{display:none}
+/* TF */
+.tfcard{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:clamp(12px,1.5vw,19px);display:flex;flex-direction:column;align-items:center;gap:9px;text-align:center}
+.tfico{font-size:clamp(2.3rem,4.8vw,3.6rem);line-height:1}
+.tfword{font-family:"Oswald",sans-serif;font-weight:600;font-size:clamp(1rem,1.6vw,1.35rem)}
+.tfbtns{display:flex;gap:9px}
+.tfbtn{appearance:none;border:1.5px solid var(--line);background:var(--paper);cursor:pointer;width:clamp(46px,5.5vw,62px);height:clamp(38px,4.6vw,48px);border-radius:11px;font-family:"Oswald",sans-serif;font-weight:700;font-size:clamp(1.05rem,1.7vw,1.45rem);transition:transform .12s,background .2s,color .2s,border-color .2s}
+.tfbtn.t{color:var(--applause-deep)} .tfbtn.f{color:var(--curtain)}
+.tfbtn:hover:not(.lock){transform:translateY(-2px);border-color:currentColor}
+.tfbtn.good{background:var(--applause);color:#fff;border-color:var(--applause-deep)}
+.tfbtn.bad{background:var(--curtain);color:#fff;border-color:#a93029;animation:shake .4s}
+.tfbtn.lock{cursor:default}
 
 /* match */
-.match{display:grid; grid-template-columns:1fr 1fr; gap:clamp(13px,2.2vw,30px); margin-top:6px; align-items:start}
-.mcol{display:flex; flex-direction:column; gap:11px}
-.mcap{font-family:var(--mono); font-size:.76rem; letter-spacing:.12em; text-transform:uppercase; color:var(--muted2); margin-bottom:1px}
-.mi{text-align:left; font-family:var(--body); font-size:clamp(.94rem,1.42vw,1.2rem); font-weight:500; background:var(--card);
-  border:2px solid var(--line); border-radius:12px; padding:13px 16px; cursor:pointer; transition:.16s; color:var(--tx); line-height:1.35}
-.mi:hover:not(.matched){border-color:var(--coral); transform:translateY(-1px)}
-.mi:focus-visible{outline:3px solid var(--coral); outline-offset:2px}
-.mi.sel{border-color:var(--gold); background:#FBF1D8; box-shadow:0 0 0 3px rgba(245,177,42,.25)}
-.mi.matched{border-color:var(--green); background:var(--green-soft); color:var(--green2); cursor:default}
-.mi.matched::after{content:" ✓"; color:var(--green); font-weight:800}
-.mi.flash{animation:shake .35s; border-color:var(--coral); background:#FBE0DB}
-.mdone{margin-top:15px; font-weight:700; color:var(--green2); font-size:clamp(1rem,1.55vw,1.28rem); display:none; align-items:center; gap:9px}
-.mdone.show{display:flex; animation:pop .4s}
-.mini{margin-top:10px; background:transparent; border:1.5px dashed var(--line); color:var(--muted); font-weight:600;
-  border-radius:10px; padding:8px 15px; cursor:pointer; font-size:.9rem; font-family:var(--body)}
-.mini:hover{border-color:var(--coral); color:var(--coral2)}
+.matchgrid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(12px,3vw,36px)}
+.mcol{display:flex;flex-direction:column;gap:10px}
+.mcol .lbl{font-family:"Oswald",sans-serif;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-size:clamp(.74rem,1.05vw,.9rem);margin-bottom:2px}
+.mitem{appearance:none;text-align:left;border:1.5px solid var(--line);background:#fff;cursor:pointer;border-radius:13px;padding:11px 14px;font-family:inherit;font-size:clamp(.88rem,1.25vw,1.08rem);line-height:1.4;color:var(--ink);box-shadow:var(--shadow);transition:transform .12s,border-color .2s,background .2s;display:flex;align-items:center;gap:10px}
+.mitem .dot{width:13px;height:13px;border-radius:50%;border:2px solid var(--gold-deep);flex:0 0 auto}
+.mitem:hover:not(.locked){transform:translateY(-1px);border-color:var(--gold-deep)}
+.mitem.sel{border-color:var(--gold-deep);background:#fff7e6} .mitem.sel .dot{background:var(--gold)}
+.mitem.locked{cursor:default;border-color:var(--applause-deep);background:#eef7f0} .mitem.locked .dot{background:var(--applause);border-color:var(--applause-deep)}
+.mitem.miss{animation:shake .4s;border-color:var(--curtain)}
 
-/* checklist */
-.check{display:flex; flex-direction:column; gap:11px; margin-top:6px}
-.ck{display:flex; gap:13px; align-items:flex-start; background:var(--card); border:1px solid var(--line); border-radius:13px;
-  padding:14px 17px; font-size:clamp(.96rem,1.45vw,1.2rem); color:var(--tx); line-height:1.42}
-.ck .n{flex:none; width:32px; height:32px; border-radius:9px; display:grid; place-items:center; background:var(--ink); color:var(--gold);
-  font-family:var(--head); font-weight:700; font-size:1rem}
-.ck b{color:var(--ink)}
-
-/* ---------- cover / stage slides ---------- */
-.cover{text-align:center; color:#fff; max-width:1040px; margin:auto}
-.cv-eye{font-family:var(--mono); font-size:clamp(.78rem,1.4vw,1.05rem); letter-spacing:.26em; text-transform:uppercase;
-  color:var(--gold); font-weight:700; display:flex; gap:12px; align-items:center; justify-content:center}
-.cv-eye::before,.cv-eye::after{content:"★"; color:var(--gold)}
-.hero{font-family:var(--disp); font-weight:400; line-height:.86; letter-spacing:.01em; text-transform:uppercase;
-  margin:.12em 0 .14em}
-.hero .l1{display:block; font-size:clamp(3.4rem,12vw,8.4rem); color:#F4EEE2; text-shadow:0 8px 30px rgba(0,0,0,.35)}
-.hero .l2{display:block; font-size:clamp(3.8rem,13.5vw,9.6rem); color:var(--gold); position:relative; text-shadow:0 8px 34px rgba(245,177,42,.3)}
-.hero .l2 .mk{position:relative; display:inline-block}
-.hero .l2 .mk .ink ellipse{stroke:var(--coral); stroke-width:6}
-.cv-sub{font-family:var(--head); font-weight:600; font-size:clamp(1.05rem,2.1vw,1.7rem); color:#E3D7F2; margin-top:4px}
-.cv-sub .d{color:var(--gold-soft)}
-.cv-tag{margin-top:12px; font-family:var(--mono); font-size:clamp(.82rem,1.35vw,1.05rem); color:var(--coral); letter-spacing:.18em; text-transform:uppercase}
-.cv-cta{margin-top:clamp(24px,3.6vw,36px); display:inline-flex; gap:18px; align-items:center; flex-wrap:wrap; justify-content:center}
-.cv-start{font-family:var(--head); font-weight:700; font-size:clamp(1.02rem,1.7vw,1.35rem); color:var(--ink); background:var(--gold);
-  border:none; padding:14px 28px; border-radius:13px; cursor:pointer; transition:.18s; display:inline-flex; gap:11px; align-items:center;
-  box-shadow:0 16px 36px -14px rgba(245,177,42,.6)}
-.cv-start:hover{background:var(--gold2); transform:translateY(-3px)}
-.cv-start:focus-visible{outline:3px solid #fff; outline-offset:3px}
-.cv-start svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
-.cv-key{font-family:var(--mono); font-size:.9rem; color:#C7B9DC; display:inline-flex; gap:8px; align-items:center}
-.cv-key kbd{background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); border-bottom-width:2px; border-radius:6px; padding:2px 9px; color:#fff}
+/* word order */
+.answerline{min-height:50px;display:flex;flex-wrap:wrap;gap:6px;background:var(--paper2);border:2px dashed var(--gold-deep);border-radius:12px;padding:9px;align-items:center}
+.answerline.bad{border-color:var(--curtain);animation:shake .4s}
+.ahint{color:var(--muted);font-style:italic;padding:2px 6px;font-size:clamp(.82rem,1.2vw,1rem)}
+.banktiles{display:flex;flex-wrap:wrap;gap:6px}
+.wtile{appearance:none;border:1.5px solid var(--line);background:#fff;cursor:pointer;border-radius:9px;padding:7px 13px;font-family:inherit;font-weight:600;font-size:clamp(.88rem,1.25vw,1.08rem);transition:transform .12s,background .2s,border-color .2s}
+.wtile:hover{transform:translateY(-1px);border-color:var(--gold-deep)}
+.wtile.placed{background:#fff7e6;border-color:var(--gold-deep)}
+.wtile.good{background:var(--applause);color:#fff;border-color:var(--applause-deep)}
 
 /* agenda */
-.agenda{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:15px; margin-top:4px}
-.ag{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:clamp(15px,1.9vw,22px); position:relative;
-  overflow:hidden; transition:.18s; cursor:pointer; text-align:left}
-.ag:hover{transform:translateY(-3px); box-shadow:0 18px 36px -20px rgba(40,20,70,.5); border-color:var(--coral)}
-.ag:focus-visible{outline:3px solid var(--coral); outline-offset:2px}
-.ag .ac{position:absolute; left:0; top:0; bottom:0; width:5px; background:var(--gold)}
-.ag:nth-child(2) .ac{background:var(--coral)} .ag:nth-child(4) .ac{background:var(--green)} .ag:nth-child(5) .ac{background:var(--plum-soft)}
-.ag .n{font-family:var(--disp); font-size:2rem; color:var(--line); position:absolute; right:14px; top:8px; line-height:1}
-.ag .ico{font-size:1.8rem; margin-bottom:7px}
-.ag h3{font-family:var(--head); font-weight:700; font-size:clamp(1.08rem,1.6vw,1.36rem); color:var(--ink); margin-bottom:3px}
-.ag p{color:var(--muted); font-size:clamp(.88rem,1.3vw,1.04rem); line-height:1.35; font-weight:500}
+.aglist{display:grid;grid-template-columns:repeat(2,1fr);gap:11px}
+.ag-item{appearance:none;text-align:left;cursor:pointer;border:1px solid var(--line);background:#fff;border-radius:15px;padding:13px 16px;box-shadow:var(--shadow);display:flex;gap:13px;align-items:center;transition:transform .14s,border-color .2s}
+.ag-item:hover{transform:translateY(-2px);border-color:var(--gold-deep)}
+.ag-item .agn{font-family:"Anton",sans-serif;color:var(--gold-deep);font-size:clamp(1.4rem,2.5vw,2rem);line-height:1;flex:0 0 auto;width:48px;text-align:center}
+.ag-item h4{font-family:"Oswald",sans-serif;font-weight:600;font-size:clamp(1rem,1.5vw,1.2rem)}
+.ag-item p{color:var(--muted);font-size:clamp(.8rem,1.15vw,.96rem);line-height:1.4}
 
-/* closing chips */
-.kchips{display:grid; grid-template-columns:repeat(auto-fit,minmax(255px,1fr)); gap:13px; margin-top:6px; text-align:left}
-.kc{background:rgba(255,255,255,.06); border:1px solid var(--hair); border-radius:14px; padding:15px 17px; color:#fff; display:flex; gap:13px; align-items:center}
-.kc .ic{flex:none; width:38px; height:38px; border-radius:11px; display:grid; place-items:center; background:rgba(245,177,42,.18); color:var(--gold-soft); font-family:var(--mono); font-weight:700; font-size:1.05rem}
-.kc b{color:var(--gold-soft); font-family:var(--mono)} .kc .t{font-size:clamp(.94rem,1.4vw,1.14rem); line-height:1.35}
+/* cheat sheet */
+.cheatgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;text-align:left;margin-top:8px}
+.cheat-card{background:rgba(255,255,255,.06);border:1px solid rgba(243,181,59,.32);border-radius:15px;padding:15px}
+.cheat-card h4{font-family:"Oswald",sans-serif;color:var(--gold);font-weight:600;margin-bottom:7px;font-size:clamp(.92rem,1.45vw,1.16rem)}
+.cheat-card p,.cheat-card li{color:#dcd6f0;font-size:clamp(.78rem,1.1vw,.97rem);line-height:1.55}
+.cheat-card ul{list-style:none;display:flex;flex-direction:column;gap:2px}
+.cheat-card .hi{color:var(--gold);font-weight:600}
 
-/* menu */
-.menu{position:fixed; inset:0; z-index:70; background:rgba(18,8,30,.86); backdrop-filter:blur(8px); display:none; padding:clamp(22px,4vw,60px); overflow-y:auto}
-.menu.open{display:block; animation:fade .25s}
+/* finale recap */
+.recap{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px auto 0;max-width:980px}
+.rcard{background:rgba(255,255,255,.06);border:1px solid rgba(243,181,59,.35);border-radius:15px;padding:16px;text-align:left}
+.rcard .n{font-family:"Anton",sans-serif;color:var(--gold);font-size:clamp(1.5rem,2.8vw,2.2rem);line-height:1}
+.rcard h4{font-family:"Oswald",sans-serif;font-weight:600;margin:7px 0 5px;font-size:clamp(.98rem,1.5vw,1.2rem);color:#fff}
+.rcard p{color:#cfc8ea;font-size:clamp(.82rem,1.15vw,.98rem);line-height:1.5}
+.finalscore{margin-top:22px;font-size:clamp(1.1rem,2vw,1.5rem);color:#efe9ff}
+.finalscore b{color:var(--gold);font-family:"Oswald",sans-serif}
+
+/* bottom nav */
+.nav{position:fixed;left:0;right:0;bottom:0;height:62px;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(12px,2.2vw,28px);background:linear-gradient(0deg,var(--paper) 60%,transparent);pointer-events:none}
+.navbtn{pointer-events:auto;appearance:none;border:none;cursor:pointer;font-family:"Oswald",sans-serif;font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:clamp(.78rem,1.1vw,1rem);background:var(--stage);color:var(--paper);padding:11px 20px;border-radius:12px;display:inline-flex;align-items:center;gap:8px;box-shadow:var(--shadow);transition:transform .14s,filter .2s}
+.navbtn:hover{filter:brightness(1.2)} .navbtn:active{transform:scale(.95)}
+.navbtn[disabled]{opacity:.35;cursor:default;filter:none} .navbtn.primary{background:var(--gold);color:var(--ink)}
+.kbhint{pointer-events:none;color:var(--muted);font-size:clamp(.68rem,.95vw,.83rem);letter-spacing:.03em;display:flex;gap:12px;align-items:center}
+.kbhint .kk{font-family:"Oswald",sans-serif;font-weight:600;background:var(--paper2);border:1px solid var(--line);border-radius:6px;padding:2px 7px;color:var(--ink)}
+@media (max-width:820px){ .kbhint{display:none} }
+
+/* toast */
+.toast{position:fixed;left:50%;bottom:80px;transform:translate(-50%,18px);z-index:50;opacity:0;pointer-events:none;background:var(--applause);color:#fff;font-family:"Oswald",sans-serif;font-weight:600;letter-spacing:.04em;padding:10px 20px;border-radius:999px;box-shadow:var(--shadow);transition:opacity .3s,transform .3s}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* TOC overlay */
+.toc{position:fixed;inset:0;z-index:60;background:rgba(13,9,40,.9);backdrop-filter:blur(6px);display:none;padding:clamp(18px,4vw,46px);overflow:auto}
+.toc.open{display:block;animation:fade .25s}
 @keyframes fade{from{opacity:0}to{opacity:1}}
-.menu h2{font-family:var(--head); color:#fff; font-weight:800; font-size:clamp(1.5rem,3.2vw,2.4rem)}
-.menu .ms{color:#B6A7CC; font-family:var(--mono); font-size:.88rem; letter-spacing:.08em; margin-bottom:22px}
-.mgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:11px; max-width:1150px; margin:0 auto}
-.ml{text-align:left; background:rgba(255,255,255,.05); border:1px solid var(--hair); border-radius:12px; padding:13px 16px;
-  cursor:pointer; transition:.15s; color:#fff; display:flex; gap:12px; align-items:center}
-.ml:hover{background:var(--gold); color:var(--ink); border-color:transparent; transform:translateX(3px)}
-.ml:focus-visible{outline:3px solid var(--gold); outline-offset:2px}
-.ml .mn{font-family:var(--mono); font-weight:700; color:var(--gold); flex:none; font-size:.92rem} .ml:hover .mn{color:var(--ink)}
-.ml .mt{font-weight:600; font-size:1rem}
-.ml.sec-head{background:transparent; border:none; pointer-events:none; padding:14px 4px 2px; grid-column:1/-1}
-.ml.sec-head .mt{font-family:var(--mono); font-size:.76rem; letter-spacing:.16em; text-transform:uppercase; color:var(--coral)}
+.toc-top{display:flex;justify-content:space-between;align-items:center;max-width:1140px;margin:0 auto 18px}
+.toc-title{font-family:"Anton",sans-serif;color:var(--gold);font-size:clamp(1.5rem,4vw,2.5rem);text-transform:uppercase;letter-spacing:.02em}
+.toc-grid{max-width:1140px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.toc-h{font-family:"Oswald",sans-serif;font-weight:600;letter-spacing:.03em;color:#fff;background:rgba(243,181,59,.14);border:1px solid rgba(243,181,59,.3);border-radius:10px;padding:8px 12px;cursor:pointer;margin-bottom:7px;font-size:clamp(.84rem,1.25vw,1.04rem);width:100%;text-align:left}
+.toc-h:hover{background:rgba(243,181,59,.26)}
+.toc-item{display:block;width:100%;text-align:left;appearance:none;border:none;background:transparent;color:#cfc8ea;cursor:pointer;padding:5px 12px;border-radius:8px;font-size:clamp(.79rem,1.1vw,.97rem)}
+.toc-item:hover{background:rgba(255,255,255,.08);color:#fff}
 
-@media(prefers-reduced-motion:reduce){
-  *{animation-duration:.001ms!important}
-  .slide{transition:opacity .12s ease!important; transform:none!important}
+:focus-visible{outline:3px solid var(--gold-deep);outline-offset:2px;border-radius:6px}
+
+@media (max-width:760px){
+  .g2,.g3,.g4,.contrast,.matchgrid,.recap,.verbwrap,.fixwrap,.aglist,.cheatgrid,.toc-grid{grid-template-columns:1fr}
+  .slide{padding-left:16px;padding-right:16px}
 }
-@media(max-width:620px){
-  .dots,.hint{display:none}
-  .navbtn .lbl-l{display:none}
-}
+@media (prefers-reduced-motion:reduce){ *{animation:none!important;transition:none!important} }
 </style>
 </head>
 <body>
-<div class="prog" id="prog"></div>
 
 <div class="topbar">
-  <div class="brand"><span class="st">✦</span> <span class="en">ENGLISH</span> · <span class="sec">4TH SEC</span></div>
-  <div class="dots" id="dots"></div>
-  <div class="tr">
-    <div class="pill"><span class="star">★</span> Aciertos <b id="score">0</b>/<span id="scoreTot">0</span></div>
-    <div class="pill"><b id="cNow">1</b> / <span id="cTot">30</span></div>
-    <button class="icbtn" id="bMenu" aria-label="Menú"><svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
-    <button class="icbtn" id="bFull" aria-label="Pantalla completa"><svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M21 16v3a2 2 0 0 1-2 2h-3M3 16v3a2 2 0 0 0 2 2h3"/></svg></button>
+  <div class="brand"><span class="star">✦</span> ENGLISH&nbsp;·&nbsp;<b>5TH&nbsp;SEC</b></div>
+  <div class="bulbs" id="bulbs"></div>
+  <div class="hud">
+    <button class="iconbtn" id="menu" title="Índice (M)" aria-label="Índice">☰</button>
+    <span class="score">★ <b><span id="score">0</span>/<span id="max">0</span></b></span>
+    <span class="counter"><span id="cur">1</span>/<span id="tot">0</span></span>
+    <button class="iconbtn" id="fs" title="Pantalla completa (F)" aria-label="Pantalla completa">⤢</button>
   </div>
 </div>
 
-<div class="deck" id="deck">
+<main class="deck" id="deck">
 
-  <!-- 1 · COVER -->
-  <section class="slide on" data-title="Portada">
-    <div class="sheet stage cover">
-      <div class="cv-eye">Repaso antes del examen</div>
-      <div class="hero"><span class="l1">English</span><span class="l2"><span class="mk" id="mk">Review</span></span></div>
-      <div class="cv-sub">Conditionals <span class="d">·</span> Present Perfect <span class="d">·</span> Past Participles <span class="d">·</span> Vocabulary</div>
-      <div class="cv-tag">II Monthly English Exam · 4th Secondary</div>
-      <div class="cv-cta">
-        <button class="cv-start" data-go="1">Empezar el repaso <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
-        <span class="cv-key"><kbd>←</kbd> <kbd>→</kbd> navegar</span>
-        <span class="cv-key"><kbd>F</kbd> pantalla completa</span>
+  <!-- HERO -->
+  <section class="slide stage" data-toc="Portada">
+    <div class="spot"></div>
+    <div class="wrap">
+      <div class="hero-kick">★ Repaso antes del examen ★</div>
+      <h1 class="hero-title">Ensayo<br><span class="l2">General</span></h1>
+      <p class="hero-sub">Present Perfect · still / yet / already / just · vocabulario de teatro y artes</p>
+      <p class="hero-tag">Before opening night</p>
+      <div class="startcue"><span class="kbd">→</span> empezar &nbsp;·&nbsp; <span class="kbd">M</span> índice &nbsp;·&nbsp; <span class="kbd">F</span> pantalla completa</div>
+    </div>
+  </section>
+
+  <!-- AGENDA -->
+  <section class="slide" data-toc="Índice">
+    <div class="wrap">
+      <div class="eyebrow">El programa de hoy</div>
+      <h2 class="title">Índice del repaso</h2>
+      <p class="lead">Seis actos para dominar el examen. Toca un acto para ir directo, o avanza con las flechas.</p>
+      <div class="aglist">
+        <button class="ag-item" data-go="Acto I · La gramática"><span class="agn">I</span><div><h4>La gramática</h4><p>Qué es, cómo se forma, contracciones y participios.</p></div></button>
+        <button class="ag-item" data-go="Acto II · Las palabras clave"><span class="agn">II</span><div><h4>Las palabras clave</h4><p>ever / never · for / since · already / yet / just / still.</p></div></button>
+        <button class="ag-item" data-go="Acto III · Perfect vs Simple"><span class="agn">III</span><div><h4>Perfect vs Simple</h4><p>La gran diferencia y los errores típicos del examen.</p></div></button>
+        <button class="ag-item" data-go="Acto IV · Las preguntas"><span class="agn">IV</span><div><h4>Las preguntas</h4><p>Preguntas Yes/No y preguntas Wh- (How long, What…).</p></div></button>
+        <button class="ag-item" data-go="Acto V · El vocabulario"><span class="agn">V</span><div><h4>El vocabulario</h4><p>El mundo del teatro y de las artes.</p></div></button>
+        <button class="ag-item" data-go="Acto VI · El ensayo"><span class="agn">VI</span><div><h4>El ensayo</h4><p>15 ejercicios interactivos muy parecidos al examen.</p></div></button>
       </div>
     </div>
   </section>
 
-  <!-- 2 · HOW IT WORKS + AGENDA -->
-  <section class="slide cream" data-title="Mapa del repaso">
-    <div class="sheet">
-      <div class="s-head">
-        <span class="eyebrow">Cómo funciona</span>
-        <h2 class="s-title">El mapa del repaso</h2>
-        <p class="s-sub">Cada tema empieza con la teoría y termina con ejercicios como los del examen. Toca las tarjetas para revelar respuestas; elige la opción correcta y se marcará con un círculo.</p>
-      </div>
-      <div class="agenda">
-        <button class="ag" data-go="2"><span class="ac"></span><span class="n">1</span><div class="ico">🔀</div><h3>Conditionals</h3><p>Zero & First · cómo y cuándo</p></button>
-        <button class="ag" data-go="11"><span class="ac"></span><span class="n">2</span><div class="ico">⏳</div><h3>Present Perfect</h3><p>have/has + participio · usos</p></button>
-        <button class="ag" data-go="18"><span class="ac"></span><span class="n">3</span><div class="ico">🔁</div><h3>Past Participles</h3><p>regulares e irregulares</p></button>
-        <button class="ag" data-go="23"><span class="ac"></span><span class="n">4</span><div class="ico">💻</div><h3>Vocabulary</h3><p>tecnología y cuerpo</p></button>
-        <button class="ag" data-go="25"><span class="ac"></span><span class="n">5</span><div class="ico">🧩</div><h3>Práctica final</h3><p>match, open answer y quiz</p></button>
-      </div>
-      <div class="tip"><span class="ic">🧭</span><div><b>Para el profe:</b> avanza con las flechas o el botón <b>Siguiente</b>. Pulsa <b>M</b> para abrir el menú y saltar a cualquier tema, y <b>F</b> para proyectar a pantalla completa.</div></div>
-    </div>
+  <!-- ============ ACT I ============ -->
+  <section class="slide stage" data-div="Acto I · La gramática" data-toc="Acto I">
+    <div class="spot"></div><div class="wrap"><div class="actno">I</div><div class="acttitle">La gramática</div><p class="sub">El tiempo verbal estrella del examen: el <b>Present Perfect</b>.</p></div>
   </section>
 
-  <!-- 3 · WHAT IS A CONDITIONAL -->
-  <section class="slide cream" data-title="¿Qué es un condicional?">
-    <div class="sheet">
-      <div class="s-head">
-        <span class="eyebrow">Bloque 1 · Conditionals</span>
-        <h2 class="s-title">¿Qué es una oración condicional?</h2>
-        <p class="s-sub">Una condición y su consecuencia. "Si pasa A, entonces pasa B."</p>
-      </div>
-      <div class="cols">
-        <div>
-          <div class="fbox">
-            <div class="fchips"><span class="fchip cond">If-clause (la condición)</span><span class="plus">+</span><span class="fchip res">Result (la consecuencia)</span></div>
-            <div class="fnote">El orden se puede invertir. Si la <b>if-clause</b> va primero, lleva coma.</div>
-          </div>
-          <div class="rules">
-            <div class="rule"><span class="ic">A</span><div>La <span class="hl c">if-clause</span> dice la condición: <span class="en">If it rains…</span></div></div>
-            <div class="rule"><span class="ic">B</span><div>El <span class="hl">result</span> dice qué pasa: <span class="en">…we stay home.</span></div></div>
-          </div>
-          <div class="tip"><span class="ic">💡</span><div><b>En este examen</b> repasamos dos tipos: el <b>zero conditional</b> (verdades y hechos) y el <b>first conditional</b> (futuro real y probable).</div></div>
-        </div>
-        <div class="card">
-          <h4>Dos formas de escribirlo <span class="tag y">orden</span></h4>
-          <div class="ex">If you heat ice, it melts.<span class="gl">if-clause primero → lleva coma</span></div>
-          <div class="ex">Ice melts if you heat it.<span class="gl">result primero → sin coma</span></div>
-          <p style="margin-top:12px; color:var(--muted)">Significan lo mismo. Solo cambia el orden y la coma.</p>
-        </div>
+  <!-- T1 concept -->
+  <section class="slide" data-toc="¿Qué es?">
+    <div class="wrap">
+      <div class="eyebrow">Acto I · El concepto</div>
+      <h2 class="title">¿Qué es el Present Perfect?</h2>
+      <p class="lead">Es el <b>puente entre el pasado y el presente</b>: una acción pasada que tiene importancia o resultado <b>AHORA</b>. No nos interesa <i>cuándo</i> pasó, sino su efecto en este momento.</p>
+      <svg class="tl" viewBox="0 0 760 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Línea de tiempo">
+        <line x1="40" y1="98" x2="712" y2="98" stroke="#cbb98f" stroke-width="3"/>
+        <polygon points="712,98 697,91 697,105" fill="#cbb98f"/>
+        <line x1="560" y1="58" x2="560" y2="118" stroke="#160f3d" stroke-width="3"/>
+        <text x="560" y="138" text-anchor="middle" font-family="Oswald" font-weight="600" font-size="17" fill="#160f3d">AHORA</text>
+        <text x="90" y="138" text-anchor="middle" font-family="Oswald" font-weight="600" font-size="16" fill="#6d6585">PASADO</text>
+        <circle cx="205" cy="98" r="9" fill="#f3b53b" stroke="#d6962a" stroke-width="2"/>
+        <text x="205" y="82" text-anchor="middle" font-family="Inter" font-size="14" fill="#160f3d">I lost my keys</text>
+        <path d="M205,98 Q382,28 560,98" fill="none" stroke="#d4453d" stroke-width="2.5" stroke-dasharray="6 6"/>
+        <text x="383" y="34" text-anchor="middle" font-family="Inter" font-style="italic" font-size="14" fill="#d4453d">resultado AHORA: no las tengo</text>
+      </svg>
+      <div class="grid g2">
+        <div class="card"><h3>Conecta dos tiempos</h3><p>Algo empezó o sucedió en el pasado, pero <b>sigue siendo relevante hoy</b>.</p></div>
+        <div class="card"><h3>No decimos cuándo</h3><p>Sin fecha exacta. Si dices <i>yesterday</i> o <i>in 2020</i>, usa <b>Past Simple</b>.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- 4 · ZERO CONDITIONAL THEORY -->
-  <section class="slide cream" data-title="Zero Conditional · teoría">
-    <div class="sheet">
-      <div class="s-head">
-        <span class="eyebrow">Bloque 1 · Conditionals</span>
-        <h2 class="s-title">Zero Conditional</h2>
-        <p class="s-sub">Para verdades generales, hechos científicos, rutinas e instrucciones.</p>
+  <!-- T2 formation -->
+  <section class="slide" data-toc="Formación">
+    <div class="wrap">
+      <div class="eyebrow">Acto I · Formación</div>
+      <h2 class="title">¿Cómo se forma?</h2>
+      <div class="formula"><div class="fx"><span class="tok s">SUJETO</span><span class="plus">+</span><span class="tok aux">HAVE / HAS</span><span class="plus">+</span><span class="tok pp">PARTICIPIO PASADO</span></div></div>
+      <div class="grid g3">
+        <div class="card"><h3>El auxiliar</h3><p>I / You / We / They → <b class="aux">have</b><br>He / She / It → <b class="aux">has</b></p></div>
+        <div class="card"><h3>Las tres formas</h3><p class="ex" style="font-size:clamp(.92rem,1.35vw,1.15rem)"><span class="ok">+</span> She <span class="aux">has</span> <span class="pp">seen</span> it.<br><span class="no">−</span> She <span class="aux">hasn't</span> <span class="pp">seen</span> it.<br><span style="color:var(--stage2);font-weight:700">?</span> <span class="aux">Has</span> she <span class="pp">seen</span> it?</p></div>
+        <div class="card"><h3>Respuestas cortas</h3><p class="ex" style="font-size:clamp(.92rem,1.35vw,1.15rem)"><span class="ok">Yes</span>, I <span class="aux">have</span>.<br><span class="no">No</span>, I <span class="aux">haven't</span>.<br><span class="ok">Yes</span>, she <span class="aux">has</span>. / <span class="no">No</span>, she <span class="aux">hasn't</span>.</p></div>
       </div>
-      <div class="fbox">
-        <div class="fchips"><span class="fchip cond">If + presente simple</span><span class="plus">,</span><span class="fchip pres">presente simple</span></div>
-        <div class="fnote">Las dos partes en presente. Aquí <b>if</b> = <b>when</b> (siempre que…).</div>
-      </div>
-      <div class="cols">
-        <div>
-          <div class="rules">
-            <div class="rule"><span class="ic">1</span><div>Resultado <span class="hl">siempre verdadero</span>: si pasa A, pasa B, sin excepción.</div></div>
-            <div class="rule c"><span class="ic">2</span><div>Nada de <span class="en">will</span>: las dos partes van en <span class="hl">presente</span>.</div></div>
-            <div class="rule g"><span class="ic">3</span><div>Puedes cambiar <span class="en">if</span> por <span class="en">when</span> sin cambiar el sentido.</div></div>
-          </div>
-          <div class="tip"><span class="ic">💡</span><div><b>Truco:</b> si puedes decir <i>"siempre que…"</i> en español, es zero conditional. <i>"Siempre que caliento hielo, se derrite."</i></div></div>
-        </div>
-        <div class="exs">
-          <div class="lbl">Ejemplos</div>
-          <div class="ex">If you <b>heat</b> ice, it <b>melts</b>.<span class="gl">Si calientas hielo, se derrite.</span></div>
-          <div class="ex">If I <b>don't sleep</b>, I <b>get</b> tired.<span class="gl">Si no duermo, me canso.</span></div>
-          <div class="ex">Plants <b>die</b> if they <b>don't get</b> water.</div>
-          <div class="ex">If you <b>press</b> this button, the machine <b>stops</b>.</div>
-        </div>
+      <div class="note"><span class="b">💡</span><div><b>Truco:</b> el participio pasado es la <b>3.ª columna</b> del verbo. Nunca uses el infinitivo solo: «I have <s>see</s>» → «I have <b>seen</b>».</div></div>
+    </div>
+  </section>
+
+  <!-- T3 contractions -->
+  <section class="slide" data-toc="Contracciones">
+    <div class="wrap">
+      <div class="eyebrow">Acto I · Contracciones</div>
+      <h2 class="title">Las contracciones</h2>
+      <p class="lead">En el inglés hablado casi siempre se contraen. Reconócelas en el examen.</p>
+      <div class="grid g2">
+        <div class="card"><h3 style="color:var(--applause-deep)">Afirmativo</h3>
+          <p class="ex">I have → <span class="ok">I've</span> &nbsp;·&nbsp; You have → <span class="ok">You've</span><br>He has → <span class="ok">He's</span> &nbsp;·&nbsp; She has → <span class="ok">She's</span><br>It has → <span class="ok">It's</span> &nbsp;·&nbsp; We have → <span class="ok">We've</span><br>They have → <span class="ok">They've</span></p></div>
+        <div class="card"><h3 style="color:var(--curtain)">Negativo</h3>
+          <p class="ex">have not → <span class="no">haven't</span><br>has not → <span class="no">hasn't</span></p>
+          <div class="note" style="margin-top:12px"><span class="b">⚠️</span><div><b>Ojo:</b> «She's» puede ser <i>she is</i> o <i>she has</i>. Lo dice el contexto: «She's <b>seen</b> it» = she <b>has</b> seen it.</div></div></div>
       </div>
     </div>
   </section>
 
-  <!-- 5 · ZERO CONDITIONAL PRACTICE -->
-  <section class="slide cream" data-title="Zero Conditional · práctica">
-    <div class="sheet">
-      <div class="s-head">
-        <span class="eyebrow">Práctica · como la sección 2</span>
-        <h2 class="s-title">Completa con la forma correcta</h2>
-        <p class="s-sub">Piensa tu respuesta y toca la tarjeta para revelarla.</p>
-      </div>
-      <div class="cols">
-        <div>
-          <div class="reveal"><span class="num">2.1</span><div class="prompt">If I <span class="gap"></span> (not get) enough sleep, I <span class="gap"></span> (get) tired.</div>
-            <div class="ab"><div class="answer">don't get / get → "If I don't get enough sleep, I get tired."</div><div class="rh">👁 Toca para revelar</div></div></div>
-          <div class="reveal"><span class="num">2.2</span><div class="prompt">If she <span class="gap"></span> (drink) too much coffee, she <span class="gap"></span> (not sleep) at night.</div>
-            <div class="ab"><div class="answer">drinks / can't sleep → "If she drinks too much coffee, she can't sleep at night."</div><div class="rh">👁 Toca para revelar</div></div></div>
-          <div class="reveal"><span class="num">2.3</span><div class="prompt">If students <span class="gap"></span> (miss) an exam, the professor <span class="gap"></span> (fail) them.</div>
-            <div class="ab"><div class="answer">miss / fails → "If students miss an exam, the professor fails them."</div><div class="rh">👁 Toca para revelar</div></div></div>
-        </div>
-        <div>
-          <div class="reveal"><span class="num">2.4</span><div class="prompt">If you <span class="gap"></span> (mix) oil and water, they <span class="gap"></span> (separate).</div>
-            <div class="ab"><div class="answer">mix / separate → "If you mix oil and water, they separate."</div><div class="rh">👁 Toca para revelar</div></div></div>
-          <div class="reveal"><span class="num">2.5</span><div class="prompt">Ice <span class="gap"></span> (melt) if you <span class="gap"></span> (heat) it.</div>
-            <div class="ab"><div class="answer">melts / heat → "Ice melts if you heat it."</div><div class="rh">👁 Toca para revelar</div></div></div>
-          <div class="reveal"><span class="num">2.6</span><div class="prompt">If he <span class="gap"></span> (not eat), he <span class="gap"></span> (feel) weak.</div>
-            <div class="ab"><div class="answer">doesn't eat / feels → "If he doesn't eat, he feels weak."</div><div class="rh">👁 Toca para revelar</div></div></div>
-        </div>
+  <!-- T4 regular participles -->
+  <section class="slide" data-toc="Participios regulares">
+    <div class="wrap">
+      <div class="eyebrow">Acto I · Participios (1)</div>
+      <h2 class="title">Participios regulares: + ed</h2>
+      <div class="grid g2">
+        <div class="card"><h3>Reglas de escritura</h3><p class="ex" style="line-height:1.85">
+          regla general → <b>+ ed</b>: play → <span class="pp">played</span><br>
+          termina en <b>e</b> → <b>+ d</b>: like → <span class="pp">liked</span><br>
+          consonante + <b>y</b> → <b>ied</b>: try → <span class="pp">tried</span><br>
+          vocal corta + consonante → <b>doble</b>: stop → <span class="pp">stopped</span></p></div>
+        <div class="card"><h3>Del examen</h3><p class="ex" style="line-height:1.85">
+          finish → <span class="pp">finished</span><br>
+          travel → <span class="pp">traveled</span><br>
+          help → <span class="pp">helped</span><br>
+          visit → <span class="pp">visited</span> &nbsp;·&nbsp; study → <span class="pp">studied</span></p></div>
       </div>
     </div>
   </section>
 
-  <!-- 6 · FIRST CONDITIONAL THEORY -->
-  <section class="slide cream" data-title="First Conditional · teoría">
-    <div class="sheet">
-      <div class="s-head">
-        <span class="eyebrow">Bloque 1 · Conditionals</span>
-        <h2 class="s-title">First Conditional</h2>
-        <p class="s-sub">Para situaciones reales o probables en el futuro.</p>
+  <!-- T5 irregular participles -->
+  <section class="slide" data-toc="Participios irregulares">
+    <div class="wrap">
+      <div class="eyebrow">Acto I · Participios (2)</div>
+      <h2 class="title">Participios irregulares</h2>
+      <div class="verbwrap">
+        <div class="vcol"><div class="vh">Iguales las 3</div><table>
+          <tr><td>cut</td><td>cut</td><td class="pp">cut</td></tr>
+          <tr><td>put</td><td>put</td><td class="pp">put</td></tr>
+          <tr><td>read</td><td>read</td><td class="pp">read</td></tr>
+          <tr><td>let</td><td>let</td><td class="pp">let</td></tr>
+        </table></div>
+        <div class="vcol"><div class="vh">Pasado = participio</div><table>
+          <tr><td>win</td><td>won</td><td class="pp">won</td></tr>
+          <tr><td>buy</td><td>bought</td><td class="pp">bought</td></tr>
+          <tr><td>find</td><td>found</td><td class="pp">found</td></tr>
+          <tr><td>make</td><td>made</td><td class="pp">made</td></tr>
+          <tr><td>have</td><td>had</td><td class="pp">had</td></tr>
+          <tr><td>say</td><td>said</td><td class="pp">said</td></tr>
+        </table></div>
+        <div class="vcol"><div class="vh">Las 3 diferentes</div><table>
+          <tr><td>go</td><td>went</td><td class="pp">gone</td></tr>
+          <tr><td>see</td><td>saw</td><td class="pp">seen</td></tr>
+          <tr><td>eat</td><td>ate</td><td class="pp">eaten</td></tr>
+          <tr><td>write</td><td>wrote</td><td class="pp">written</td></tr>
+          <tr><td>take</td><td>took</td><td class="pp">taken</td></tr>
+          <tr><td>be</td><td>was/were</td><td class="pp">been</td></tr>
+        </table></div>
       </div>
-      <div class="fbox">
-        <div class="fchips"><span class="fchip cond">If + presente simple</span><span class="plus">,</span><span class="fchip res">will + verbo base</span></div>
-        <div class="fnote">También: <b>will + verbo base</b> ... <b>if + presente simple</b> (sin coma).</div>
-      </div>
-      <div class="cols">
-        <div>
-          <div class="rules">
-            <div class="rule"><span class="ic">1</span><div>La parte con <span class="hl c">if</span> va en <span class="hl">presente</span>, aunque hable del futuro.</div></div>
-            <div class="rule"><span class="ic">2</span><div>El resultado lleva <span class="hl">will + verbo base</span> (o <span class="en">won't</span>).</div></div>
-            <div class="rule c"><span class="ic">!</span><div>Nunca pongas <span class="en">will</span> justo después de <span class="en">if</span>.</div></div>
-          </div>
-          <div class="tip warn"><span class="ic">⚠️</span><div><b>¡Ojo!</b> No es <span class="en">If it will rain…</span> sino <span class="en">If it rains…</span> El futuro lo lleva solo el <i>result</i>.</div></div>
-        </div>
-        <div class="exs">
-          <div class="lbl">Ejemplos</div>
-          <div class="ex">If it <b>rains</b>, we <b>will stay</b> home.<span class="gl">Si llueve, nos quedaremos en casa.</span></div>
-          <div class="ex">She <b>will pass</b> if she <b>studies</b>.</div>
-          <div class="ex">If you <b>cook</b> eggs, I <b>will make</b> coffee.</div>
-          <div class="ex">If they <b>win</b>, they <b>will be</b> happy.</div>
-        </div>
+      <div class="note"><span class="b">🎯</span><div>El error clásico del examen: «She has <s>went</s>» → lo correcto es «She has <b>gone</b>». ¡El participio, no el pasado!</div></div>
+    </div>
+  </section>
+
+  <!-- ============ ACT II ============ -->
+  <section class="slide stage" data-div="Acto II · Las palabras clave" data-toc="Acto II">
+    <div class="spot"></div><div class="wrap"><div class="actno">II</div><div class="acttitle">Las palabras clave</div><p class="sub">ever · never · for · since · already · yet · just · still</p></div>
+  </section>
+
+  <!-- T6 signal words -->
+  <section class="slide" data-toc="Palabras señal">
+    <div class="wrap">
+      <div class="eyebrow">Acto II · Palabras señal</div>
+      <h2 class="title">Las palabras que avisan</h2>
+      <p class="lead">Si ves estas palabras, casi siempre es <b>Present Perfect</b>. Fíjate en su posición.</p>
+      <div class="grid g3">
+        <div class="card"><h3>Experiencia</h3><p><b>ever, never, before, once, twice, many times</b><br><span class="ex" style="font-size:1em">Have you <span class="kw">ever</span> been there?</span></p></div>
+        <div class="card"><h3>En medio</h3><p>(entre have/has y participio)<br><b>already, just, recently, always</b></p></div>
+        <div class="card"><h3>Al final</h3><p><b>yet</b> (preguntas y negaciones)<br><span class="ex" style="font-size:1em">Not <span class="kw">yet</span>.</span></p></div>
+        <div class="card"><h3>Duración</h3><p><b>for</b> + período · <b>since</b> + punto en el tiempo</p></div>
+        <div class="card"><h3>Tiempo sin terminar</h3><p><b>today, this week, this year, so far, lately</b></p></div>
+        <div class="card"><h3>Negación + énfasis</h3><p><b>still</b> + haven't / hasn't (aún no)</p></div>
       </div>
     </div>
   </section>
 
-  <!-- 7 · FIRST CONDITIONAL — RESULT OPTIONS + UNLESS -->
-  <section class="slide cream" data-title="First Conditional · el resultado">
-    <div class="sheet">
-      <div class="s-head">
-        <span class="eyebrow">Bloque 1 · Conditionals · a fondo</span>
-        <h2 class="s-title">Más sobre el resultado</h2>
-        <p class="s-sub">El result no siempre es "will". Puede ser un consejo, una orden o una posibilidad.</p>
+  <!-- T7 ever/never -->
+  <section class="slide" data-toc="ever / never">
+    <div class="wrap">
+      <div class="eyebrow">Acto II · Experiencias</div>
+      <h2 class="title">ever &amp; never</h2>
+      <div class="grid g2">
+        <div class="card"><h3><span class="kw">ever</span> &nbsp;(alguna vez)</h3><p>Solo en <b>preguntas</b> de experiencia. Va entre el sujeto y el participio.</p><p class="ex" style="margin-top:8px">Have you <span class="kw">ever</span> <span class="pp">traveled</span> abroad?</p></div>
+        <div class="card"><h3><span class="kw">never</span> &nbsp;(nunca)</h3><p>Significado <b>negativo</b> por sí solo: no se usa con <i>not</i>. Va entre have/has y el participio.</p><p class="ex" style="margin-top:8px">I have <span class="kw">never</span> <span class="pp">eaten</span> sushi.</p></div>
       </div>
-      <div class="cols">
-        <div class="card">
-          <h4>El result puede ser… <span class="tag y">variantes</span></h4>
-          <ul>
-            <li><span class="en">will / won't</span> → seguro: <span class="en">If you run, you'll win.</span></li>
-            <li><span class="en">can / may / might</span> → posible: <span class="en">If you ask, she may help.</span></li>
-            <li>imperativo (orden) → <span class="en">If you see her, tell her.</span></li>
-          </ul>
-          <div class="tip"><span class="ic">💡</span><div><b>Contracción:</b> <span class="en">will</span> se acorta: I'll, you'll, she'll, we'll, they'll. En negativo: <span class="en">won't</span>.</div></div>
-        </div>
-        <div class="card">
-          <h4>Unless = if not <span class="tag c">extra</span></h4>
-          <p><span class="en">unless</span> significa "a menos que / si no". Reemplaza a <span class="en">if … not</span>.</p>
-          <div class="ex" style="margin-top:10px">You'll fail <b>unless</b> you study.<span class="gl">= You'll fail if you don't study.</span></div>
-          <div class="ex">We'll go out <b>unless</b> it rains.<span class="gl">= … if it doesn't rain.</span></div>
-        </div>
+      <div class="note"><span class="b">💡</span><div>Responde así: «Have you ever…?» → <span class="ok">Yes, I have.</span> / <span class="no">No, I never have.</span> o <span class="no">No, I haven't.</span></div></div>
+    </div>
+  </section>
+
+  <!-- T8 for/since -->
+  <section class="slide" data-toc="for / since">
+    <div class="wrap">
+      <div class="eyebrow">Acto II · Duración</div>
+      <h2 class="title">for vs since</h2>
+      <div class="grid g2">
+        <div class="card"><h3><span class="kw">for</span> + período</h3><p>Cuánto tiempo dura algo.</p><p class="ex" style="margin-top:8px"><span class="kw">for</span> three years<br><span class="kw">for</span> two hours · <span class="kw">for</span> a week</p>
+          <svg class="tl-mini" viewBox="0 0 320 70" xmlns="http://www.w3.org/2000/svg"><line x1="20" y1="40" x2="300" y2="40" stroke="#cbb98f" stroke-width="3"/><line x1="90" y1="26" x2="90" y2="54" stroke="#d6962a" stroke-width="3"/><line x1="280" y1="26" x2="280" y2="54" stroke="#160f3d" stroke-width="3"/><path d="M90,18 H280" stroke="#d6962a" stroke-width="2.5"/><text x="185" y="14" text-anchor="middle" font-family="Inter" font-size="12" fill="#d6962a">período → for</text><text x="280" y="68" text-anchor="middle" font-family="Oswald" font-size="12" fill="#160f3d">NOW</text></svg></div>
+        <div class="card"><h3><span class="kw">since</span> + punto</h3><p>Desde qué momento empezó.</p><p class="ex" style="margin-top:8px"><span class="kw">since</span> 2019<br><span class="kw">since</span> Monday · <span class="kw">since</span> I was a child</p>
+          <svg class="tl-mini" viewBox="0 0 320 70" xmlns="http://www.w3.org/2000/svg"><line x1="20" y1="40" x2="300" y2="40" stroke="#cbb98f" stroke-width="3"/><circle cx="90" cy="40" r="7" fill="#f3b53b" stroke="#d6962a" stroke-width="2"/><line x1="280" y1="26" x2="280" y2="54" stroke="#160f3d" stroke-width="3"/><path d="M90,18 H280" stroke="#d4453d" stroke-width="2.5" stroke-dasharray="5 5"/><text x="90" y="14" text-anchor="middle" font-family="Inter" font-size="12" fill="#d4453d">punto → since</text><text x="280" y="68" text-anchor="middle" font-family="Oswald" font-size="12" fill="#160f3d">NOW</text></svg></div>
+      </div>
+      <div class="note"><span class="b">❓</span><div>La pregunta de duración: «<b>How long</b> have you studied English?» → «I have studied English <span class="kw">for</span> three years.»</div></div>
+    </div>
+  </section>
+
+  <!-- T9 already/yet/just/still -->
+  <section class="slide" data-toc="already · yet · just · still">
+    <div class="wrap">
+      <div class="eyebrow">Acto II · Adverbios</div>
+      <h2 class="title">already · yet · just · still</h2>
+      <div class="grid g2">
+        <div class="card"><h3><span class="kw">already</span> &nbsp;(ya)</h3><p>Afirmaciones. Antes de lo esperado. <b>Entre</b> have/has y participio.</p><p class="ex" style="margin-top:6px">I have <span class="kw">already</span> eaten.</p></div>
+        <div class="card"><h3><span class="kw">yet</span> &nbsp;(todavía / ya)</h3><p>Preguntas y negaciones. <b>Al final</b>.</p><p class="ex" style="margin-top:6px">Have you eaten <span class="kw">yet</span>?<br>I haven't eaten <span class="kw">yet</span>.</p></div>
+        <div class="card"><h3><span class="kw">just</span> &nbsp;(acabar de)</h3><p>Acción muy reciente. <b>Entre</b> have/has y participio.</p><p class="ex" style="margin-top:6px">I have <span class="kw">just</span> eaten.</p></div>
+        <div class="card"><h3><span class="kw">still</span> &nbsp;(todavía)</h3><p>Recalca que algo <b>aún NO pasa</b>. <b>Antes</b> de haven't / hasn't.</p><p class="ex" style="margin-top:6px">I <span class="kw">still</span> haven't eaten.</p></div>
+      </div>
+      <div class="formula" style="margin-top:16px;margin-bottom:0"><div class="fx" style="font-size:clamp(.85rem,1.7vw,1.25rem)"><span class="tok s">S</span><span class="plus">+</span><span class="tok aux">have/has</span><span class="plus">+</span><span class="tok opt">already / just</span><span class="plus">+</span><span class="tok pp">participio</span><span class="plus">+</span><span class="tok opt">… yet</span></div></div>
+    </div>
+  </section>
+
+  <!-- ============ ACT III ============ -->
+  <section class="slide stage" data-div="Acto III · Perfect vs Simple" data-toc="Acto III">
+    <div class="spot"></div><div class="wrap"><div class="actno">III</div><div class="acttitle">Perfect vs Simple</div><p class="sub">La diferencia que más se evalúa en el examen.</p></div>
+  </section>
+
+  <!-- T10 PP vs PS -->
+  <section class="slide" data-toc="Perfect vs Simple">
+    <div class="wrap">
+      <div class="eyebrow">Acto III · La gran diferencia</div>
+      <h2 class="title">Present Perfect vs Past Simple</h2>
+      <div class="contrast">
+        <div class="pp-b"><h4>Present Perfect</h4><p>Tiempo <b>sin terminar</b> o sin fecha. Resultado/experiencia ahora.</p>
+          <svg class="tl-mini" viewBox="0 0 330 78" xmlns="http://www.w3.org/2000/svg"><line x1="20" y1="46" x2="305" y2="46" stroke="#cbb98f" stroke-width="3"/><circle cx="95" cy="46" r="7" fill="#2aa564" stroke="#1c7a49" stroke-width="2"/><line x1="285" y1="30" x2="285" y2="62" stroke="#160f3d" stroke-width="3"/><path d="M95,46 Q190,12 285,46" fill="none" stroke="#2aa564" stroke-width="2.3" stroke-dasharray="5 5"/><text x="285" y="74" text-anchor="middle" font-family="Oswald" font-size="12" fill="#160f3d">NOW</text></svg>
+          <p class="ex" style="margin-top:6px;font-size:1.02em">She <span class="aux">has</span> <span class="pp">been</span> to Japan.</p></div>
+        <div class="ps-b"><h4>Past Simple</h4><p>Tiempo <b>terminado</b>: yesterday, last year, in 2020, ago.</p>
+          <svg class="tl-mini" viewBox="0 0 330 78" xmlns="http://www.w3.org/2000/svg"><line x1="20" y1="46" x2="305" y2="46" stroke="#cbb98f" stroke-width="3"/><circle cx="120" cy="46" r="7" fill="#d4453d"/><line x1="111" y1="38" x2="129" y2="54" stroke="#fff" stroke-width="2"/><line x1="129" y1="38" x2="111" y2="54" stroke="#fff" stroke-width="2"/><line x1="285" y1="30" x2="285" y2="62" stroke="#160f3d" stroke-width="3"/><text x="120" y="30" text-anchor="middle" font-family="Inter" font-size="11" fill="#d4453d">in 2018</text><text x="285" y="74" text-anchor="middle" font-family="Oswald" font-size="12" fill="#160f3d">NOW</text></svg>
+          <p class="ex" style="margin-top:6px;font-size:1.02em">She <span style="font-weight:700;border-bottom:3px solid var(--curtain)">went</span> to Japan in 2018.</p></div>
+      </div>
+      <div class="note"><span class="b">🔑</span><div><b>La pista:</b> ¿hay una palabra de tiempo terminado (yesterday, in 2020, last week, ago)? → <b>Past Simple</b>. ¿No la hay, o hay ever/never/just/already/yet/since/for? → <b>Present Perfect</b>.</div></div>
+    </div>
+  </section>
+
+  <!-- T11 common mistakes -->
+  <section class="slide" data-toc="Errores comunes">
+    <div class="wrap">
+      <div class="eyebrow">Acto III · ¡Cuidado!</div>
+      <h2 class="title">Errores que cuestan puntos</h2>
+      <div class="fixwrap">
+        <div class="fixcard"><div class="fixwrong">I have seen it yesterday.</div><div class="fixright">I saw it yesterday.</div><div class="fixn">«yesterday» exige Past Simple.</div></div>
+        <div class="fixcard"><div class="fixwrong">They doesn't visited Cusco.</div><div class="fixright">They haven't visited Cusco.</div><div class="fixn">El auxiliar negativo es «haven't».</div></div>
+        <div class="fixcard"><div class="fixwrong">I seen it three times.</div><div class="fixright">I have seen it three times.</div><div class="fixn">Falta el auxiliar «have».</div></div>
+        <div class="fixcard"><div class="fixwrong">He finish his homework.</div><div class="fixright">He has finished his homework.</div><div class="fixn">Falta «has» + el participio.</div></div>
+        <div class="fixcard"><div class="fixwrong">She has went home.</div><div class="fixright">She has gone home.</div><div class="fixn">Participio «gone», no «went».</div></div>
+        <div class="fixcard"><div class="fixwrong">How long do you live here?</div><div class="fixright">How long have you lived here?</div><div class="fixn">Duración hasta ahora → Present Perfect.</div></div>
       </div>
     </div>
   </section>
 
-  <!-- 8 · FIRST CONDITIONAL PRACTICE (choices) -->
-  <section class="slide cream" data-title="First Conditional · práctica 1">
-    <div class="sheet">
-      <div class="s-head">
-        <span class="eyebrow">Práctica · como la sección 1</span>
-        <h2 class="s-title">Encierra la respuesta correcta</h2>
-        <p class="s-sub">Haz clic en la opción correcta. Se marcará con un círculo, como en el examen.</p>
+  <!-- ============ ACT IV ============ -->
+  <section class="slide stage" data-div="Acto IV · Las preguntas" data-toc="Acto IV">
+    <div class="spot"></div><div class="wrap"><div class="actno">IV</div><div class="acttitle">Las preguntas</div><p class="sub">Preguntar (y responder) con seguridad.</p></div>
+  </section>
+
+  <!-- T12 questions -->
+  <section class="slide" data-toc="Preguntas">
+    <div class="wrap">
+      <div class="eyebrow">Acto IV · Questions</div>
+      <h2 class="title">Cómo hacer preguntas</h2>
+      <div class="formula"><div class="fx"><span class="tok q">HAVE / HAS</span><span class="plus">+</span><span class="tok s">SUJETO</span><span class="plus">+</span><span class="tok pp">PARTICIPIO</span><span class="plus">+</span><span class="tok opt">…?</span></div></div>
+      <div class="grid g2">
+        <div class="card"><h3>Yes / No questions</h3><p class="ex"><span style="color:var(--stage2);font-weight:700">?</span> <span class="aux">Have</span> you <span class="pp">finished</span> your homework yet?<br><span style="color:var(--stage2);font-weight:700">?</span> <span class="aux">Has</span> your brother <span class="pp">finished</span> his homework?</p></div>
+        <div class="card"><h3>Wh- questions</h3><p class="ex"><span class="kw">How long</span> have you <span class="pp">studied</span> English?<br><span class="kw">What</span> is the best movie you have <span class="pp">seen</span>?<br><span class="kw">Where</span> have you <span class="pp">been</span>?</p></div>
       </div>
-      <div class="cols">
-        <div>
-          <div class="qa"><span class="num">1.1</span><div class="q">If Jhon <span class="gap"></span> fast, he will win the race.</div>
-            <div class="choices"><button class="choice">run</button><button class="choice" data-correct="true">runs</button></div></div>
-          <div class="qa"><span class="num">1.2</span><div class="q">I <span class="gap"></span> the police if you do it again.</div>
-            <div class="choices"><button class="choice" data-correct="true">will call</button><button class="choice">call</button></div></div>
-          <div class="qa"><span class="num">1.3</span><div class="q">If you cook some eggs, I <span class="gap"></span> some coffee.</div>
-            <div class="choices"><button class="choice">make</button><button class="choice" data-correct="true">will make</button></div></div>
-        </div>
-        <div>
-          <div class="qa"><span class="num">1.4</span><div class="q">If Ann <span class="gap"></span> clean her room, her dad will be angry.</div>
-            <div class="choices"><button class="choice" data-correct="true">doesn't</button><button class="choice">won't</button></div></div>
-          <div class="qa"><span class="num">1.5</span><div class="q">If it <span class="gap"></span> tomorrow, we will cancel the trip.</div>
-            <div class="choices"><button class="choice">will rain</button><button class="choice" data-correct="true">rains</button></div></div>
-          <div class="qa"><span class="num">1.6</span><div class="q">You'll be late <span class="gap"></span> you hurry.</div>
-            <div class="choices"><button class="choice" data-correct="true">unless</button><button class="choice">if</button></div>
-            <div class="fb">✓ <span class="en">unless</span> = if not. "You'll be late if you don't hurry."</div></div>
-        </div>
+      <div class="note"><span class="b">💬</span><div>Responde corto: «Have you finished?» → <span class="ok">Yes, I have.</span> / <span class="no">No, I haven't.</span> — y luego añade detalles.</div></div>
+    </div>
+  </section>
+
+  <!-- ============ ACT V ============ -->
+  <section class="slide stage" data-div="Acto V · El vocabulario" data-toc="Acto V">
+    <div class="spot"></div><div class="wrap"><div class="actno">V</div><div class="acttitle">El vocabulario</div><p class="sub">El mundo del teatro y de las artes.</p></div>
+  </section>
+
+  <!-- T13 vocab theater -->
+  <section class="slide" data-toc="Vocabulario · teatro">
+    <div class="wrap">
+      <div class="eyebrow">Acto V · On stage</div>
+      <h2 class="title">En el teatro</h2>
+      <div class="chips">
+        <div class="vchip"><span class="ico">👥</span><span class="w">audience<span class="es">el público</span></span></div>
+        <div class="vchip"><span class="ico">🎬</span><span class="w">scene<span class="es">escena</span></span></div>
+        <div class="vchip"><span class="ico">💬</span><span class="w">lines<span class="es">diálogos</span></span></div>
+        <div class="vchip"><span class="ico">🎟️</span><span class="w">audition<span class="es">audición</span></span></div>
+        <div class="vchip"><span class="ico">🎭</span><span class="w">cast<span class="es">reparto</span></span></div>
+        <div class="vchip"><span class="ico">🎪</span><span class="w">stage<span class="es">escenario</span></span></div>
+        <div class="vchip"><span class="ico">📜</span><span class="w">script<span class="es">guion</span></span></div>
+        <div class="vchip"><span class="ico">⭐</span><span class="w">role<span class="es">papel</span></span></div>
+        <div class="vchip"><span class="ico">🔁</span><span class="w">rehearsal<span class="es">ensayo</span></span></div>
+        <div class="vchip"><span class="ico">👏</span><span class="w">performance<span class="es">función</span></span></div>
+        <div class="vchip"><span class="ico">🎩</span><span class="w">costume<span class="es">vestuario</span></span></div>
+        <div class="vchip"><span class="ico">🌟</span><span class="w">spotlight<span class="es">foco</span></span></div>
       </div>
     </div>
   </section>
 
-  <!-- 9 · FIRST CONDITIONAL PRACTICE (reveal) -->
-  <section class="slide cream" data-title="First Conditional · práctica 2">
-    <div class="sheet">
-      <div class="s-head">
-        <span class="eyebrow">Práctica · completar</span>
-        <h2 class="s-title">Completa la oración</h2>
-        <p class="s-sub">Usa el first conditional. Toca para revelar la respuesta.</p>
+  <!-- T14 vocab arts -->
+  <section class="slide" data-toc="Vocabulario · artes">
+    <div class="wrap">
+      <div class="eyebrow">Acto V · The arts</div>
+      <h2 class="title">En las artes</h2>
+      <div class="chips">
+        <div class="vchip"><span class="ico">📷</span><span class="w">photography<span class="es">fotografía</span></span></div>
+        <div class="vchip"><span class="ico">🖼️</span><span class="w">gallery<span class="es">galería</span></span></div>
+        <div class="vchip"><span class="ico">🏛️</span><span class="w">architecture<span class="es">arquitectura</span></span></div>
+        <div class="vchip"><span class="ico">🎵</span><span class="w">musical theater<span class="es">teatro musical</span></span></div>
+        <div class="vchip"><span class="ico">🎨</span><span class="w">painting<span class="es">pintura</span></span></div>
+        <div class="vchip"><span class="ico">🗿</span><span class="w">sculpture<span class="es">escultura</span></span></div>
+        <div class="vchip"><span class="ico">💃</span><span class="w">dance<span class="es">danza</span></span></div>
+        <div class="vchip"><span class="ico">👗</span><span class="w">fashion design<span class="es">diseño de moda</span></span></div>
       </div>
-      <div class="cols">
-        <div>
-          <div class="reveal"><span class="num">a</span><div class="prompt">If the bus <span class="gap"></span> (be) late, we <span class="gap"></span> (take) a taxi.</div>
-            <div class="ab"><div class="answer">is / will take → "If the bus is late, we will take a taxi."</div><div class="rh">👁 Toca para revelar</div></div></div>
-          <div class="reveal"><span class="num">b</span><div class="prompt">She <span class="gap"></span> (not come) if you <span class="gap"></span> (not invite) her.</div>
-            <div class="ab"><div class="answer">won't come / don't invite → "She won't come if you don't invite her."</div><div class="rh">👁 Toca para revelar</div></div></div>
-          <div class="reveal"><span class="num">c</span><div class="prompt">If I <span class="gap"></span> (have) time, I <span class="gap"></span> (call) you.</div>
-            <div class="ab"><div class="answer">have / will call → "If I have time, I will call you."</div><div class="rh">👁 Toca para revelar</div></div></div>
-        </div>
-        <div>
-          <div class="reveal"><span class="num">d</span><div class="prompt">We <span class="gap"></span> (go) to the beach if it <span class="gap"></span> (be) sunny.</div>
-            <div class="ab"><div class="answer">will go / is → "We will go to the beach if it is sunny."</div><div class="rh">👁 Toca para revelar</div></div></div>
-          <div class="reveal"><span class="num">e</span><div class="prompt">If you <span class="gap"></span> (heat) the water, it <span class="gap"></span> (boil). <span style="color:var(--muted)">¿Cuál es?</span></div>
-            <div class="ab"><div class="answer">heat / boils → ¡zero conditional! Es un hecho, no un plan futuro.</div><div class="rh">👁 Toca para revelar</div></div></div>
-          <div class="reveal"><span class="num">f</span><div class="prompt">If they <span class="gap"></span> (study), they <span class="gap"></span> (pass) the exam.</div>
-            <div class="ab"><div class="answer">study / will pass → "If they study, they will pass the exam."</div><div class="rh">👁 Toca para revelar</div></div></div>
-        </div>
-      </div>
+      <div class="note"><span class="b">🖼️</span><div>En <b>True / False</b> tendrás que decidir si la palabra describe correctamente la imagen.</div></div>
     </div>
   </section>
 
-  <!-- 10 · ZERO vs FIRST -->
-  <section class="slide cream" data-title="Zero vs First">
-    <div class="sheet">
-      <div class="s-head">
-        <span class="eyebrow">Bloque 1 · no los confundas</span>
-        <h2 class="s-title">Zero vs First</h2>
-        <p class="s-sub">La diferencia está en el resultado: presente (siempre cierto) o will (futuro probable).</p>
+  <!-- ============ ACT VI ============ -->
+  <section class="slide stage" data-div="Acto VI · El ensayo" data-toc="Acto VI">
+    <div class="spot"></div><div class="wrap"><div class="actno">VI</div><div class="acttitle">El ensayo general</div><p class="sub">15 ejercicios. Toca, responde y comprueba en clase.</p></div>
+  </section>
+
+  <section class="slide" data-toc="1 · Unscramble"><div class="wrap"><div class="instr"><span class="num">1</span> Ordena las letras para formar la palabra de teatro.</div><div class="grid g4" id="ex-unscramble"></div><div style="margin-top:14px"><button class="revealbtn" id="reveal-unscramble">Revelar todo</button></div></div></section>
+
+  <section class="slide" data-toc="2 · Vocabulario"><div class="wrap"><div class="instr"><span class="num">2</span> Une cada palabra en inglés con su traducción. Toca una y luego su pareja.</div><div class="matchgrid" id="ex-vocab"></div></div></section>
+
+  <section class="slide" data-toc="3 · have / has"><div class="wrap"><div class="instr"><span class="num">3</span> Completa con el auxiliar correcto: <b>have</b> o <b>has</b>.</div><div class="grid g2" id="ex-aux"></div></div></section>
+
+  <section class="slide" data-toc="4 · Participios"><div class="wrap"><div class="instr"><span class="num">4</span> Elige el <b>participio pasado</b> correcto.</div><div class="grid g3" id="ex-participle"></div></div></section>
+
+  <section class="slide" data-toc="5 · already/yet/just/still"><div class="wrap"><div class="instr"><span class="num">5</span> Elige <b>already / yet / just / still</b> y completa la oración.</div><div class="grid g2" id="ex-adverbs"></div></div></section>
+
+  <section class="slide" data-toc="6 · for / since"><div class="wrap"><div class="instr"><span class="num">6</span> Completa con <b>for</b> o <b>since</b>.</div><div class="grid g2" id="ex-forsince"></div></div></section>
+
+  <section class="slide" data-toc="7 · ever / never"><div class="wrap"><div class="instr"><span class="num">7</span> Completa con <b>ever</b> o <b>never</b>.</div><div class="grid g2" id="ex-evernever"></div></div></section>
+
+  <section class="slide" data-toc="8 · Respuestas cortas"><div class="wrap"><div class="instr"><span class="num">8</span> Completa la <b>respuesta corta</b>.</div><div class="grid g2" id="ex-short"></div></div></section>
+
+  <section class="slide" data-toc="9 · Forma la oración"><div class="wrap"><div class="instr"><span class="num">9</span> Forma la oración en <b>Present Perfect</b> con estas palabras.</div><div class="grid g2" id="ex-build"></div><div style="margin-top:14px"><button class="revealbtn" id="reveal-build">Revelar todo</button></div></div></section>
+
+  <section class="slide" data-toc="10 · Ordena la oración"><div class="wrap"><div class="instr"><span class="num">10</span> Ordena las palabras para formar la oración. Toca en orden.</div><div class="grid g2" id="ex-order"></div></div></section>
+
+  <section class="slide" data-toc="11 · Perfect vs Simple"><div class="wrap"><div class="instr"><span class="num">11</span> Elige el tiempo correcto: <b>Present Perfect</b> o <b>Past Simple</b>.</div><div class="grid g2" id="ex-ppps"></div></div></section>
+
+  <section class="slide" data-toc="12 · Corrige el error"><div class="wrap"><div class="instr"><span class="num">12</span> Encuentra el error. Pulsa para ver la corrección.</div><div class="grid g2" id="ex-fix"></div><div style="margin-top:14px"><button class="revealbtn" id="reveal-fix">Revelar todo</button></div></div></section>
+
+  <section class="slide" data-toc="13 · Une Q&A"><div class="wrap"><div class="instr"><span class="num">13</span> Une cada pregunta con su respuesta.</div><div class="matchgrid" id="ex-match"></div></div></section>
+
+  <section class="slide" data-toc="14 · True / False"><div class="wrap"><div class="instr"><span class="num">14</span> ¿La palabra describe la imagen? Pulsa <b>T</b> (true) o <b>F</b> (false).</div><div class="grid g3" id="ex-tf"></div></div></section>
+
+  <section class="slide" data-toc="15 · Oración correcta"><div class="wrap"><div class="instr"><span class="num">15</span> Elige la oración <b>gramaticalmente correcta</b>.</div><div class="grid g2" id="ex-mc"></div></div></section>
+
+  <!-- FINALE recap -->
+  <section class="slide stage" data-toc="Resumen">
+    <div class="spot"></div>
+    <div class="wrap">
+      <div class="eyebrow">El telón se levanta</div>
+      <h2 class="acttitle" style="margin-bottom:6px">¡Listos para el estreno!</h2>
+      <p class="sub">Seis claves para no fallar.</p>
+      <div class="recap">
+        <div class="rcard"><div class="n">01</div><h4>have / has + participio</h4><p>El participio es la 3.ª columna. He/She/It → <b>has</b>.</p></div>
+        <div class="rcard"><div class="n">02</div><h4>La posición importa</h4><p><b>already/just</b> en medio · <b>yet</b> al final · <b>still</b> antes de haven't.</p></div>
+        <div class="rcard"><div class="n">03</div><h4>ever, never, for, since</h4><p>Experiencia y duración: señales de Present Perfect.</p></div>
+        <div class="rcard"><div class="n">04</div><h4>¿Hay fecha terminada?</h4><p>yesterday, in 2020, ago → <b>Past Simple</b>, no Perfect.</p></div>
+        <div class="rcard"><div class="n">05</div><h4>Sin auxiliar no hay frase</h4><p>"I seen", "they doesn't" → ✗. Siempre <b>have/has</b>.</p></div>
+        <div class="rcard"><div class="n">06</div><h4>gone, no went</h4><p>En el participio: go → <b>gone</b>, see → <b>seen</b>, do → <b>done</b>.</p></div>
       </div>
-      <div class="cols s">
-        <table class="cmp">
-          <thead><tr><th>&nbsp;</th><th>Zero</th><th>First</th></tr></thead>
-          <tbody>
-            <tr><td>¿Cuándo?</td><td>verdades, hechos, rutinas</td><td>futuro real o probable</td></tr>
-            <tr><td>If-clause</td><td class="z">presente</td><td class="f">presente</td></tr>
-            <tr><td>Result</td><td class="z">presente</td><td class="f">will + verbo</td></tr>
-            <tr><td>Idea</td><td class="z">siempre pasa</td><td class="f">puede pasar</td></tr>
-          </tbody>
-        </table>
-        <div>
-          <div class="tip"><span class="ic">🧠</span><div><b>Pregúntate:</b> ¿es algo que <i>siempre</i> ocurre? → Zero. ¿Es algo que <i>quizá</i> ocurrirá? → First.</div></div>
-          <div class="lbl" style="font-family:var(--mono); font-size:.76rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted2); margin:14px 0 9px">Decide: ¿Zero o First? (toca para revelar)</div>
-          <div class="reveal"><div class="prompt">"If you press this button, the machine <span class="gap"></span>."</div>
-            <div class="ab"><div class="answer">ZERO → "…the machine stops." (resultado siempre igual)</div><div class="rh">👁 Toca para revelar</div></div></div>
-          <div class="reveal"><div class="prompt">"If we <span class="gap"></span> early, we will catch the bus."</div>
-            <div class="ab"><div class="answer">FIRST → "If we leave early, we will catch the bus." (futuro)</div><div class="rh">👁 Toca para revelar</div></div></div>
-        </div>
-      </div>
+      <p class="finalscore">Tu marcador de hoy: <b><span id="score2">0</span> / <span id="max2">0</span></b> aciertos</p>
     </div>
   </section>
 
-  <!-- 11 · COMMON MISTAKES (conditionals) -->
-  <section class="slide cream" data-title="Errores comunes · condicionales">
-    <div class="sheet">
-      <div class="s-head">
-        <span class="eyebrow">Bloque 1 · aprende del error</span>
-        <h2 class="s-title">Errores comunes</h2>
-        <p class="s-sub">Los fallos que más bajan nota. Míralos antes del examen.</p>
+  <!-- FINALE cheat sheet -->
+  <section class="slide stage" data-toc="La chuleta">
+    <div class="spot"></div>
+    <div class="wrap">
+      <div class="eyebrow">Llévatelo todo</div>
+      <h2 class="acttitle" style="margin-bottom:14px">La chuleta · cheat sheet</h2>
+      <div class="cheatgrid">
+        <div class="cheat-card"><h4>Estructura</h4><ul>
+          <li><span class="hi">+</span> S + have/has + participio</li>
+          <li><span class="hi">−</span> S + haven't/hasn't + participio</li>
+          <li><span class="hi">?</span> Have/Has + S + participio?</li>
+          <li>Yes, I have. / No, I haven't.</li></ul></div>
+        <div class="cheat-card"><h4>Posición de adverbios</h4><ul>
+          <li><span class="hi">already / just</span> → en medio</li>
+          <li><span class="hi">yet</span> → al final (?, −)</li>
+          <li><span class="hi">still</span> → antes de haven't</li>
+          <li><span class="hi">ever / never</span> → antes del participio</li></ul></div>
+        <div class="cheat-card"><h4>Duración</h4><ul>
+          <li><span class="hi">for</span> + período (for 3 years)</li>
+          <li><span class="hi">since</span> + punto (since 2019)</li>
+          <li>How long have you…?</li></ul></div>
+        <div class="cheat-card"><h4>Perfect vs Simple</h4><ul>
+          <li>Perfect: sin fecha, ever/never/just</li>
+          <li>Simple: yesterday, in 2020, ago</li></ul></div>
+        <div class="cheat-card"><h4>Participios top</h4><ul>
+          <li>see→seen · go→gone · do→done</li>
+          <li>be→been · eat→eaten · win→won</li>
+          <li>read→read · take→taken</li></ul></div>
+        <div class="cheat-card"><h4>No olvides</h4><ul>
+          <li>Nunca «I seen» → «I have seen»</li>
+          <li>Nunca «has went» → «has gone»</li>
+          <li>Negativo: haven't / hasn't</li></ul></div>
       </div>
-      <div class="mis-grid">
-        <div class="mis"><div class="bad"><span class="m">If it will rain, we stay home.</span></div><div class="good">If it rains, we will stay home.</div><div class="why">Después de <b>if</b> va presente, no <b>will</b>.</div></div>
-        <div class="mis"><div class="bad"><span class="m">If she studies, she pass.</span></div><div class="good">If she studies, she will pass.</div><div class="why">El result del first conditional necesita <b>will</b>.</div></div>
-        <div class="mis"><div class="bad"><span class="m">If you will heat ice, it melts.</span></div><div class="good">If you heat ice, it melts.</div><div class="why">Zero conditional: las dos partes en presente.</div></div>
-        <div class="mis"><div class="bad"><span class="m">Unless you don't study, you'll fail.</span></div><div class="good">Unless you study, you'll fail.</div><div class="why"><b>unless</b> ya significa "if not"; no se duplica el negativo.</div></div>
-      </div>
+      <p class="finalscore">🎭 Good luck on opening night! &nbsp;·&nbsp; <b><span id="score3">0</span> / <span id="max3">0</span></b></p>
     </div>
   </section>
 
-  <!-- 12 · PRESENT PERFECT — CONCEPT -->
-  <section class="slide cream" data-title="Present Perfect · concepto">
-    <div class="sheet">
-      <div class="s-head">
-        <span class="eyebrow">Bloque 2 · Present Perfect</span>
-        <h2 class="s-title">¿Qué expresa el Present Perfect?</h2>
-        <p class="s-sub">Acciones del pasado que tienen relación con el presente. No decimos cuándo exactamente.</p>
-      </div>
-      <div class="cols">
-        <div class="card">
-          <h4>La idea clave <span class="tag y">concepto</span></h4>
-          <p>Conecta el <b>pasado</b> con el <b>ahora</b>. Importa el <i>resultado</i> o la <i>experiencia</i>, no la fecha.</p>
-          <div class="ex" style="margin-top:11px">I <b>have lost</b> my keys.<span class="gl">Las perdí y ahora no las tengo (resultado presente).</span></div>
-          <div class="tip"><span class="ic">⏱️</span><div><b>Past simple vs Present Perfect:</b> "I lost my keys <i>yesterday</i>" (tiempo dado) vs "I have lost my keys" (sigue importando ahora).</div></div>
-        </div>
-        <div class="exs">
-          <div class="lbl">Mira la conexión con el presente</div>
-          <div class="ex">She <b>has bought</b> a new computer.<span class="gl">Ahora tiene una computadora nueva.</span></div>
-          <div class="ex">They <b>have looked</b> for information.</div>
-          <div class="ex">I <b>have thrown</b> away my old tablet.</div>
-          <div class="ex">Luis <b>hasn't called</b> his parents.<span class="gl">Todavía no, hasta ahora.</span></div>
-        </div>
-      </div>
-    </div>
-  </section>
+</main>
 
-  <!-- 13 · PRESENT PERFECT — FORM -->
-  <section class="slide cream" data-title="Present Perfect · formación">
-    <div class="sheet">
-      <div class="s-head">
-        <span class="eyebrow">Bloque 2 · Present Perfect</span>
-        <h2 class="s-title">¿Cómo se forma?</h2>
-        <p class="s-sub">Sujeto + el auxiliar correcto + el participio pasado del verbo.</p>
-      </div>
-      <div class="fbox">
-        <div class="fchips"><span class="fchip subj">Sujeto</span><span class="plus">+</span><span class="fchip aux">have / has</span><span class="plus">+</span><span class="fchip part">participio pasado</span></div>
-        <div class="fnote">I / You / We / They → <b>have</b> &nbsp;·&nbsp; He / She / It → <b>has</b></div>
-      </div>
-      <div class="conj">
-        <div class="cc pos"><div class="h">+ Afirmativo</div><p>She <b>has</b> seen the play.<br>They <b>have</b> finished.</p></div>
-        <div class="cc neg"><div class="h">− Negativo</div><p>She <b>hasn't</b> seen it.<br>They <b>haven't</b> finished.</p></div>
-        <div class="cc q"><div class="h">? Pregunta</div><p><b>Has</b> she seen it?<br><b>Have</b> they finished?</p></div>
-      </div>
-      <div class="tip"><span class="ic">💡</span><div><b>Contracciones:</b> I've, you've, we've, they've, he's/she's (= has). Negativo: <span class="en">haven't</span> / <span class="en">hasn't</span>.</div></div>
-    </div>
-  </section>
+<nav class="nav">
+  <button class="navbtn" id="prev">← Anterior</button>
+  <div class="kbhint"><span><span class="kk">←</span> <span class="kk">→</span> navegar</span><span><span class="kk">M</span> índice</span><span><span class="kk">F</span> pantalla completa</span></div>
+  <button class="navbtn primary" id="next">Siguiente →</button>
+</nav>
 
-  <!-- 14 · PRESENT PERFECT — USES -->
-  <section class="slide cream" data-title="Present Perfect · usos">
-    <div class="sheet">
-      <div class="s-head">
-        <span class="eyebrow">Bloque 2 · Present Perfect</span>
-        <h2 class="s-title">¿Cuándo se usa?</h2>
-        <p class="s-sub">Cuatro usos típicos. En todos hay conexión con el presente.</p>
-      </div>
-      <div class="cols">
-        <div class="card">
-          <h4>1 · Experiencias <span class="tag g">life</span></h4>
-          <p>Cosas que has hecho alguna vez (sin decir cuándo).</p>
-          <div class="ex" style="margin-top:9px">I <b>have visited</b> Lima.</div>
-          <div class="ex">Have you <b>ever eaten</b> sushi?</div>
-        </div>
-        <div class="card">
-          <h4>2 · Resultado presente <span class="tag y">now</span></h4>
-          <p>Una acción pasada con efecto que se ve ahora.</p>
-          <div class="ex" style="margin-top:9px">He <b>has broken</b> his leg.<span class="gl">Por eso ahora no camina.</span></div>
-        </div>
-        <div class="card">
-          <h4>3 · Acción reciente <span class="tag c">just</span></h4>
-          <p>Algo que acaba de pasar.</p>
-          <div class="ex" style="margin-top:9px">She <b>has just</b> arrived.</div>
-        </div>
-        <div class="card">
-          <h4>4 · Duración <span class="tag y">for/since</span></h4>
-          <p>Algo que empezó en el pasado y sigue.</p>
-          <div class="ex" style="margin-top:9px">We <b>have lived</b> here <b>for</b> 5 years.</div>
-          <div class="ex">I <b>have known</b> her <b>since</b> 2019.</div>
-        </div>
-      </div>
-    </div>
-  </section>
+<div class="toast" id="toast">¡Bravo! 👏</div>
 
-  <!-- 15 · PRESENT PERFECT — SIGNAL WORDS -->
-  <section class="slide cream" data-title="Present Perfect · señales">
-    <div class="sheet">
-      <div class="s-head">
-        <span class="eyebrow">Bloque 2 · palabras señal</span>
-        <h2 class="s-title">already · yet · just · ever · never · for · since</h2>
-        <p class="s-sub">Estas palabras avisan que viene Present Perfect. Aprende dónde van.</p>
-      </div>
-      <table class="cmp">
-        <thead><tr><th>Palabra</th><th>Significado</th><th>Dónde va</th><th>Ejemplo</th></tr></thead>
-        <tbody>
-          <tr><td class="f">already</td><td>ya (antes de lo esperado)</td><td>antes del participio</td><td><span class="en">I have <b>already</b> eaten.</span></td></tr>
-          <tr><td class="f">yet</td><td>todavía / ya (− y ?)</td><td>al final</td><td><span class="en">Have you finished <b>yet</b>?</span></td></tr>
-          <tr><td class="f">just</td><td>recién, hace un momento</td><td>antes del participio</td><td><span class="en">She has <b>just</b> left.</span></td></tr>
-          <tr><td class="f">ever</td><td>alguna vez (?)</td><td>antes del participio</td><td><span class="en">Have you <b>ever</b> been there?</span></td></tr>
-          <tr><td class="f">never</td><td>nunca</td><td>antes del participio</td><td><span class="en">I have <b>never</b> seen it.</span></td></tr>
-          <tr><td class="f">for / since</td><td>durante / desde</td><td>al final</td><td><span class="en">… <b>for</b> 3 years / <b>since</b> May.</span></td></tr>
-        </tbody>
-      </table>
-      <div class="tip"><span class="ic">💡</span><div><b>for vs since:</b> <span class="en">for</span> + periodo (for two hours, for a week). <span class="en">since</span> + punto de inicio (since 2020, since Monday).</div></div>
-    </div>
-  </section>
-
-  <!-- 16 · PRESENT PERFECT PRACTICE — CORRECT -->
-  <section class="slide cream" data-title="Present Perfect · corrige">
-    <div class="sheet">
-      <div class="s-head">
-        <span class="eyebrow">Práctica · como la sección 4</span>
-        <h2 class="s-title">Corrige la palabra resaltada</h2>
-        <p class="s-sub">La palabra tachada está mal. Toca para ver la corrección.</p>
-      </div>
-      <div class="cols">
-        <div>
-          <div class="reveal"><span class="num">4.1</span><div class="prompt">"I have <span class="w">throw</span> away my old tablet."</div>
-            <div class="ab"><div class="answer"><span class="corr">thrown</span> → "I have thrown away my old tablet." (throw – threw – thrown)</div><div class="rh">👁 Toca para revelar</div></div></div>
-          <div class="reveal"><span class="num">4.2</span><div class="prompt">"Wanda <span class="w">have</span> bought a new computer."</div>
-            <div class="ab"><div class="answer"><span class="corr">has</span> → "Wanda has bought a new computer." (3.ª persona singular)</div><div class="rh">👁 Toca para revelar</div></div></div>
-          <div class="reveal"><span class="num">4.3</span><div class="prompt">"He <span class="w">have</span> gone to school."</div>
-            <div class="ab"><div class="answer"><span class="corr">has</span> → "He has gone to school."</div><div class="rh">👁 Toca para revelar</div></div></div>
-        </div>
-        <div>
-          <div class="reveal"><span class="num">4.4</span><div class="prompt">"They have <span class="w">eat</span> lunch."</div>
-            <div class="ab"><div class="answer"><span class="corr">eaten</span> → "They have eaten lunch." (eat – ate – eaten)</div><div class="rh">👁 Toca para revelar</div></div></div>
-          <div class="reveal"><span class="num">4.5</span><div class="prompt">"She <span class="w">have</span> finished her homework."</div>
-            <div class="ab"><div class="answer"><span class="corr">has</span> → "She has finished her homework."</div><div class="rh">👁 Toca para revelar</div></div></div>
-          <div class="reveal"><span class="num">4.6</span><div class="prompt">"We have <span class="w">writen</span> the report."</div>
-            <div class="ab"><div class="answer"><span class="corr">written</span> → "We have written the report." (doble "t")</div><div class="rh">👁 Toca para revelar</div></div></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 17 · PRESENT PERFECT PRACTICE — BUILD -->
-  <section class="slide cream" data-title="Present Perfect · forma oraciones">
-    <div class="sheet">
-      <div class="s-head">
-        <span class="eyebrow">Práctica · como la sección 6</span>
-        <h2 class="s-title">Forma la oración</h2>
-        <p class="s-sub">Usa el Present Perfect. Toca para revelar la respuesta.</p>
-      </div>
-      <div class="cols">
-        <div>
-          <div class="reveal"><span class="num">6.1</span><div class="prompt">Luis / not call / his parents</div>
-            <div class="ab"><div class="answer">Luis hasn't called his parents.</div><div class="rh">👁 Toca para revelar</div></div></div>
-          <div class="reveal"><span class="num">6.2</span><div class="prompt">They / look for / some better information</div>
-            <div class="ab"><div class="answer">They have looked for some better information.</div><div class="rh">👁 Toca para revelar</div></div></div>
-          <div class="reveal"><span class="num">6.3</span><div class="prompt">She / already / finish / her homework</div>
-            <div class="ab"><div class="answer">She has already finished her homework.</div><div class="rh">👁 Toca para revelar</div></div></div>
-        </div>
-        <div>
-          <div class="reveal"><span class="num">6.4</span><div class="prompt">We / not see / that movie / yet</div>
-            <div class="ab"><div class="answer">We haven't seen that movie yet.</div><div class="rh">👁 Toca para revelar</div></div></div>
-          <div class="reveal"><span class="num">6.5</span><div class="prompt">you / ever / be / to Cusco? (pregunta)</div>
-            <div class="ab"><div class="answer">Have you ever been to Cusco?</div><div class="rh">👁 Toca para revelar</div></div></div>
-          <div class="reveal"><span class="num">6.6</span><div class="prompt">He / break / his phone</div>
-            <div class="ab"><div class="answer">He has broken his phone.</div><div class="rh">👁 Toca para revelar</div></div></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 18 · PRESENT PERFECT PRACTICE — CHOICES -->
-  <section class="slide cream" data-title="Present Perfect · elige">
-    <div class="sheet">
-      <div class="s-head">
-        <span class="eyebrow">Práctica · elige la correcta</span>
-        <h2 class="s-title">have/has + participio</h2>
-        <p class="s-sub">Haz clic en la opción correcta.</p>
-      </div>
-      <div class="cols">
-        <div>
-          <div class="qa"><span class="num">①</span><div class="q">She <span class="gap"></span> bought a new phone.</div>
-            <div class="choices"><button class="choice" data-correct="true">has</button><button class="choice">have</button></div></div>
-          <div class="qa"><span class="num">②</span><div class="q">They have <span class="gap"></span> their lunch.</div>
-            <div class="choices"><button class="choice">ate</button><button class="choice" data-correct="true">eaten</button></div></div>
-          <div class="qa"><span class="num">③</span><div class="q">I <span class="gap"></span> never seen that film.</div>
-            <div class="choices"><button class="choice" data-correct="true">have</button><button class="choice">has</button></div></div>
-        </div>
-        <div>
-          <div class="qa"><span class="num">④</span><div class="q">He has <span class="gap"></span> his keys.</div>
-            <div class="choices"><button class="choice">lose</button><button class="choice" data-correct="true">lost</button></div></div>
-          <div class="qa"><span class="num">⑤</span><div class="q">We have lived here <span class="gap"></span> 2020.</div>
-            <div class="choices"><button class="choice">for</button><button class="choice" data-correct="true">since</button></div>
-            <div class="fb">✓ <span class="en">since</span> + punto de inicio (2020).</div></div>
-          <div class="qa"><span class="num">⑥</span><div class="q"><span class="gap"></span> you finished yet?</div>
-            <div class="choices"><button class="choice" data-correct="true">Have</button><button class="choice">Has</button></div></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 19 · PARTICIPLES — REGULAR -->
-  <section class="slide cream" data-title="Participios · regulares">
-    <div class="sheet">
-      <div class="s-head">
-        <span class="eyebrow">Bloque 3 · Past Participles</span>
-        <h2 class="s-title">Participios regulares</h2>
-        <p class="s-sub">La mayoría solo añade −ed. Pero hay reglas de ortografía.</p>
-      </div>
-      <div class="cols">
-        <div>
-          <div class="fbox"><div class="fchips"><span class="fchip subj">verbo</span><span class="plus">+</span><span class="fchip res">-ed</span></div><div class="fnote">play → played · look → looked · finish → finished</div></div>
-          <div class="tip"><span class="ic">🔊</span><div><b>Pronunciación de -ed:</b> /t/ (worked), /d/ (played), /ɪd/ tras t/d (wanted, needed).</div></div>
-        </div>
-        <div class="card">
-          <h4>Reglas de ortografía <span class="tag y">spelling</span></h4>
-          <ul>
-            <li>Termina en <b>-e</b> → solo +d: <span class="en">live → lived</span></li>
-            <li>Consonante + <b>y</b> → y→ied: <span class="en">study → studied</span></li>
-            <li>Vocal + <b>y</b> → +ed: <span class="en">play → played</span></li>
-            <li>1 sílaba C-V-C → doblar consonante: <span class="en">stop → stopped</span></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 20 · PARTICIPLES — IRREGULAR GROUPS -->
-  <section class="slide cream" data-title="Participios · irregulares">
-    <div class="sheet">
-      <div class="s-head">
-        <span class="eyebrow">Bloque 3 · memorízalos por patrón</span>
-        <h2 class="s-title">Participios irregulares</h2>
-        <p class="s-sub">Agrupados por patrón para que sea más fácil recordarlos. (base · pasado · participio)</p>
-      </div>
-      <div class="igrid">
-        <div class="igroup"><div class="gh">Cambian a -own <span class="pat">-ow → -own</span></div>
-          <table class="itab"><tr><td>throw</td><td class="ar">threw</td><td>thrown</td></tr><tr><td>grow</td><td class="ar">grew</td><td>grown</td></tr><tr><td>know</td><td class="ar">knew</td><td>known</td></tr><tr><td>blow</td><td class="ar">blew</td><td>blown</td></tr></table></div>
-        <div class="igroup"><div class="gh">Cambian a -oken/-aken <span class="pat">-oken</span></div>
-          <table class="itab"><tr><td>break</td><td class="ar">broke</td><td>broken</td></tr><tr><td>speak</td><td class="ar">spoke</td><td>spoken</td></tr><tr><td>take</td><td class="ar">took</td><td>taken</td></tr><tr><td>wake</td><td class="ar">woke</td><td>woken</td></tr></table></div>
-        <div class="igroup"><div class="gh">Pasado = participio <span class="pat">igual</span></div>
-          <table class="itab"><tr><td>buy</td><td class="ar">bought</td><td>bought</td></tr><tr><td>bring</td><td class="ar">brought</td><td>brought</td></tr><tr><td>think</td><td class="ar">thought</td><td>thought</td></tr><tr><td>find</td><td class="ar">found</td><td>found</td></tr></table></div>
-        <div class="igroup"><div class="gh">No cambian nunca <span class="pat">x·x·x</span></div>
-          <table class="itab"><tr><td>cut</td><td class="ar">cut</td><td>cut</td></tr><tr><td>put</td><td class="ar">put</td><td>put</td></tr><tr><td>let</td><td class="ar">let</td><td>let</td></tr><tr><td>hit</td><td class="ar">hit</td><td>hit</td></tr></table></div>
-        <div class="igroup"><div class="gh">Totalmente irregulares <span class="pat">★</span></div>
-          <table class="itab"><tr><td>go</td><td class="ar">went</td><td>gone</td></tr><tr><td>do</td><td class="ar">did</td><td>done</td></tr><tr><td>see</td><td class="ar">saw</td><td>seen</td></tr><tr><td>eat</td><td class="ar">ate</td><td>eaten</td></tr></table></div>
-        <div class="igroup"><div class="gh">Más usados <span class="pat">★</span></div>
-          <table class="itab"><tr><td>write</td><td class="ar">wrote</td><td>written</td></tr><tr><td>give</td><td class="ar">gave</td><td>given</td></tr><tr><td>forget</td><td class="ar">forgot</td><td>forgotten</td></tr><tr><td>be</td><td class="ar">was/were</td><td>been</td></tr></table></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 21 · PARTICIPLE vs PAST SIMPLE -->
-  <section class="slide cream" data-title="Participio vs pasado">
-    <div class="sheet">
-      <div class="s-head">
-        <span class="eyebrow">Bloque 3 · el error más común</span>
-        <h2 class="s-title">Participio ≠ pasado simple</h2>
-        <p class="s-sub">El pasado simple va solo; el participio va con have/has. ¡No los mezcles!</p>
-      </div>
-      <div class="cols">
-        <table class="cmp">
-          <thead><tr><th>Base</th><th>Pasado simple</th><th>Participio</th></tr></thead>
-          <tbody>
-            <tr><td>go</td><td class="z">went</td><td class="f">gone</td></tr>
-            <tr><td>see</td><td class="z">saw</td><td class="f">seen</td></tr>
-            <tr><td>break</td><td class="z">broke</td><td class="f">broken</td></tr>
-            <tr><td>write</td><td class="z">wrote</td><td class="f">written</td></tr>
-            <tr><td>eat</td><td class="z">ate</td><td class="f">eaten</td></tr>
-          </tbody>
-        </table>
-        <div>
-          <div class="mis"><div class="bad"><span class="m">I have went home.</span></div><div class="good">I have gone home.</div><div class="why">Con <b>have</b> se usa el participio (gone), no el pasado (went).</div></div>
-          <div class="mis" style="margin-top:12px"><div class="bad"><span class="m">She has saw it.</span></div><div class="good">She has seen it.</div><div class="why">Igual: has + <b>seen</b>.</div></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 22 · PARTICIPLES — TRUE/FALSE -->
-  <section class="slide cream" data-title="Participios · True/False">
-    <div class="sheet">
-      <div class="s-head">
-        <span class="eyebrow">Práctica · como la sección 5</span>
-        <h2 class="s-title">¿Es el participio correcto?</h2>
-        <p class="s-sub">Marca True (T) si la forma es el participio pasado, o False (F) si no lo es.</p>
-      </div>
-      <div class="cols">
-        <div>
-          <div class="qa"><div class="q">go → <b>went</b></div><div class="choices"><button class="choice">T</button><button class="choice" data-correct="true">F</button></div><div class="fb"><span class="x">✗ Falso:</span> el participio es <span class="en">gone</span>.</div></div>
-          <div class="qa"><div class="q">play → <b>played</b></div><div class="choices"><button class="choice" data-correct="true">T</button><button class="choice">F</button></div><div class="fb">✓ Verdadero: verbo regular, <span class="en">played</span>.</div></div>
-          <div class="qa"><div class="q">forget → <b>forgotten</b></div><div class="choices"><button class="choice" data-correct="true">T</button><button class="choice">F</button></div><div class="fb">✓ Verdadero: forget – forgot – forgotten.</div></div>
-          <div class="qa"><div class="q">write → <b>writen</b></div><div class="choices"><button class="choice">T</button><button class="choice" data-correct="true">F</button></div><div class="fb"><span class="x">✗ Falso:</span> se escribe <span class="en">written</span> (doble "t").</div></div>
-        </div>
-        <div>
-          <div class="qa"><div class="q">eat → <b>eaten</b></div><div class="choices"><button class="choice" data-correct="true">T</button><button class="choice">F</button></div><div class="fb">✓ Verdadero: eat – ate – eaten.</div></div>
-          <div class="qa"><div class="q">see → <b>saw</b></div><div class="choices"><button class="choice">T</button><button class="choice" data-correct="true">F</button></div><div class="fb"><span class="x">✗ Falso:</span> "saw" es pasado; el participio es <span class="en">seen</span>.</div></div>
-          <div class="qa"><div class="q">do → <b>done</b></div><div class="choices"><button class="choice" data-correct="true">T</button><button class="choice">F</button></div><div class="fb">✓ Verdadero: do – did – done.</div></div>
-          <div class="qa"><div class="q">break → <b>broke</b></div><div class="choices"><button class="choice">T</button><button class="choice" data-correct="true">F</button></div><div class="fb"><span class="x">✗ Falso:</span> "broke" es pasado; el participio es <span class="en">broken</span>.</div></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 23 · VOCAB TECH -->
-  <section class="slide cream" data-title="Vocabulary · Technology">
-    <div class="sheet">
-      <div class="s-head">
-        <span class="eyebrow">Bloque 4 · como la sección 3</span>
-        <h2 class="s-title">Label the names — Tecnología</h2>
-        <p class="s-sub">Di el nombre en inglés y toca la tarjeta para comprobar.</p>
-      </div>
-      <div class="vocab" data-vocab>
-        <button class="vcard"><span class="emo">💿</span><span class="word">CD</span><span class="tap">Tap</span></button>
-        <button class="vcard"><span class="emo">🖥️</span><span class="word">monitor</span><span class="tap">Tap</span></button>
-        <button class="vcard"><span class="emo">📱</span><span class="word">smartphone</span><span class="tap">Tap</span></button>
-        <button class="vcard"><span class="emo">☁️</span><span class="word">cloud</span><span class="tap">Tap</span></button>
-        <button class="vcard"><span class="emo">⌨️</span><span class="word">keyboard</span><span class="tap">Tap</span></button>
-        <button class="vcard"><span class="emo">🖱️</span><span class="word">mouse</span><span class="tap">Tap</span></button>
-        <button class="vcard"><span class="emo">🖨️</span><span class="word">printer</span><span class="tap">Tap</span></button>
-        <button class="vcard"><span class="emo">💾</span><span class="word">USB / flash drive</span><span class="tap">Tap</span></button>
-        <button class="vcard"><span class="emo">🎧</span><span class="word">headphones</span><span class="tap">Tap</span></button>
-        <button class="vcard"><span class="emo">📷</span><span class="word">webcam</span><span class="tap">Tap</span></button>
-        <button class="vcard"><span class="emo">💻</span><span class="word">laptop</span><span class="tap">Tap</span></button>
-        <button class="vcard"><span class="emo">🔋</span><span class="word">battery</span><span class="tap">Tap</span></button>
-        <button class="vcard"><span class="emo">📡</span><span class="word">router / signal</span><span class="tap">Tap</span></button>
-        <button class="vcard"><span class="emo">🔌</span><span class="word">charger / plug</span><span class="tap">Tap</span></button>
-        <button class="vcard"><span class="emo">🖥️</span><span class="word">screen</span><span class="tap">Tap</span></button>
-      </div>
-    </div>
-  </section>
-
-  <!-- 24 · VOCAB BODY -->
-  <section class="slide cream" data-title="Vocabulary · Body parts">
-    <div class="sheet">
-      <div class="s-head">
-        <span class="eyebrow">Bloque 4 · como la sección 7</span>
-        <h2 class="s-title">Partes del cuerpo</h2>
-        <p class="s-sub">Las palabras del crucigrama y algunas más. Toca para revelar.</p>
-      </div>
-      <div class="vocab" data-vocab>
-        <button class="vcard"><span class="emo">💪</span><span class="word">arm</span><span class="tap">Tap</span></button>
-        <button class="vcard"><span class="emo">👁️</span><span class="word">eye</span><span class="tap">Tap</span></button>
-        <button class="vcard"><span class="emo">🦶</span><span class="word">foot</span><span class="tap">Tap</span></button>
-        <button class="vcard"><span class="emo">✋</span><span class="word">hand</span><span class="tap">Tap</span></button>
-        <button class="vcard"><span class="emo">👃</span><span class="word">nose</span><span class="tap">Tap</span></button>
-        <button class="vcard"><span class="emo">👂</span><span class="word">ear</span><span class="tap">Tap</span></button>
-        <button class="vcard"><span class="emo">🦵</span><span class="word">leg</span><span class="tap">Tap</span></button>
-        <button class="vcard"><span class="emo">👄</span><span class="word">mouth</span><span class="tap">Tap</span></button>
-        <button class="vcard"><span class="emo">🦷</span><span class="word">tooth / teeth</span><span class="tap">Tap</span></button>
-        <button class="vcard"><span class="emo">✊</span><span class="word">fist</span><span class="tap">Tap</span></button>
-        <button class="vcard"><span class="emo">💇</span><span class="word">hair</span><span class="tap">Tap</span></button>
-        <button class="vcard"><span class="emo">🦴</span><span class="word">bone</span><span class="tap">Tap</span></button>
-        <button class="vcard"><span class="emo">🫀</span><span class="word">heart</span><span class="tap">Tap</span></button>
-        <button class="vcard"><span class="emo">🧠</span><span class="word">brain</span><span class="tap">Tap</span></button>
-        <button class="vcard"><span class="emo">👅</span><span class="word">tongue</span><span class="tap">Tap</span></button>
-      </div>
-    </div>
-  </section>
-
-  <!-- 25 · MATCH -->
-  <section class="slide cream" data-title="Match">
-    <div class="sheet">
-      <div class="s-head">
-        <span class="eyebrow">Bloque 5 · como la sección 8</span>
-        <h2 class="s-title">Match — une cada par</h2>
-        <p class="s-sub">Haz clic en una frase de la izquierda y luego en su final correcto.</p>
-      </div>
-      <div class="match" id="matchGame">
-        <div class="mcol">
-          <div class="mcap">Inicio</div>
-          <button class="mi" data-side="left" data-key="c">When people eat too much,</button>
-          <button class="mi" data-side="left" data-key="d">We'll have a picnic</button>
-          <button class="mi" data-side="left" data-key="a">If you mix oil and water,</button>
-          <button class="mi" data-side="left" data-key="b">The baby won't sleep</button>
-        </div>
-        <div class="mcol">
-          <div class="mcap">Final</div>
-          <button class="mi" data-side="right" data-key="d">if it's sunny.</button>
-          <button class="mi" data-side="right" data-key="a">they separate.</button>
-          <button class="mi" data-side="right" data-key="c">they get fat.</button>
-          <button class="mi" data-side="right" data-key="b">if you make so much noise.</button>
-        </div>
-      </div>
-      <div class="mdone" id="matchDone">🎉 ¡Completado! Cuatro de cuatro.</div>
-      <button class="mini" id="matchReset">Reiniciar</button>
-    </div>
-  </section>
-
-  <!-- 26 · OPEN ANSWER -->
-  <section class="slide cream" data-title="Open answer">
-    <div class="sheet">
-      <div class="s-head">
-        <span class="eyebrow">Bloque 5 · como la sección 9</span>
-        <h2 class="s-title">Open answer</h2>
-        <p class="s-sub">Responde con first conditional: If + presente, 'll + verbo base.</p>
-      </div>
-      <div class="reveal"><div class="prompt">"What will you do if you <b>wake up with a cold</b>?"</div>
-        <div class="ab"><div class="answer">If I wake up with a cold, I'll drink hot tea and rest in bed.</div><div class="rh">👁 Toca para ver una respuesta modelo</div></div></div>
-      <div class="reveal"><div class="prompt">"What will you do if it <b>rains tomorrow</b>?"</div>
-        <div class="ab"><div class="answer">If it rains tomorrow, I'll stay home and watch movies.</div><div class="rh">👁 Toca para ver una respuesta modelo</div></div></div>
-      <div class="reveal"><div class="prompt">"What will you do if you <b>pass the exam</b>?"</div>
-        <div class="ab"><div class="answer">If I pass the exam, I'll celebrate with my friends.</div><div class="rh">👁 Toca para ver una respuesta modelo</div></div></div>
-      <div class="reveal"><div class="prompt">"What will you do if you <b>find some money</b>?"</div>
-        <div class="ab"><div class="answer">If I find some money, I'll save it in the bank.</div><div class="rh">👁 Toca para ver una respuesta modelo</div></div></div>
-    </div>
-  </section>
-
-  <!-- 27 · MIXED QUIZ -->
-  <section class="slide cream" data-title="Quiz mixto">
-    <div class="sheet">
-      <div class="s-head">
-        <span class="eyebrow">Bloque 5 · repaso relámpago</span>
-        <h2 class="s-title">Quiz mixto</h2>
-        <p class="s-sub">Un poco de todo. Haz clic en la opción correcta.</p>
-      </div>
-      <div class="cols">
-        <div>
-          <div class="qa"><span class="num">Q1</span><div class="q">If it <span class="gap"></span> hot, the ice cream melts.</div>
-            <div class="choices"><button class="choice" data-correct="true">is</button><button class="choice">will be</button></div></div>
-          <div class="qa"><span class="num">Q2</span><div class="q">She has <span class="gap"></span> her homework.</div>
-            <div class="choices"><button class="choice">do</button><button class="choice" data-correct="true">done</button></div></div>
-          <div class="qa"><span class="num">Q3</span><div class="q">If you study, you <span class="gap"></span> pass.</div>
-            <div class="choices"><button class="choice" data-correct="true">will</button><button class="choice">are</button></div></div>
-        </div>
-        <div>
-          <div class="qa"><span class="num">Q4</span><div class="q">They <span class="gap"></span> already eaten.</div>
-            <div class="choices"><button class="choice" data-correct="true">have</button><button class="choice">has</button></div></div>
-          <div class="qa"><span class="num">Q5</span><div class="q">Past participle of <span class="en">"see"</span>:</div>
-            <div class="choices"><button class="choice">saw</button><button class="choice" data-correct="true">seen</button></div></div>
-          <div class="qa"><span class="num">Q6</span><div class="q">You'll be tired <span class="gap"></span> you sleep.</div>
-            <div class="choices"><button class="choice" data-correct="true">unless</button><button class="choice">if</button></div>
-            <div class="fb">✓ <span class="en">unless</span> = if not. "…if you don't sleep."</div></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 28 · EXAM TIPS -->
-  <section class="slide cream" data-title="Tips para el examen">
-    <div class="sheet">
-      <div class="s-head">
-        <span class="eyebrow">Antes de entregar</span>
-        <h2 class="s-title">Checklist del examen</h2>
-        <p class="s-sub">Pasos rápidos para no perder puntos tontos.</p>
-      </div>
-      <div class="check">
-        <div class="ck"><span class="n">1</span><div>En condicionales, mira el <b>if</b>: nunca lleva <b>will</b> al lado. ¿Es hecho (zero) o futuro (first)?</div></div>
-        <div class="ck"><span class="n">2</span><div>En Present Perfect, revisa el auxiliar: <b>he/she/it → has</b>, el resto <b>have</b>.</div></div>
-        <div class="ck"><span class="n">3</span><div>Usa el <b>participio</b> (3.ª columna), no el pasado simple. <b>gone</b>, no <b>went</b>.</div></div>
-        <div class="ck"><span class="n">4</span><div>Cuida la ortografía del participio: <b>written</b>, <b>eaten</b>, <b>thrown</b>.</div></div>
-        <div class="ck"><span class="n">5</span><div>Si la <b>if-clause</b> va primero, pon <b>coma</b>. Lee toda la frase antes de responder.</div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 29 · KEY RULES (stage) -->
-  <section class="slide" data-title="Reglas clave">
-    <div class="sheet stage cover" style="max-width:980px">
-      <div class="cv-eye">Lo esencial</div>
-      <div class="hero" style="margin:.05em 0 .3em"><span class="l1" style="font-size:clamp(2.4rem,7vw,5rem); color:var(--gold)">5 reglas clave</span></div>
-      <div class="kchips">
-        <div class="kc"><span class="ic">1</span><span class="t"><b>First:</b> If + presente → will + verbo</span></div>
-        <div class="kc"><span class="ic">0</span><span class="t"><b>Zero:</b> If + presente → presente</span></div>
-        <div class="kc"><span class="ic">⏳</span><span class="t"><b>Present Perfect:</b> have/has + participio</span></div>
-        <div class="kc"><span class="ic">≠</span><span class="t">Participio <b>≠</b> pasado simple</span></div>
-        <div class="kc"><span class="ic">!</span><span class="t">Después de <b>if</b> nunca va <b>will</b></span></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 30 · CLOSING (stage) -->
-  <section class="slide" data-title="¡Suerte!">
-    <div class="sheet stage cover">
-      <div class="cv-eye">Ya estás listo</div>
-      <div class="hero"><span class="l1">Good</span><span class="l2" style="color:var(--gold)">luck!</span></div>
-      <div class="cv-sub">Repasaste conditionals, present perfect, participios y vocabulario.</div>
-      <div class="cv-tag" style="color:var(--gold-soft)">Respira, lee con calma y confía en lo que practicaste 💪</div>
-      <div class="cv-cta">
-        <button class="cv-start" data-go="0">Volver al inicio <svg viewBox="0 0 24 24"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></button>
-      </div>
-    </div>
-  </section>
-
-</div>
-
-<div class="botbar">
-  <button class="navbtn prev" id="bPrev"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg><span class="lbl-l">Anterior</span></button>
-  <div class="hint"><span><kbd>←</kbd> <kbd>→</kbd> navegar</span><span><kbd>F</kbd> pantalla completa</span></div>
-  <button class="navbtn next" id="bNext"><span class="lbl-l">Siguiente</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
-</div>
-
-<div class="menu" id="menu">
-  <button class="icbtn" id="menuClose" aria-label="Cerrar" style="position:fixed; top:16px; right:18px; z-index:71"><svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
-  <h2>Ir a…</h2>
-  <div class="ms">Elige una diapositiva</div>
-  <div class="mgrid" id="mgrid"></div>
+<div class="toc" id="toc">
+  <div class="toc-top"><div class="toc-title">Índice</div><button class="iconbtn" id="toc-close" aria-label="Cerrar">✕</button></div>
+  <div class="toc-grid" id="toc-grid"></div>
 </div>
 
 <script>
 (function(){
   "use strict";
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const slides = Array.from(document.querySelectorAll('.slide'));
-  const N = slides.length;
-  let cur = 0;
-  const prog = document.getElementById('prog');
-  const cNow = document.getElementById('cNow');
-  document.getElementById('cTot').textContent = N;
+  /* ---------------- data ---------------- */
+  var DATA = {
+    unscramble:[
+      {s:"ADECUINE",a:"AUDIENCE",h:"the people watching a show"},
+      {s:"SEECN",a:"SCENE",h:"one part of a play"},
+      {s:"LNSIE",a:"LINES",h:"the words an actor says"},
+      {s:"AUONTIDI",a:"AUDITION",h:"a try-out to get a role"},
+      {s:"SACT",a:"CAST",h:"all the actors in a play"},
+      {s:"GSEAT",a:"STAGE",h:"where actors perform"},
+      {s:"CRSITP",a:"SCRIPT",h:"the written text of a play"},
+      {s:"LERO",a:"ROLE",h:"the character an actor plays"}
+    ],
+    vocab:[
+      {q:"audience",a:"público"},{q:"stage",a:"escenario"},{q:"script",a:"guion"},
+      {q:"audition",a:"audición"},{q:"gallery",a:"galería"},{q:"sculpture",a:"escultura"}
+    ],
+    aux:[
+      {pre:"I",post:"finished my homework.",opts:["have","has"],a:"have"},
+      {pre:"She",post:"seen the new play.",opts:["have","has"],a:"has"},
+      {pre:"They",post:"traveled to Peru.",opts:["have","has"],a:"have"},
+      {pre:"My brother",post:"won a prize.",opts:["have","has"],a:"has"},
+      {pre:"We",post:"studied English for years.",opts:["have","has"],a:"have"},
+      {pre:"It",post:"started to rain.",opts:["have","has"],a:"has"}
+    ],
+    participle:[
+      {pre:'<span class="base">see</span> →',opts:["seen","saw","seed"],a:"seen"},
+      {pre:'<span class="base">go</span> →',opts:["went","gone","goed"],a:"gone"},
+      {pre:'<span class="base">eat</span> →',opts:["eaten","ate","eated"],a:"eaten"},
+      {pre:'<span class="base">write</span> →',opts:["wrote","written","writed"],a:"written"},
+      {pre:'<span class="base">do</span> →',opts:["did","done","doed"],a:"done"},
+      {pre:'<span class="base">be</span> →',opts:["was","been","beed"],a:"been"}
+    ],
+    adverbs:[
+      {pre:"Have you heard the news",post:"",opts:["yet","still","already","just"],a:"yet"},
+      {pre:"I",post:"haven't finished my food.",opts:["still","already","yet","just"],a:"still"},
+      {pre:"She has",post:"seen the new play.",opts:["already","yet","still","just"],a:"already"},
+      {pre:"They have",post:"gone to see a movie.",opts:["just","still","yet","already"],a:"just"},
+      {pre:"Have they arrived",post:"",opts:["yet","just","already","still"],a:"yet"},
+      {pre:"The movie has",post:"started.",opts:["just","yet","still","already"],a:"just"}
+    ],
+    forsince:[
+      {pre:"I have lived here",post:"2019.",opts:["for","since"],a:"since"},
+      {pre:"She has studied ballet",post:"five years.",opts:["for","since"],a:"for"},
+      {pre:"We haven't seen them",post:"Christmas.",opts:["for","since"],a:"since"},
+      {pre:"He has worked here",post:"a long time.",opts:["for","since"],a:"for"},
+      {pre:"They have known each other",post:"childhood.",opts:["for","since"],a:"since"},
+      {pre:"I have had this phone",post:"two months.",opts:["for","since"],a:"for"}
+    ],
+    evernever:[
+      {pre:"Have you",post:"visited Machu Picchu?",opts:["ever","never"],a:"ever"},
+      {pre:"My grandfather has",post:"used a computer.",opts:["ever","never"],a:"never"},
+      {pre:"Have they",post:"tried Italian food?",opts:["ever","never"],a:"ever"},
+      {pre:"We have",post:"been late to class.",opts:["ever","never"],a:"never"},
+      {pre:"Has he",post:"won a competition?",opts:["ever","never"],a:"ever"},
+      {pre:"I have",post:"broken a bone.",opts:["ever","never"],a:"never"}
+    ],
+    short:[
+      {pre:"Have you finished? — Yes, I",post:".",opts:["have","has","haven't","hasn't"],a:"have"},
+      {pre:"Has she arrived? — No, she",post:".",opts:["have","has","haven't","hasn't"],a:"hasn't"},
+      {pre:"Have they eaten? — Yes, they",post:".",opts:["have","has","haven't","hasn't"],a:"have"},
+      {pre:"Has it stopped? — No, it",post:".",opts:["have","has","haven't","hasn't"],a:"hasn't"},
+      {pre:"Have you been there? — Yes, I",post:".",opts:["have","has","haven't","hasn't"],a:"have"},
+      {pre:"Has your brother called? — No, he",post:".",opts:["have","has","haven't","hasn't"],a:"hasn't"}
+    ],
+    build:[
+      {p:["My brother","not see","Avatar","yet"],a:"My brother hasn't seen Avatar yet."},
+      {p:["She","already","try","surfing"],a:"She has already tried surfing."},
+      {p:["My mother","help","someone","today"],a:"My mother has helped someone today."},
+      {p:["He","still","not be","central market"],a:"He still hasn't been to the central market."},
+      {p:["We","not finish","the project","yet"],a:"We haven't finished the project yet."},
+      {p:["They","win","a prize","this year"],a:"They have won a prize this year."}
+    ],
+    order:[
+      ["She","has","already","finished","her","homework"],
+      ["I","have","never","been","to","Paris"],
+      ["Have","you","seen","this","movie","yet"]
+    ],
+    ppps:[
+      {pre:"She",post:"to Japan in 2018.",opts:["went","has gone"],a:"went"},
+      {pre:"We",post:"Cusco last summer.",opts:["visited","have visited"],a:"visited"},
+      {pre:"He",post:"his homework, so he can play now.",opts:["has finished","finished"],a:"has finished"},
+      {pre:"They",post:"the show in 2020.",opts:["saw","have seen"],a:"saw"},
+      {pre:"I",post:"this book three times.",opts:["have read","read yesterday"],a:"have read"},
+      {pre:"Yesterday I",post:"an amazing concert.",opts:["watched","have watched"],a:"watched"}
+    ],
+    fix:[
+      {wrong:"I have seen it yesterday.",right:"I saw it yesterday.",note:"«yesterday» pide Past Simple."},
+      {wrong:"They doesn't visited Cusco.",right:"They haven't visited Cusco.",note:"El auxiliar negativo es «haven't»."},
+      {wrong:"I seen it three times.",right:"I have seen it three times.",note:"Falta el auxiliar «have»."},
+      {wrong:"He finish his homework already.",right:"He has finished his homework already.",note:"Necesita «has» + participio «finished»."},
+      {wrong:"She has went home.",right:"She has gone home.",note:"El participio de «go» es «gone»."},
+      {wrong:"How long do you live here?",right:"How long have you lived here?",note:"Duración → Present Perfect."}
+    ],
+    match:[
+      {q:"Have you finished your homework yet?",a:"Yes, I have already finished it."},
+      {q:"How long have you studied English?",a:"I have studied English for three years."},
+      {q:"What is the best movie you have seen?",a:"The best one I have seen is Avatar."},
+      {q:"Have you ever traveled to another country?",a:"Yes, I have traveled to Chile and Ecuador."}
+    ],
+    tf:[
+      {i:"📷",w:"photography",ok:true},{i:"🎤",w:"gallery",ok:false},{i:"🪆",w:"architecture",ok:false},
+      {i:"🎭",w:"musical theater",ok:true},{i:"🏛️",w:"architecture",ok:true},{i:"💃",w:"sculpture",ok:false}
+    ],
+    mc:[
+      {q:"Have you ever traveled by airplane?",o:["Yes, I have traveled by airplane before.","Yes, I traveled by airplane yesterday."],a:0,why:'Con «ever» usamos Present Perfect, no «yesterday».'},
+      {q:"Has your brother finished his homework yet?",o:["Yes, he finish his homework already.","Yes, he has finished his homework already."],a:1,why:'Necesitamos «has» + el participio «finished».'},
+      {q:"Have they ever visited Cusco?",o:["No, they doesn't visit Cusco yet.","No, they haven't visited Cusco yet."],a:1,why:'«haven’t visited» usa el auxiliar correcto «have».'},
+      {q:"Have you seen Titanic before?",o:["Yes, I have seen it three times.","Yes, I seen it three times."],a:0,why:'«have seen» necesita el auxiliar «have».'}
+    ]
+  };
 
-  // dots
-  const dotsWrap = document.getElementById('dots');
-  slides.forEach((s,i)=>{
-    const d = document.createElement('button');
-    d.className='dot'; d.setAttribute('aria-label','Ir a '+(s.dataset.title||('slide '+(i+1))));
-    d.onclick=()=>goTo(i); dotsWrap.appendChild(d);
-  });
-  const dots = Array.from(dotsWrap.children);
+  /* ---------------- score ---------------- */
+  var MAX = DATA.vocab.length + DATA.aux.length + DATA.participle.length + DATA.adverbs.length +
+            DATA.forsince.length + DATA.evernever.length + DATA.short.length + DATA.order.length +
+            DATA.ppps.length + DATA.match.length + DATA.tf.length + DATA.mc.length;
+  var score = 0;
+  var scoreEls = [document.getElementById('score'),document.getElementById('score2'),document.getElementById('score3')];
+  [document.getElementById('max'),document.getElementById('max2'),document.getElementById('max3')].forEach(function(e){ if(e) e.textContent = MAX; });
+  var toast = document.getElementById('toast'), toastT;
+  function cheer(msg){ toast.textContent = msg||'¡Bravo! 👏'; toast.classList.add('show'); clearTimeout(toastT); toastT=setTimeout(function(){toast.classList.remove('show');},1050); }
+  function point(){ score++; scoreEls.forEach(function(e){ if(e) e.textContent = score; }); }
 
-  // menu (with section headers)
-  const mgrid = document.getElementById('mgrid');
-  const sections = [
-    {at:0,label:null},{at:2,label:'Bloque 1 · Conditionals'},{at:11,label:'Bloque 2 · Present Perfect'},
-    {at:18,label:'Bloque 3 · Past Participles'},{at:22,label:'Bloque 4 · Vocabulary'},{at:24,label:'Bloque 5 · Práctica final'}
-  ];
-  slides.forEach((s,i)=>{
-    const sec = sections.find(x=>x.at===i);
-    if(sec && sec.label){ const h=document.createElement('div'); h.className='ml sec-head'; h.innerHTML='<span class="mt">'+sec.label+'</span>'; mgrid.appendChild(h); }
-    const b=document.createElement('button'); b.className='ml';
-    b.innerHTML='<span class="mn">'+String(i+1).padStart(2,'0')+'</span><span class="mt">'+(s.dataset.title||('Slide '+(i+1)))+'</span>';
-    b.onclick=()=>{goTo(i); closeMenu();}; mgrid.appendChild(b);
-  });
+  function el(tag,cls,html){ var e=document.createElement(tag); if(cls)e.className=cls; if(html!=null)e.innerHTML=html; return e; }
+  function shuffle(a){ a=a.slice(); for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;} return a; }
+  function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  /* ---------------- generic renderers ---------------- */
+  function blankChoice(boxId, items){
+    var box=document.getElementById(boxId);
+    items.forEach(function(it){
+      var c=el('div','exitem'); var done=false;
+      var q=el('div','exq');
+      q.innerHTML = (it.pre||'') + ' <span class="blank">?</span>' + (it.post?(' '+esc(it.post)):'');
+      var opts=el('div','opts');
+      it.opts.forEach(function(o){
+        var b=el('button','opt',esc(o));
+        b.addEventListener('click',function(){
+          if(done)return;
+          if(o===it.a){ done=true; b.classList.add('correct','lock'); point(); cheer('¡Correcto! ✓');
+            q.querySelector('.blank').textContent = it.fill||it.a;
+            opts.querySelectorAll('.opt').forEach(function(x){x.classList.add('lock'); if(x!==b)x.classList.add('dim');});
+          } else { b.classList.add('wrong'); setTimeout(function(){b.classList.remove('wrong');},450); }
+        });
+        opts.appendChild(b);
+      });
+      c.appendChild(q); c.appendChild(opts); box.appendChild(c);
+    });
+  }
+
+  function makeMatch(boxId, pairs, leftLabel, rightLabel){
+    var box=document.getElementById(boxId);
+    var L=el('div','mcol'); L.appendChild(el('div','lbl',leftLabel));
+    var R=el('div','mcol'); R.appendChild(el('div','lbl',rightLabel));
+    var sel=null, solved=0;
+    var right=shuffle(pairs.map(function(d,i){return {t:d.a,id:i};}));
+    pairs.forEach(function(d,i){ var b=el('button','mitem','<span class="dot"></span><span>'+esc(d.q)+'</span>'); b.dataset.id=i; b.dataset.side='q'; b.addEventListener('click',function(){pick(b);}); L.appendChild(b); });
+    right.forEach(function(d){ var b=el('button','mitem','<span class="dot"></span><span>'+esc(d.t)+'</span>'); b.dataset.id=d.id; b.dataset.side='a'; b.addEventListener('click',function(){pick(b);}); R.appendChild(b); });
+    function pick(b){
+      if(b.classList.contains('locked'))return;
+      if(!sel){ sel=b; b.classList.add('sel'); return; }
+      if(sel===b){ b.classList.remove('sel'); sel=null; return; }
+      if(sel.dataset.side===b.dataset.side){ sel.classList.remove('sel'); sel=b; b.classList.add('sel'); return; }
+      if(sel.dataset.id===b.dataset.id){ sel.classList.remove('sel'); sel.classList.add('locked'); b.classList.add('locked'); sel=null; solved++; point(); cheer(solved===pairs.length?'¡Todas! 🎉':'¡Bien! ✓'); }
+      else { var a=sel; a.classList.add('miss'); b.classList.add('miss'); setTimeout(function(){a.classList.remove('miss','sel'); b.classList.remove('miss');},450); sel=null; }
+    }
+    box.appendChild(L); box.appendChild(R);
+  }
+
+  function reveals(boxId, items, build, btnId){
+    var box=document.getElementById(boxId); var cards=[];
+    items.forEach(function(it){ var o=build(it); box.appendChild(o.node); cards.push(o); });
+    if(btnId) document.getElementById(btnId).addEventListener('click',function(){ cards.forEach(function(o){ if(!o.shown()) o.reveal(); }); });
+  }
+
+  /* 1 unscramble */
+  reveals('ex-unscramble', DATA.unscramble, function(it){
+    var c=el('div','qcard'); var tiles=el('div','tiles');
+    it.s.split('').forEach(function(ch){ tiles.appendChild(el('div','tile',ch)); });
+    var btn=el('button','revealbtn','Revelar');
+    function reveal(){ tiles.innerHTML=''; it.a.split('').forEach(function(ch,k){ var t=el('div','tile sol',ch); t.style.animationDelay=(k*45)+'ms'; tiles.appendChild(t); }); btn.disabled=true; }
+    btn.addEventListener('click',reveal);
+    c.appendChild(tiles); c.appendChild(el('div','hint','“'+it.h+'”')); c.appendChild(btn);
+    return {node:c, reveal:reveal, shown:function(){return !!c.querySelector('.tile.sol');}};
+  }, 'reveal-unscramble');
+
+  /* 2 vocab match */
+  makeMatch('ex-vocab', DATA.vocab, 'English', 'Español');
+
+  /* 3 aux */ blankChoice('ex-aux', DATA.aux);
+  /* 4 participle */ blankChoice('ex-participle', DATA.participle);
+  /* 5 adverbs */ blankChoice('ex-adverbs', DATA.adverbs);
+  /* 6 for/since */ blankChoice('ex-forsince', DATA.forsince);
+  /* 7 ever/never */ blankChoice('ex-evernever', DATA.evernever);
+  /* 8 short answers */ blankChoice('ex-short', DATA.short);
+
+  /* 9 build */
+  reveals('ex-build', DATA.build, function(it){
+    var c=el('div','qcard'); var p=el('div','prompt');
+    it.p.forEach(function(w){ p.appendChild(el('span','pw',w)); });
+    var sol=el('div','solrow','✓ '+esc(it.a));
+    var btn=el('button','revealbtn','Revelar oración');
+    function reveal(){ sol.classList.add('show'); btn.disabled=true; }
+    btn.addEventListener('click',reveal);
+    c.appendChild(p); c.appendChild(sol); c.appendChild(btn);
+    return {node:c, reveal:reveal, shown:function(){return sol.classList.contains('show');}};
+  }, 'reveal-build');
+
+  /* 10 word order */
+  (function(){
+    var box=document.getElementById('ex-order');
+    DATA.order.forEach(function(target){
+      var c=el('div','qcard'); var answer=el('div','answerline'); var bank=el('div','banktiles'); var done=false;
+      var placed=[]; var words=shuffle(target.map(function(w,i){return {w:w,i:i};}));
+      function refresh(){ bank.innerHTML=''; words.forEach(function(o){ if(placed.indexOf(o.i)>-1)return; var t=el('button','wtile',esc(o.w)); t.addEventListener('click',function(){ if(done)return; placed.push(o.i); render(); refresh(); check(); }); bank.appendChild(t); }); }
+      function render(){ answer.innerHTML=''; if(!placed.length){ answer.appendChild(el('span','ahint','Toca las palabras en orden…')); return; } placed.forEach(function(idx,pos){ var t=el('button','wtile placed',esc(target[idx])); t.addEventListener('click',function(){ if(done)return; placed.splice(pos,1); render(); refresh(); }); answer.appendChild(t); }); }
+      function check(){ if(placed.length!==target.length)return; var cur=placed.map(function(i){return target[i];}).join(' '); if(cur===target.join(' ')){ done=true; answer.querySelectorAll('.wtile').forEach(function(t){t.classList.add('good');}); point(); cheer('¡Correcto! ✓'); } else { answer.classList.add('bad'); setTimeout(function(){ answer.classList.remove('bad'); placed=[]; render(); refresh(); },650); } }
+      var reset=el('button','revealbtn','Reiniciar'); reset.addEventListener('click',function(){ if(done)return; placed=[]; render(); refresh(); });
+      c.appendChild(answer); c.appendChild(bank); c.appendChild(reset); box.appendChild(c); render(); refresh();
+    });
+  })();
+
+  /* 11 PP vs PS */ blankChoice('ex-ppps', DATA.ppps);
+
+  /* 12 correct the mistake (reveal) */
+  reveals('ex-fix', DATA.fix, function(it){
+    var c=el('div','qcard');
+    c.appendChild(el('div','fixwrong','✗ '+esc(it.wrong)));
+    var r=el('div','solrow fixright','✓ '+esc(it.right));
+    var note=el('div','fixn','💡 '+esc(it.note)); note.style.display='none';
+    var btn=el('button','revealbtn','Ver corrección');
+    function reveal(){ r.classList.add('show'); note.style.display='block'; btn.disabled=true; }
+    btn.addEventListener('click',reveal);
+    c.appendChild(r); c.appendChild(note); c.appendChild(btn);
+    return {node:c, reveal:reveal, shown:function(){return r.classList.contains('show');}};
+  }, 'reveal-fix');
+
+  /* 13 Q&A match */ makeMatch('ex-match', DATA.match, 'Preguntas', 'Respuestas');
+
+  /* 14 true/false */
+  (function(){
+    var box=document.getElementById('ex-tf');
+    DATA.tf.forEach(function(it){
+      var c=el('div','tfcard'); c.appendChild(el('div','tfico',it.i)); c.appendChild(el('div','tfword',esc(it.w)));
+      var btns=el('div','tfbtns'); var done=false;
+      ['T','F'].forEach(function(v){ var want=(v==='T'); var b=el('button','tfbtn '+(want?'t':'f'),v);
+        b.addEventListener('click',function(){ if(done)return; if(want===it.ok){ done=true; b.classList.add('good','lock'); point(); cheer('¡Correcto! ✓'); btns.querySelectorAll('.tfbtn').forEach(function(x){x.classList.add('lock');}); } else { b.classList.add('bad'); setTimeout(function(){b.classList.remove('bad');},450); } });
+        btns.appendChild(b); });
+      c.appendChild(btns); box.appendChild(c);
+    });
+  })();
+
+  /* 15 line MC */
+  (function(){
+    var box=document.getElementById('ex-mc');
+    DATA.mc.forEach(function(it){
+      var c=el('div','exitem'); c.appendChild(el('div','exq',esc(it.q)));
+      var opts=el('div','optfull'); var done=false; var why=el('div','why','💡 '+esc(it.why));
+      it.o.forEach(function(text,idx){ var b=el('button','opt line',(idx===0?'A) ':'B) ')+esc(text));
+        b.addEventListener('click',function(){ if(done)return; if(idx===it.a){ done=true; b.classList.add('correct','lock'); point(); why.classList.add('show'); cheer('¡Correcto! ✓'); opts.querySelectorAll('.opt').forEach(function(x){x.classList.add('lock'); if(x!==b)x.classList.add('dim');}); } else { b.classList.add('wrong'); setTimeout(function(){b.classList.remove('wrong');},450); } });
+        opts.appendChild(b); });
+      c.appendChild(opts); c.appendChild(why); box.appendChild(c);
+    });
+  })();
+
+  /* ---------------- deck navigation ---------------- */
+  var slides=Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var i=0;
+  var bulbsBox=document.getElementById('bulbs');
+  var curEl=document.getElementById('cur'), totEl=document.getElementById('tot');
+  var prevBtn=document.getElementById('prev'), nextBtn=document.getElementById('next');
+  totEl.textContent=slides.length;
+  var bulbEls=slides.map(function(){ var d=el('span','bulb'); bulbsBox.appendChild(d); return d; });
 
   function render(){
-    slides.forEach((s,i)=>{ s.classList.toggle('on', i===cur); s.classList.toggle('before', i<cur); if(i===cur) s.scrollTop=0; });
-    dots.forEach((d,i)=>{ d.classList.toggle('on', i===cur); d.classList.toggle('seen', i<cur); });
-    prog.style.width = ((cur+1)/N*100)+'%';
-    cNow.textContent = cur+1;
-    document.getElementById('bPrev').disabled = cur===0;
-    document.getElementById('bNext').disabled = cur===N-1;
+    slides.forEach(function(s,k){ s.classList.toggle('is-active',k===i); if(k===i)s.scrollTop=0; });
+    bulbEls.forEach(function(b,k){ b.classList.toggle('on',k<=i); b.classList.toggle('cur',k===i); });
+    curEl.textContent=i+1;
+    prevBtn.disabled=(i===0);
+    nextBtn.disabled=(i===slides.length-1);
+    nextBtn.textContent=(i===slides.length-1)?'¡Fin! 🎭':'Siguiente →';
   }
-  function goTo(i){ cur=Math.max(0,Math.min(N-1,i)); render(); }
-  function next(){ goTo(cur+1); } function prev(){ goTo(cur-1); }
-  document.getElementById('bNext').onclick=next;
-  document.getElementById('bPrev').onclick=prev;
-  document.addEventListener('click', e=>{ const g=e.target.closest('[data-go]'); if(g) goTo(parseInt(g.getAttribute('data-go'),10)); });
+  function go(n){ closeToc(); i=Math.max(0,Math.min(slides.length-1,n)); render(); }
+  prevBtn.addEventListener('click',function(){go(i-1);});
+  nextBtn.addEventListener('click',function(){go(i+1);});
 
-  // fullscreen
-  function toggleFS(){ if(!document.fullscreenElement){(document.documentElement.requestFullscreen||function(){}).call(document.documentElement);} else {(document.exitFullscreen||function(){}).call(document);} }
-  document.getElementById('bFull').onclick=toggleFS;
-
-  // menu open/close
-  const menu=document.getElementById('menu'); let menuOpen=false;
-  function openMenu(){menu.classList.add('open'); menuOpen=true;}
-  function closeMenu(){menu.classList.remove('open'); menuOpen=false;}
-  document.getElementById('bMenu').onclick=()=>menuOpen?closeMenu():openMenu();
-  document.getElementById('menuClose').onclick=closeMenu;
-  menu.addEventListener('click',e=>{if(e.target===menu)closeMenu();});
-
-  // keyboard
-  document.addEventListener('keydown',e=>{
-    if(e.key==='Escape'){ if(menuOpen){closeMenu(); return;} }
-    if(menuOpen) return;
-    switch(e.key){
-      case 'ArrowRight': case 'PageDown': next(); e.preventDefault(); break;
-      case 'ArrowLeft': case 'PageUp': prev(); e.preventDefault(); break;
-      case ' ': next(); e.preventDefault(); break;
-      case 'f': case 'F': toggleFS(); break;
-      case 'm': case 'M': (menuOpen?closeMenu():openMenu()); break;
-      case 'Home': goTo(0); break; case 'End': goTo(N-1); break;
-    }
+  /* agenda jump */
+  Array.prototype.slice.call(document.querySelectorAll('.ag-item')).forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var key=btn.getAttribute('data-go');
+      for(var k=0;k<slides.length;k++){ if(slides[k].getAttribute('data-div')===key){ go(k); return; } }
+    });
   });
 
-  // ink circle
-  function inkCircle(el){
-    if(el.querySelector('.ink')) return;
-    const w=el.offsetWidth+24, h=el.offsetHeight+18, rx=w/2-4, ry=h/2-4, cx=w/2, cy=h/2;
-    const ns='http://www.w3.org/2000/svg';
-    const svg=document.createElementNS(ns,'svg'); svg.setAttribute('class','ink'); svg.setAttribute('viewBox','0 0 '+w+' '+h);
-    svg.style.width=w+'px'; svg.style.height=h+'px';
-    const e=document.createElementNS(ns,'ellipse'); e.setAttribute('cx',cx); e.setAttribute('cy',cy); e.setAttribute('rx',rx); e.setAttribute('ry',ry);
-    svg.appendChild(e); el.appendChild(svg);
-    const len=Math.PI*(3*(rx+ry)-Math.sqrt((3*rx+ry)*(rx+3*ry))); e.style.strokeDasharray=len;
-    if(reduce){ e.style.strokeDashoffset=0; return; }
-    e.style.strokeDashoffset=len;
-    requestAnimationFrame(()=>{ e.style.transition='stroke-dashoffset .55s cubic-bezier(.6,0,.3,1)'; e.style.strokeDashoffset=0; });
-  }
+  /* ---------------- TOC ---------------- */
+  var toc=document.getElementById('toc'), tocGrid=document.getElementById('toc-grid');
+  var groups=[]; var cur={title:'Inicio',idx:0,items:[]};
+  slides.forEach(function(s,idx){
+    if(s.getAttribute('data-div')){ groups.push(cur); cur={title:s.getAttribute('data-div'),idx:idx,items:[]}; }
+    var t=s.getAttribute('data-toc'); if(t) cur.items.push({idx:idx,label:t});
+  });
+  groups.push(cur);
+  groups.forEach(function(g){
+    var sec=el('div','toc-group');
+    var h=el('button','toc-h',esc(g.title)); h.addEventListener('click',function(){go(g.idx);}); sec.appendChild(h);
+    g.items.forEach(function(it){ var b=el('button','toc-item',esc(it.label)); b.addEventListener('click',function(){go(it.idx);}); sec.appendChild(b); });
+    tocGrid.appendChild(sec);
+  });
+  function openToc(){ toc.classList.add('open'); }
+  function closeToc(){ toc.classList.remove('open'); }
+  document.getElementById('menu').addEventListener('click',function(){ toc.classList.contains('open')?closeToc():openToc(); });
+  document.getElementById('toc-close').addEventListener('click',closeToc);
+  toc.addEventListener('click',function(e){ if(e.target===toc) closeToc(); });
 
-  // score
-  const totalGradable = document.querySelectorAll('.qa').length;
-  document.getElementById('scoreTot').textContent = totalGradable;
-  let score=0; const scoreEl=document.getElementById('score');
-  function bump(){ score++; scoreEl.textContent=score; }
-
-  // interactions
-  document.addEventListener('click',e=>{
-    const c=e.target.closest('.choice');
-    if(c){
-      const wrap=c.closest('.qa'); if(wrap.dataset.done) return;
-      if(c.getAttribute('data-correct')==='true'){
-        c.classList.add('right'); inkCircle(c); wrap.dataset.done='1'; bump();
-        wrap.querySelectorAll('.choice').forEach(b=>b.disabled=true);
-        const fb=wrap.querySelector('.fb'); if(fb) fb.classList.add('show');
-      } else { c.classList.add('bad'); c.disabled=true; }
-      return;
-    }
-    const r=e.target.closest('.reveal'); if(r){ r.classList.toggle('open'); return; }
-    const v=e.target.closest('.vcard'); if(v){ v.classList.toggle('open'); return; }
-    const m=e.target.closest('.mi'); if(m){ onMatch(m); return; }
+  /* keyboard */
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'){ closeToc(); return; }
+    if(e.key==='ArrowRight'||e.key==='PageDown'){ e.preventDefault(); go(i+1); }
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'){ e.preventDefault(); go(i-1); }
+    else if(e.key===' '){ e.preventDefault(); go(i+1); }
+    else if(e.key==='Home'){ e.preventDefault(); go(0); }
+    else if(e.key==='End'){ e.preventDefault(); go(slides.length-1); }
+    else if(e.key==='f'||e.key==='F'){ toggleFs(); }
+    else if(e.key==='m'||e.key==='M'){ toc.classList.contains('open')?closeToc():openToc(); }
   });
 
-  // keyboard activate reveal/vcard
-  document.querySelectorAll('.reveal').forEach(r=>{ r.tabIndex=0; r.setAttribute('role','button'); });
-  document.addEventListener('keydown',e=>{
-    if(e.key!=='Enter' && e.key!==' ') return;
-    const t=document.activeElement;
-    if(t && (t.classList.contains('reveal')||t.classList.contains('vcard'))){ t.classList.toggle('open'); e.preventDefault(); }
-  });
-
-  // match
-  let sel=null;
-  function flash(el){ el.classList.add('flash'); setTimeout(()=>el.classList.remove('flash'),360); }
-  function checkDone(){
-    const g=document.getElementById('matchGame'); if(!g) return;
-    const tot=g.querySelectorAll('.mi[data-side="left"]').length;
-    const dn=g.querySelectorAll('.mi[data-side="left"].matched').length;
-    if(dn===tot) document.getElementById('matchDone').classList.add('show');
-  }
-  function onMatch(item){
-    if(item.classList.contains('matched')) return;
-    if(sel===item){ item.classList.remove('sel'); sel=null; return; }
-    if(!sel){ sel=item; item.classList.add('sel'); return; }
-    if(sel.dataset.side===item.dataset.side){ sel.classList.remove('sel'); sel=item; item.classList.add('sel'); return; }
-    if(item.dataset.key===sel.dataset.key){ item.classList.add('matched'); sel.classList.add('matched'); sel.classList.remove('sel'); sel=null; checkDone(); }
-    else { flash(item); flash(sel); sel.classList.remove('sel'); sel=null; }
-  }
-  const mr=document.getElementById('matchReset');
-  if(mr) mr.onclick=function(){ const g=document.getElementById('matchGame'); g.querySelectorAll('.mi').forEach(i=>i.classList.remove('matched','sel','flash')); document.getElementById('matchDone').classList.remove('show'); sel=null; };
-
-  // cover signature
-  window.addEventListener('load',()=>{ setTimeout(()=>{ const mk=document.getElementById('mk'); if(mk) inkCircle(mk); },650); });
+  /* fullscreen */
+  var fsBtn=document.getElementById('fs');
+  function toggleFs(){ if(!document.fullscreenElement){ (document.documentElement.requestFullscreen||document.documentElement.webkitRequestFullscreen||function(){}).call(document.documentElement); } else { (document.exitFullscreen||document.webkitExitFullscreen||function(){}).call(document); } }
+  fsBtn.addEventListener('click',toggleFs);
+  document.addEventListener('fullscreenchange',function(){ fsBtn.textContent=document.fullscreenElement?'⤡':'⤢'; });
 
   render();
 })();

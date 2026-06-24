@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ensayo General · English Exam Review · 5th Sec</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1b1430;
+  --paper:#fbf6ea;
+  --paper2:#f3ead7;
+  --stage:#160f3d;
+  --stage2:#241653;
+  --gold:#f3b53b;
+  --gold-deep:#d6962a;
+  --curtain:#d4453d;
+  --applause:#2aa564;
+  --applause-deep:#1c7a49;
+  --muted:#6d6585;
+  --line:#e6dcc4;
+  --shadow:0 18px 40px -22px rgba(22,15,61,.55);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:"Inter",system-ui,sans-serif;
+  color:var(--ink);
+  background:var(--paper);
+  overflow:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ---------- top marquee bar ---------- */
+.topbar{
+  position:fixed;top:0;left:0;right:0;height:60px;z-index:40;
+  display:flex;align-items:center;gap:18px;
+  padding:0 clamp(14px,2.4vw,30px);
+  background:var(--stage);
+  border-bottom:2px solid var(--gold-deep);
+  color:var(--paper);
+}
+.brand{display:flex;align-items:center;gap:10px;flex:0 0 auto;letter-spacing:.14em;
+  font-family:"Oswald",sans-serif;font-weight:600;font-size:clamp(11px,1.2vw,14px);text-transform:uppercase;white-space:nowrap}
+.brand .star{color:var(--gold);font-size:1.25em;line-height:1;filter:drop-shadow(0 0 6px rgba(243,181,59,.7))}
+.brand b{color:var(--gold)}
+.bulbs{flex:1 1 auto;display:flex;align-items:center;justify-content:center;gap:clamp(4px,.7vw,9px);overflow:hidden}
+.bulb{width:9px;height:9px;border-radius:50%;background:#3a2f6b;flex:0 0 auto;transition:background .35s, box-shadow .35s, transform .35s}
+.bulb.on{background:var(--gold);box-shadow:0 0 8px 1px rgba(243,181,59,.85);transform:scale(1.15)}
+.bulb.cur{background:#fff;box-shadow:0 0 12px 3px rgba(255,255,255,.9)}
+.hud{flex:0 0 auto;display:flex;align-items:center;gap:clamp(8px,1.2vw,14px)}
+.score,.counter{display:inline-flex;align-items:center;gap:7px;font-family:"Oswald",sans-serif;font-weight:500;
+  font-size:clamp(12px,1.3vw,15px);letter-spacing:.05em;background:rgba(255,255,255,.08);
+  padding:7px 12px;border-radius:999px;white-space:nowrap}
+.score b{color:var(--gold);font-weight:700}
+.counter{color:#c8c0e6}
+.fsbtn{appearance:none;border:1.5px solid rgba(243,181,59,.55);background:transparent;color:var(--gold);
+  width:38px;height:38px;border-radius:11px;cursor:pointer;font-size:17px;display:grid;place-items:center;
+  transition:background .2s,transform .15s}
+.fsbtn:hover{background:rgba(243,181,59,.16)}
+.fsbtn:active{transform:scale(.92)}
+
+/* ---------- deck ---------- */
+.deck{position:fixed;inset:60px 0 0 0}
+.slide{position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;align-items:center;
+  padding:clamp(20px,3vw,46px) clamp(20px,5vw,80px) clamp(78px,9vh,96px);
+  overflow-y:auto}
+.slide.is-active{display:flex;animation:slidein .5s cubic-bezier(.16,.84,.44,1)}
+@keyframes slidein{from{opacity:0;transform:translateY(16px) scale(.992)}to{opacity:1;transform:none}}
+.wrap{width:100%;max-width:1120px;margin:auto}
+
+.eyebrow{font-family:"Oswald",sans-serif;font-weight:600;letter-spacing:.26em;text-transform:uppercase;
+  font-size:clamp(12px,1.4vw,16px);color:var(--curtain);display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.eyebrow::before{content:"";width:30px;height:2px;background:var(--curtain);display:inline-block}
+.title{font-family:"Oswald",sans-serif;font-weight:700;line-height:1.02;letter-spacing:-.01em;
+  font-size:clamp(2rem,4.4vw,3.4rem);margin-bottom:8px}
+.title .en{color:var(--ink)}
+.sub{color:var(--muted);font-size:clamp(1rem,1.55vw,1.3rem);max-width:60ch;line-height:1.5;margin-bottom:26px}
+
+/* ---------- dark "stage" slides ---------- */
+.slide.stage{background:radial-gradient(120% 90% at 50% 14%,var(--stage2) 0%,var(--stage) 58%,#0e0930 100%);color:var(--paper)}
+.slide.stage::before,.slide.stage::after{content:"";position:absolute;top:0;bottom:0;width:clamp(40px,8vw,120px);z-index:1;pointer-events:none;opacity:.5}
+.slide.stage::before{left:0;background:repeating-linear-gradient(90deg,#7a1f1c 0 14px,#a52c26 14px 28px);
+  -webkit-mask:linear-gradient(90deg,#000,transparent);mask:linear-gradient(90deg,#000,transparent)}
+.slide.stage::after{right:0;background:repeating-linear-gradient(90deg,#a52c26 0 14px,#7a1f1c 14px 28px);
+  -webkit-mask:linear-gradient(270deg,#000,transparent);mask:linear-gradient(270deg,#000,transparent)}
+.spot{position:absolute;left:50%;top:-12%;width:min(120vw,1100px);height:120%;transform:translateX(-50%);
+  background:radial-gradient(closed-side at 50% 0,rgba(243,181,59,.30),rgba(243,181,59,.10) 32%,transparent 60%);
+  background:radial-gradient(60% 65% at 50% 0%,rgba(243,181,59,.30) 0%,rgba(243,181,59,.08) 36%,transparent 62%);
+  pointer-events:none;z-index:0;animation:beam 7s ease-in-out infinite alternate}
+@keyframes beam{from{opacity:.75;transform:translateX(-52%) scaleX(.96)}to{opacity:1;transform:translateX(-48%) scaleX(1.04)}}
+.slide.stage .wrap{position:relative;z-index:2;text-align:center}
+.slide.stage .eyebrow{color:var(--gold);justify-content:center}
+.slide.stage .eyebrow::before{background:var(--gold)}
+.slide.stage .sub{color:#cfc8ea;margin-left:auto;margin-right:auto}
+
+.actno{font-family:"Anton",sans-serif;font-size:clamp(5rem,16vw,13rem);line-height:.86;color:var(--gold);
+  letter-spacing:.01em;text-shadow:0 0 38px rgba(243,181,59,.4);margin-bottom:6px}
+.acttitle{font-family:"Oswald",sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.04em;
+  font-size:clamp(1.8rem,4vw,3.1rem)}
+
+/* hero */
+.hero-kick{font-family:"Oswald",sans-serif;font-weight:500;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--gold);font-size:clamp(12px,1.5vw,17px);margin-bottom:18px}
+.hero-title{font-family:"Anton",sans-serif;font-size:clamp(3.4rem,12vw,9rem);line-height:.9;letter-spacing:.01em;
+  text-transform:uppercase;text-shadow:0 0 50px rgba(243,181,59,.35)}
+.hero-title .l2{color:var(--gold)}
+.hero-sub{font-size:clamp(1.05rem,2vw,1.55rem);color:#d7d0f0;margin-top:22px;line-height:1.5}
+.hero-tag{margin-top:6px;color:var(--curtain);font-family:"Oswald",sans-serif;letter-spacing:.18em;text-transform:uppercase;font-size:clamp(11px,1.3vw,15px);font-weight:600}
+.startcue{margin-top:34px;display:inline-flex;align-items:center;gap:12px;color:#efe9ff;font-size:clamp(.9rem,1.4vw,1.1rem)}
+.kbd{font-family:"Oswald",sans-serif;font-weight:600;background:rgba(243,181,59,.16);border:1.5px solid rgba(243,181,59,.5);
+  color:var(--gold);padding:5px 12px;border-radius:9px;letter-spacing:.05em}
+
+/* ---------- content blocks ---------- */
+.formula{background:var(--stage);color:var(--paper);border-radius:18px;padding:clamp(18px,2.4vw,30px) clamp(16px,3vw,38px);
+  text-align:center;box-shadow:var(--shadow);margin-bottom:22px;position:relative;overflow:hidden}
+.formula::after{content:"";position:absolute;inset:0;background:radial-gradient(70% 120% at 50% -20%,rgba(243,181,59,.22),transparent 60%);pointer-events:none}
+.formula .fx{font-family:"Oswald",sans-serif;font-weight:600;font-size:clamp(1.2rem,3vw,2.1rem);letter-spacing:.01em;display:flex;flex-wrap:wrap;gap:.5em 0;align-items:center;justify-content:center;position:relative;z-index:1}
+.tok{padding:.12em .5em;border-radius:10px;margin:0 .12em}
+.tok.s{background:rgba(255,255,255,.12)}
+.tok.aux{background:var(--gold);color:var(--ink)}
+.tok.pp{background:var(--curtain);color:#fff}
+.plus{color:var(--gold);margin:0 .15em;font-weight:700}
+
+.grid{display:grid;gap:clamp(12px,1.6vw,18px)}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:clamp(14px,1.8vw,22px);box-shadow:var(--shadow)}
+.card h3{font-family:"Oswald",sans-serif;font-weight:600;font-size:clamp(1rem,1.7vw,1.35rem);margin-bottom:8px;display:flex;align-items:center;gap:10px}
+.card h3 .tag{font-size:.7em;font-weight:600;letter-spacing:.04em;color:#fff;background:var(--curtain);padding:3px 9px;border-radius:7px;text-transform:uppercase}
+.card h3 .tag.pos{background:var(--applause)}
+.card h3 .tag.q{background:var(--stage2)}
+.card p{color:var(--muted);font-size:clamp(.92rem,1.3vw,1.1rem);line-height:1.5}
+
+.ex{font-size:clamp(1rem,1.5vw,1.35rem);line-height:1.7;color:var(--ink)}
+.kw{color:var(--gold-deep);font-weight:700;border-bottom:3px solid var(--gold);padding-bottom:1px}
+.aux{color:var(--curtain);font-weight:700}
+.pp{font-weight:700;border-bottom:3px solid var(--curtain);padding-bottom:1px}
+
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.vchip{background:#fff;border:1px solid var(--line);border-radius:13px;padding:11px 15px;box-shadow:var(--shadow);
+  display:flex;align-items:center;gap:11px;min-width:0}
+.vchip .ico{font-size:clamp(1.3rem,2.4vw,2rem);line-height:1}
+.vchip .w{font-family:"Oswald",sans-serif;font-weight:600;font-size:clamp(.95rem,1.5vw,1.25rem)}
+.vchip .es{display:block;color:var(--muted);font-size:clamp(.72rem,1.05vw,.92rem);font-weight:500}
+
+.note{display:flex;gap:12px;align-items:flex-start;background:var(--paper2);border-left:4px solid var(--gold);
+  border-radius:0 12px 12px 0;padding:13px 16px;margin-top:18px;font-size:clamp(.9rem,1.3vw,1.08rem);line-height:1.5}
+.note .b{font-size:1.3em;line-height:1}
+.contrast{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:8px}
+.contrast>div{border-radius:14px;padding:14px 16px}
+.contrast .pp-b{background:#eef7f0;border:1px solid #cfe9d8}
+.contrast .ps-b{background:#fdeeed;border:1px solid #f4cfcc}
+.contrast h4{font-family:"Oswald",sans-serif;font-weight:600;margin-bottom:6px;font-size:clamp(1rem,1.5vw,1.2rem)}
+.contrast .pp-b h4{color:var(--applause-deep)}
+.contrast .ps-b h4{color:var(--curtain)}
+
+/* ---------- exercises ---------- */
+.instr{display:flex;align-items:center;gap:12px;margin-bottom:18px;color:var(--muted);font-size:clamp(.95rem,1.4vw,1.15rem)}
+.instr .num{font-family:"Anton",sans-serif;background:var(--gold);color:var(--ink);width:clamp(34px,4vw,46px);height:clamp(34px,4vw,46px);
+  border-radius:12px;display:grid;place-items:center;font-size:clamp(1.1rem,2vw,1.6rem);flex:0 0 auto}
+
+/* unscramble + build (reveal) */
+.qcard{background:#fff;border:1px solid var(--line);border-radius:16px;padding:clamp(13px,1.6vw,20px);box-shadow:var(--shadow);
+  display:flex;flex-direction:column;gap:12px}
+.tiles{display:flex;flex-wrap:wrap;gap:7px}
+.tile{font-family:"Oswald",sans-serif;font-weight:600;font-size:clamp(1rem,1.7vw,1.4rem);width:clamp(30px,3.4vw,42px);height:clamp(34px,3.8vw,46px);
+  border-radius:9px;display:grid;place-items:center;background:var(--paper2);border:1px solid var(--line);text-transform:uppercase}
+.tile.sol{background:var(--applause);color:#fff;border-color:var(--applause-deep);animation:pop .35s}
+@keyframes pop{0%{transform:scale(.7)}60%{transform:scale(1.12)}100%{transform:scale(1)}}
+.hint{color:var(--muted);font-size:clamp(.82rem,1.2vw,1rem);font-style:italic}
+.prompt{display:flex;flex-wrap:wrap;gap:7px}
+.pw{background:var(--paper2);border:1px dashed var(--gold-deep);border-radius:8px;padding:5px 10px;font-size:clamp(.85rem,1.3vw,1.05rem);font-weight:500}
+.solrow{font-size:clamp(1rem,1.5vw,1.3rem);font-weight:600;color:var(--applause-deep);display:none}
+.solrow.show{display:block;animation:slidein .35s}
+.revealbtn{align-self:flex-start;appearance:none;border:none;cursor:pointer;font-family:"Oswald",sans-serif;font-weight:600;
+  letter-spacing:.04em;text-transform:uppercase;font-size:clamp(.78rem,1.1vw,.95rem);background:var(--stage);color:var(--gold);
+  padding:8px 16px;border-radius:10px;transition:transform .15s,filter .2s}
+.revealbtn:hover{filter:brightness(1.18)}
+.revealbtn:active{transform:scale(.95)}
+.revealbtn[disabled]{opacity:.4;cursor:default}
+
+/* choose-word + MC + TF buttons */
+.exitem{background:#fff;border:1px solid var(--line);border-radius:15px;padding:clamp(12px,1.5vw,18px);box-shadow:var(--shadow);display:flex;flex-direction:column;gap:11px}
+.exq{font-size:clamp(.98rem,1.5vw,1.25rem);font-weight:500;line-height:1.45}
+.exq .blank{display:inline-block;min-width:54px;border-bottom:2.5px dashed var(--gold-deep);text-align:center;font-weight:700;color:var(--gold-deep)}
+.opts{display:flex;flex-wrap:wrap;gap:9px}
+.opt{appearance:none;border:1.5px solid var(--line);background:var(--paper);cursor:pointer;border-radius:11px;
+  padding:9px 16px;font-family:inherit;font-size:clamp(.9rem,1.3vw,1.1rem);font-weight:600;color:var(--ink);
+  transition:transform .12s,background .2s,border-color .2s,color .2s}
+.opt:hover:not(.lock){border-color:var(--gold-deep);transform:translateY(-1px)}
+.opt.correct{background:var(--applause);border-color:var(--applause-deep);color:#fff;cursor:default}
+.opt.wrong{background:var(--curtain);border-color:#a93029;color:#fff;animation:shake .4s}
+.opt.lock{cursor:default}
+.opt.dim{opacity:.45}
+@keyframes shake{10%,90%{transform:translateX(-2px)}30%,70%{transform:translateX(4px)}50%{transform:translateX(-5px)}}
+.optfull{display:flex;flex-direction:column;gap:9px}
+.opt.line{text-align:left;white-space:normal;line-height:1.4;font-weight:500;padding:11px 15px}
+.why{display:none;font-size:clamp(.82rem,1.2vw,1rem);color:var(--applause-deep);background:#eef7f0;border-radius:10px;padding:9px 13px;line-height:1.45}
+.why.show{display:block;animation:slidein .3s}
+
+/* TF */
+.tfcard{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:clamp(13px,1.6vw,20px);
+  display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center}
+.tfico{font-size:clamp(2.4rem,5vw,3.8rem);line-height:1}
+.tfword{font-family:"Oswald",sans-serif;font-weight:600;font-size:clamp(1rem,1.7vw,1.4rem)}
+.tfbtns{display:flex;gap:10px}
+.tfbtn{appearance:none;border:1.5px solid var(--line);background:var(--paper);cursor:pointer;width:clamp(48px,6vw,64px);height:clamp(40px,5vw,50px);
+  border-radius:11px;font-family:"Oswald",sans-serif;font-weight:700;font-size:clamp(1.1rem,1.8vw,1.5rem);transition:transform .12s,background .2s,color .2s,border-color .2s}
+.tfbtn.t{color:var(--applause-deep)}.tfbtn.f{color:var(--curtain)}
+.tfbtn:hover:not(.lock){transform:translateY(-2px);border-color:currentColor}
+.tfbtn.good{background:var(--applause);color:#fff;border-color:var(--applause-deep)}
+.tfbtn.bad{background:var(--curtain);color:#fff;border-color:#a93029;animation:shake .4s}
+.tfbtn.lock{cursor:default}
+
+/* match */
+.matchgrid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(14px,3vw,40px)}
+.mcol{display:flex;flex-direction:column;gap:11px}
+.mcol .lbl{font-family:"Oswald",sans-serif;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-size:clamp(.75rem,1.1vw,.92rem);margin-bottom:2px}
+.mitem{appearance:none;text-align:left;border:1.5px solid var(--line);background:#fff;cursor:pointer;border-radius:13px;
+  padding:12px 15px;font-family:inherit;font-size:clamp(.9rem,1.3vw,1.1rem);line-height:1.4;color:var(--ink);box-shadow:var(--shadow);
+  transition:transform .12s,border-color .2s,background .2s;display:flex;align-items:center;gap:11px}
+.mitem .dot{width:13px;height:13px;border-radius:50%;border:2px solid var(--gold-deep);flex:0 0 auto}
+.mitem:hover:not(.locked){transform:translateY(-1px);border-color:var(--gold-deep)}
+.mitem.sel{border-color:var(--gold-deep);background:#fff7e6}
+.mitem.sel .dot{background:var(--gold)}
+.mitem.locked{cursor:default;border-color:var(--applause-deep);background:#eef7f0}
+.mitem.locked .dot{background:var(--applause);border-color:var(--applause-deep)}
+.mitem.miss{animation:shake .4s;border-color:var(--curtain)}
+
+/* finale */
+.recap{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:26px auto 0;max-width:920px}
+.rcard{background:rgba(255,255,255,.06);border:1px solid rgba(243,181,59,.35);border-radius:16px;padding:20px;text-align:left}
+.rcard .n{font-family:"Anton",sans-serif;color:var(--gold);font-size:clamp(1.6rem,3vw,2.4rem);line-height:1}
+.rcard h4{font-family:"Oswald",sans-serif;font-weight:600;margin:8px 0 6px;font-size:clamp(1rem,1.6vw,1.25rem);color:#fff}
+.rcard p{color:#cfc8ea;font-size:clamp(.85rem,1.2vw,1rem);line-height:1.5}
+.finalscore{margin-top:26px;font-size:clamp(1.1rem,2vw,1.5rem);color:#efe9ff}
+.finalscore b{color:var(--gold);font-family:"Oswald",sans-serif}
+
+/* ---------- bottom nav ---------- */
+.nav{position:fixed;left:0;right:0;bottom:0;height:64px;z-index:40;display:flex;align-items:center;justify-content:space-between;
+  padding:0 clamp(14px,2.4vw,30px);background:linear-gradient(0deg,var(--paper) 60%,transparent);pointer-events:none}
+.slide.stage ~ .nav{}
+.navbtn{pointer-events:auto;appearance:none;border:none;cursor:pointer;font-family:"Oswald",sans-serif;font-weight:600;
+  letter-spacing:.06em;text-transform:uppercase;font-size:clamp(.8rem,1.2vw,1rem);background:var(--stage);color:var(--paper);
+  padding:12px 22px;border-radius:12px;display:inline-flex;align-items:center;gap:9px;box-shadow:var(--shadow);
+  transition:transform .14s,filter .2s}
+.navbtn:hover{filter:brightness(1.2)}
+.navbtn:active{transform:scale(.95)}
+.navbtn[disabled]{opacity:.35;cursor:default;filter:none}
+.navbtn.primary{background:var(--gold);color:var(--ink)}
+.kbhint{pointer-events:none;color:var(--muted);font-size:clamp(.7rem,1vw,.85rem);letter-spacing:.04em;display:flex;gap:14px;align-items:center}
+.kbhint .kk{font-family:"Oswald",sans-serif;font-weight:600;background:var(--paper2);border:1px solid var(--line);border-radius:6px;padding:2px 8px;color:var(--ink)}
+
+/* toast */
+.toast{position:fixed;left:50%;bottom:84px;transform:translate(-50%,18px);z-index:50;opacity:0;pointer-events:none;
+  background:var(--applause);color:#fff;font-family:"Oswald",sans-serif;font-weight:600;letter-spacing:.04em;
+  padding:11px 22px;border-radius:999px;box-shadow:var(--shadow);transition:opacity .3s,transform .3s}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+:focus-visible{outline:3px solid var(--gold-deep);outline-offset:2px;border-radius:6px}
+
+@media (max-width:760px){
+  .g2,.g3,.g4,.contrast,.matchgrid,.recap{grid-template-columns:1fr}
+  .kbhint{display:none}
+  .slide{padding-left:18px;padding-right:18px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand"><span class="star">✦</span> ENGLISH&nbsp;·&nbsp;<b>5TH&nbsp;SEC</b></div>
+  <div class="bulbs" id="bulbs"></div>
+  <div class="hud">
+    <span class="score">★ Aciertos <b><span id="score">0</span>/<span id="max">0</span></b></span>
+    <span class="counter"><span id="cur">1</span>/<span id="tot">0</span></span>
+    <button class="fsbtn" id="fs" title="Pantalla completa (F)" aria-label="Pantalla completa">⤢</button>
+  </div>
+</div>
+
+<main class="deck" id="deck">
+
+  <!-- 1 HERO -->
+  <section class="slide stage" data-k="hero">
+    <div class="spot"></div>
+    <div class="wrap">
+      <div class="hero-kick">★ Repaso antes del examen ★</div>
+      <h1 class="hero-title">Ensayo<br><span class="l2">General</span></h1>
+      <p class="hero-sub">Present Perfect · still / yet / already / just · vocabulario de teatro y artes</p>
+      <p class="hero-tag">Before opening night</p>
+      <div class="startcue"><span class="kbd">→</span> empezar &nbsp;·&nbsp; <span class="kbd">F</span> pantalla completa</div>
+    </div>
+  </section>
+
+  <!-- 2 ACT I -->
+  <section class="slide stage" data-k="div">
+    <div class="spot"></div>
+    <div class="wrap">
+      <div class="actno">I</div>
+      <div class="acttitle">La gramática</div>
+      <p class="sub">El tiempo verbal estrella del examen: el <b>Present Perfect</b>.</p>
+    </div>
+  </section>
+
+  <!-- 3 PP structure -->
+  <section class="slide" data-k="t">
+    <div class="wrap">
+      <div class="eyebrow">Acto I · Present Perfect</div>
+      <h2 class="title">¿Cómo se forma?</h2>
+      <div class="formula">
+        <div class="fx">
+          <span class="tok s">SUJETO</span><span class="plus">+</span>
+          <span class="tok aux">HAVE / HAS</span><span class="plus">+</span>
+          <span class="tok pp">PARTICIPIO PASADO</span>
+        </div>
+      </div>
+      <div class="grid g2">
+        <div class="card">
+          <h3>El auxiliar</h3>
+          <p>I / You / We / They → <b style="color:var(--curtain)">have</b><br>He / She / It → <b style="color:var(--curtain)">has</b></p>
+        </div>
+        <div class="card">
+          <h3>Las tres formas</h3>
+          <p class="ex" style="font-size:clamp(.95rem,1.4vw,1.2rem)">
+            <span style="color:var(--applause-deep);font-weight:700">+</span> She <span class="aux">has</span> <span class="pp">seen</span> the play.<br>
+            <span style="color:var(--curtain);font-weight:700">−</span> She <span class="aux">hasn't</span> <span class="pp">seen</span> the play.<br>
+            <span style="color:var(--stage2);font-weight:700">?</span> <span class="aux">Has</span> she <span class="pp">seen</span> the play?
+          </p>
+        </div>
+      </div>
+      <div class="note"><span class="b">💡</span><div><b>Truco:</b> el participio pasado es la <b>3.ª columna</b> del verbo. En verbos regulares termina en <b>-ed</b>; en irregulares hay que memorizarlo.</div></div>
+    </div>
+  </section>
+
+  <!-- 4 PP uses -->
+  <section class="slide" data-k="t">
+    <div class="wrap">
+      <div class="eyebrow">Acto I · Present Perfect</div>
+      <h2 class="title">¿Cuándo se usa?</h2>
+      <div class="grid g3">
+        <div class="card">
+          <h3>Experiencias</h3>
+          <p>Algo que pasó en tu vida, <b>sin decir cuándo</b>. Con <i>ever</i> / <i>never</i>.</p>
+          <p class="ex" style="margin-top:8px">I <span class="aux">have</span> <span class="pp">visited</span> Cusco.</p>
+        </div>
+        <div class="card">
+          <h3>Acción reciente</h3>
+          <p>Tiene un <b>resultado ahora</b>.</p>
+          <p class="ex" style="margin-top:8px">I <span class="aux">have</span> <span class="pp">lost</span> my keys.</p>
+        </div>
+        <div class="card">
+          <h3>Desde el pasado</h3>
+          <p>Empezó antes y <b>sigue</b>. Con <i>for</i> / <i>since</i>.</p>
+          <p class="ex" style="margin-top:8px">I <span class="aux">have</span> <span class="pp">studied</span> English <span class="kw">for</span> 3 years.</p>
+        </div>
+      </div>
+      <div class="contrast" style="margin-top:18px">
+        <div class="pp-b"><h4>Present Perfect</h4><p style="color:var(--muted)">Tiempo <b>sin terminar</b> o sin especificar.<br><span class="ex">I <span class="aux">have</span> seen it.</span></p></div>
+        <div class="ps-b"><h4>Past Simple</h4><p style="color:var(--muted)">Tiempo <b>terminado</b>: yesterday, in 2020…<br><span class="ex">I saw it <b>yesterday</b>.</span></p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 participles -->
+  <section class="slide" data-k="t">
+    <div class="wrap">
+      <div class="eyebrow">Acto I · Referencia rápida</div>
+      <h2 class="title">Participios pasados</h2>
+      <div class="grid g2">
+        <div class="card">
+          <h3><span class="tag pos">Regulares</span> verbo + ed</h3>
+          <p class="ex">play → <span class="pp">played</span> &nbsp;·&nbsp; visit → <span class="pp">visited</span><br>help → <span class="pp">helped</span> &nbsp;·&nbsp; try → <span class="pp">tried</span></p>
+        </div>
+        <div class="card">
+          <h3><span class="tag">Irregulares</span> hay que memorizarlos</h3>
+          <p class="ex" style="line-height:1.9">
+            see → <span class="pp">seen</span> &nbsp; go → <span class="pp">gone</span> &nbsp; be → <span class="pp">been</span><br>
+            do → <span class="pp">done</span> &nbsp; eat → <span class="pp">eaten</span> &nbsp; win → <span class="pp">won</span><br>
+            read → <span class="pp">read</span> &nbsp; take → <span class="pp">taken</span> &nbsp; write → <span class="pp">written</span>
+          </p>
+        </div>
+      </div>
+      <div class="note"><span class="b">🎯</span><div>En el examen aparecen <b>seen, gone, been, done, read, won, finished, traveled, played, helped, tried</b>. Repásalos.</div></div>
+    </div>
+  </section>
+
+  <!-- 6 ACT II -->
+  <section class="slide stage" data-k="div">
+    <div class="spot"></div>
+    <div class="wrap">
+      <div class="actno">II</div>
+      <div class="acttitle">Las palabras de tiempo</div>
+      <p class="sub">already · yet · just · still — pequeñas pero decisivas.</p>
+    </div>
+  </section>
+
+  <!-- 7 adverbs -->
+  <section class="slide" data-k="t">
+    <div class="wrap">
+      <div class="eyebrow">Acto II · Adverbios</div>
+      <h2 class="title">already · yet · just · still</h2>
+      <div class="grid g2">
+        <div class="card">
+          <h3><span class="kw">already</span> &nbsp;(ya)</h3>
+          <p>Afirmaciones. Algo pasó <b>antes de lo esperado</b>. Va <b>entre</b> have/has y el participio.</p>
+          <p class="ex" style="margin-top:8px">I have <span class="kw">already</span> eaten.</p>
+        </div>
+        <div class="card">
+          <h3><span class="kw">yet</span> &nbsp;(todavía / ya)</h3>
+          <p>Preguntas y negaciones. Va <b>al final</b>.</p>
+          <p class="ex" style="margin-top:8px">Have you eaten <span class="kw">yet</span>?<br>I haven't eaten <span class="kw">yet</span>.</p>
+        </div>
+        <div class="card">
+          <h3><span class="kw">just</span> &nbsp;(acabar de)</h3>
+          <p>Acción <b>muy reciente</b>. Va <b>entre</b> have/has y el participio.</p>
+          <p class="ex" style="margin-top:8px">I have <span class="kw">just</span> eaten.</p>
+        </div>
+        <div class="card">
+          <h3><span class="kw">still</span> &nbsp;(todavía)</h3>
+          <p>Recalca que algo <b>aún NO pasa</b>. Va <b>antes</b> de haven't / hasn't.</p>
+          <p class="ex" style="margin-top:8px">I <span class="kw">still</span> haven't eaten.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 ACT III -->
+  <section class="slide stage" data-k="div">
+    <div class="spot"></div>
+    <div class="wrap">
+      <div class="actno">III</div>
+      <div class="acttitle">El vocabulario</div>
+      <p class="sub">El mundo del teatro y de las artes.</p>
+    </div>
+  </section>
+
+  <!-- 9 vocab theater -->
+  <section class="slide" data-k="t">
+    <div class="wrap">
+      <div class="eyebrow">Acto III · On stage</div>
+      <h2 class="title">En el teatro</h2>
+      <div class="chips">
+        <div class="vchip"><span class="ico">👥</span><span class="w">audience<span class="es">el público</span></span></div>
+        <div class="vchip"><span class="ico">🎬</span><span class="w">scene<span class="es">escena</span></span></div>
+        <div class="vchip"><span class="ico">💬</span><span class="w">lines<span class="es">diálogos</span></span></div>
+        <div class="vchip"><span class="ico">🎟️</span><span class="w">audition<span class="es">audición</span></span></div>
+        <div class="vchip"><span class="ico">🎭</span><span class="w">cast<span class="es">reparto</span></span></div>
+        <div class="vchip"><span class="ico">🎪</span><span class="w">stage<span class="es">escenario</span></span></div>
+        <div class="vchip"><span class="ico">📜</span><span class="w">script<span class="es">guion</span></span></div>
+        <div class="vchip"><span class="ico">⭐</span><span class="w">role<span class="es">papel</span></span></div>
+        <div class="vchip"><span class="ico">🔁</span><span class="w">rehearsal<span class="es">ensayo</span></span></div>
+        <div class="vchip"><span class="ico">👏</span><span class="w">performance<span class="es">función</span></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 vocab arts -->
+  <section class="slide" data-k="t">
+    <div class="wrap">
+      <div class="eyebrow">Acto III · The arts</div>
+      <h2 class="title">En las artes</h2>
+      <div class="chips">
+        <div class="vchip"><span class="ico">📷</span><span class="w">photography<span class="es">fotografía</span></span></div>
+        <div class="vchip"><span class="ico">🖼️</span><span class="w">gallery<span class="es">galería</span></span></div>
+        <div class="vchip"><span class="ico">🏛️</span><span class="w">architecture<span class="es">arquitectura</span></span></div>
+        <div class="vchip"><span class="ico">🎵</span><span class="w">musical theater<span class="es">teatro musical</span></span></div>
+        <div class="vchip"><span class="ico">🎨</span><span class="w">painting<span class="es">pintura</span></span></div>
+        <div class="vchip"><span class="ico">🗿</span><span class="w">sculpture<span class="es">escultura</span></span></div>
+        <div class="vchip"><span class="ico">💃</span><span class="w">dance<span class="es">danza</span></span></div>
+      </div>
+      <div class="note"><span class="b">🖼️</span><div>En el ejercicio de <b>True / False</b> tendrás que decidir si la palabra describe correctamente la imagen.</div></div>
+    </div>
+  </section>
+
+  <!-- 11 ACT IV -->
+  <section class="slide stage" data-k="div">
+    <div class="spot"></div>
+    <div class="wrap">
+      <div class="actno">IV</div>
+      <div class="acttitle">El ensayo general</div>
+      <p class="sub">A practicar. Toca, responde y comprueba en clase.</p>
+    </div>
+  </section>
+
+  <!-- 12 unscramble -->
+  <section class="slide" data-k="ex">
+    <div class="wrap">
+      <div class="instr"><span class="num">1</span> Ordena las letras para formar la palabra de teatro.</div>
+      <div class="grid g4" id="ex-unscramble"></div>
+      <div style="margin-top:16px"><button class="revealbtn" id="reveal-unscramble">Revelar todo</button></div>
+    </div>
+  </section>
+
+  <!-- 13 choose word -->
+  <section class="slide" data-k="ex">
+    <div class="wrap">
+      <div class="instr"><span class="num">2</span> Elige <b>already / yet / just / still</b> y completa la oración.</div>
+      <div class="grid g2" id="ex-choose"></div>
+    </div>
+  </section>
+
+  <!-- 14 build sentence -->
+  <section class="slide" data-k="ex">
+    <div class="wrap">
+      <div class="instr"><span class="num">3</span> Forma la oración en <b>Present Perfect</b> con estas palabras.</div>
+      <div class="grid g2" id="ex-build"></div>
+      <div style="margin-top:16px"><button class="revealbtn" id="reveal-build">Revelar todo</button></div>
+    </div>
+  </section>
+
+  <!-- 15 Q&A -->
+  <section class="slide" data-k="ex">
+    <div class="wrap">
+      <div class="instr"><span class="num">4</span> Pregunta y responde. Mira los dos modelos de respuesta.</div>
+      <div class="grid g2" id="ex-qa"></div>
+      <div style="margin-top:16px"><button class="revealbtn" id="reveal-qa">Revelar respuestas</button></div>
+    </div>
+  </section>
+
+  <!-- 16 match -->
+  <section class="slide" data-k="ex">
+    <div class="wrap">
+      <div class="instr"><span class="num">5</span> Une cada pregunta con su respuesta. Toca una y luego su pareja.</div>
+      <div class="matchgrid" id="ex-match"></div>
+    </div>
+  </section>
+
+  <!-- 17 true/false -->
+  <section class="slide" data-k="ex">
+    <div class="wrap">
+      <div class="instr"><span class="num">6</span> ¿La palabra describe la imagen? Pulsa <b>T</b> (true) o <b>F</b> (false).</div>
+      <div class="grid g3" id="ex-tf"></div>
+    </div>
+  </section>
+
+  <!-- 18 MC -->
+  <section class="slide" data-k="ex">
+    <div class="wrap">
+      <div class="instr"><span class="num">7</span> Elige la oración <b>gramaticalmente correcta</b>.</div>
+      <div class="grid g2" id="ex-mc"></div>
+    </div>
+  </section>
+
+  <!-- 19 FINALE -->
+  <section class="slide stage" data-k="end">
+    <div class="spot"></div>
+    <div class="wrap">
+      <div class="eyebrow">El telón se levanta</div>
+      <h2 class="acttitle" style="margin-bottom:6px">¡Listos para el estreno!</h2>
+      <p class="sub">Recuerda estas tres claves antes de tu examen.</p>
+      <div class="recap">
+        <div class="rcard"><div class="n">01</div><h4>have / has + participio</h4><p>El participio es la 3.ª columna del verbo. He/She/It → <b>has</b>.</p></div>
+        <div class="rcard"><div class="n">02</div><h4>La posición importa</h4><p><b>already / just</b> en medio · <b>yet</b> al final · <b>still</b> antes de haven't.</p></div>
+        <div class="rcard"><div class="n">03</div><h4>Sin auxiliar no hay frase</h4><p>"I seen", "they doesn't" → ✗. Siempre <b>have / has</b> en Present Perfect.</p></div>
+      </div>
+      <p class="finalscore">Tu marcador de hoy: <b><span id="score2">0</span> / <span id="max2">0</span></b> aciertos &nbsp;·&nbsp; ¡Good luck! 🎭</p>
+    </div>
+  </section>
+
+</main>
+
+<nav class="nav">
+  <button class="navbtn" id="prev">← Anterior</button>
+  <div class="kbhint"><span><span class="kk">←</span> <span class="kk">→</span> navegar</span><span><span class="kk">F</span> pantalla completa</span></div>
+  <button class="navbtn primary" id="next">Siguiente →</button>
+</nav>
+
+<div class="toast" id="toast">¡Bravo! 👏</div>
+
+<script>
+(function(){
+  "use strict";
+  /* ---------------- exercise data ---------------- */
+  var DATA = {
+    unscramble:[
+      {s:"ADECUINE",a:"AUDIENCE",h:"the people watching a show"},
+      {s:"SEECN",a:"SCENE",h:"one part of a play"},
+      {s:"LNSIE",a:"LINES",h:"the words an actor says"},
+      {s:"AUONTIDI",a:"AUDITION",h:"a try-out to get a role"},
+      {s:"SACT",a:"CAST",h:"all the actors in a play"},
+      {s:"GSEAT",a:"STAGE",h:"where actors perform"},
+      {s:"CRSITP",a:"SCRIPT",h:"the written text of a play"},
+      {s:"LERO",a:"ROLE",h:"the character an actor plays"}
+    ],
+    choose:[
+      {q:["Have you heard the news ",""], opts:["yet","still","already","just"], a:"yet"},
+      {q:["I ","haven't finished my food."], opts:["still","already","yet","just"], a:"still"},
+      {q:["She has ","seen the new play."], opts:["already","yet","still","just"], a:"already"},
+      {q:["They have ","gone to see a movie."], opts:["just","still","yet","already"], a:"just"},
+      {q:["Have they arrived ",""], opts:["yet","just","already","still"], a:"yet"},
+      {q:["The movie has ","started."], opts:["just","yet","still","already"], a:"just"}
+    ],
+    build:[
+      {p:["My brother","not see","Avatar","yet"], a:"My brother hasn't seen Avatar yet."},
+      {p:["She","already","try","surfing"], a:"She has already tried surfing."},
+      {p:["My mother","help","someone","today"], a:"My mother has helped someone today."},
+      {p:["He","still","not be","central market"], a:"He still hasn't been to the central market."},
+      {p:["We","not finish","the project","yet"], a:"We haven't finished the project yet."},
+      {p:["They","win","a prize","this year"], a:"They have won a prize this year."}
+    ],
+    qa:[
+      {q:"Have you played any sports with your parents?", y:"Yes, I have played volleyball with my parents.", n:"No, I haven't played sports with them."},
+      {q:"Have you read books at home?", y:"Yes, I have read many books at home.", n:"No, I haven't read any books today."},
+      {q:"Have you ever traveled abroad?", y:"Yes, I have traveled abroad twice.", n:"No, I have never traveled abroad."},
+      {q:"Have you ever eaten sushi?", y:"Yes, I have eaten sushi once.", n:"No, I have never eaten sushi."}
+    ],
+    match:[
+      {q:"Have you finished your homework yet?", a:"Yes, I have already finished it."},
+      {q:"How long have you studied English?", a:"I have studied English for three years."},
+      {q:"What is the best movie you have seen?", a:"The best one I have seen is Avatar."},
+      {q:"Have you ever traveled to another country?", a:"Yes, I have traveled to Chile and Ecuador."}
+    ],
+    tf:[
+      {i:"📷", w:"photography", ok:true},
+      {i:"🎤", w:"gallery", ok:false},
+      {i:"🪆", w:"architecture", ok:false},
+      {i:"🎭", w:"musical theater", ok:true},
+      {i:"🏛️", w:"architecture", ok:true},
+      {i:"💃", w:"sculpture", ok:false}
+    ],
+    mc:[
+      {q:"Have you ever traveled by airplane?", o:["Yes, I have traveled by airplane before.","Yes, I traveled by airplane yesterday."], a:0, why:'Con "ever" usamos Present Perfect, no "yesterday" (pasado simple).'},
+      {q:"Has your brother finished his homework yet?", o:["Yes, he finish his homework already.","Yes, he has finished his homework already."], a:1, why:'Necesitamos el auxiliar "has" + el participio "finished".'},
+      {q:"Have they ever visited Cusco?", o:["No, they doesn't visit Cusco yet.","No, they haven't visited Cusco yet."], a:1, why:'"they haven\'t visited" usa el auxiliar correcto "have".'},
+      {q:"Have you seen Titanic before?", o:["Yes, I have seen it three times.","Yes, I seen it three times."], a:0, why:'"have seen" necesita el auxiliar "have".'}
+    ]
+  };
+
+  /* ---------------- score ---------------- */
+  var MAX = DATA.choose.length + DATA.match.length + DATA.tf.length + DATA.mc.length;
+  var score = 0;
+  var scoreEl = document.getElementById('score'),
+      score2El = document.getElementById('score2');
+  document.getElementById('max').textContent = MAX;
+  document.getElementById('max2').textContent = MAX;
+  var toast = document.getElementById('toast'), toastT;
+  function cheer(msg){
+    toast.textContent = msg || '¡Bravo! 👏';
+    toast.classList.add('show');
+    clearTimeout(toastT);
+    toastT = setTimeout(function(){toast.classList.remove('show');}, 1100);
+  }
+  function point(){ score++; scoreEl.textContent = score; score2El.textContent = score; }
+
+  function el(tag, cls, html){
+    var e = document.createElement(tag);
+    if(cls) e.className = cls;
+    if(html!=null) e.innerHTML = html;
+    return e;
+  }
+  function shuffle(a){ a=a.slice(); for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;} return a; }
+  function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  /* ---------------- renderers ---------------- */
+  // 1 unscramble
+  (function(){
+    var box = document.getElementById('ex-unscramble'); var cards=[];
+    DATA.unscramble.forEach(function(it){
+      var c = el('div','qcard');
+      var tiles = el('div','tiles');
+      it.s.split('').forEach(function(ch){ tiles.appendChild(el('div','tile',ch)); });
+      var hint = el('div','hint','“'+it.h+'”');
+      var btn = el('button','revealbtn','Revelar');
+      var reveal = function(){
+        tiles.innerHTML='';
+        it.a.split('').forEach(function(ch,k){ var t=el('div','tile sol',ch); t.style.animationDelay=(k*45)+'ms'; tiles.appendChild(t); });
+        btn.disabled = true;
+      };
+      btn.addEventListener('click', reveal);
+      c._reveal = reveal;
+      c.appendChild(tiles); c.appendChild(hint); c.appendChild(btn);
+      box.appendChild(c); cards.push(c);
+    });
+    document.getElementById('reveal-unscramble').addEventListener('click', function(){ cards.forEach(function(c){ if(!c.querySelector('.tile.sol')) c._reveal(); }); });
+  })();
+
+  // 2 choose word (scored)
+  (function(){
+    var box = document.getElementById('ex-choose');
+    DATA.choose.forEach(function(it){
+      var c = el('div','exitem');
+      var q = el('div','exq', esc(it.q[0])+'<span class="blank">?</span>'+(it.q[1]?(' '+esc(it.q[1])):''));
+      var opts = el('div','opts'); var done=false;
+      it.opts.forEach(function(o){
+        var b = el('button','opt',o);
+        b.addEventListener('click', function(){
+          if(done){return;}
+          if(o===it.a){
+            done=true; b.classList.add('correct','lock'); point(); cheer('¡Correcto! ✓');
+            q.querySelector('.blank').textContent = it.a;
+            opts.querySelectorAll('.opt').forEach(function(x){ x.classList.add('lock'); if(x!==b)x.classList.add('dim'); });
+          } else {
+            b.classList.add('wrong'); setTimeout(function(){ b.classList.remove('wrong'); },450);
+          }
+        });
+        opts.appendChild(b);
+      });
+      c.appendChild(q); c.appendChild(opts); box.appendChild(c);
+    });
+  })();
+
+  // 3 build (reveal)
+  (function(){
+    var box = document.getElementById('ex-build'); var cards=[];
+    DATA.build.forEach(function(it){
+      var c = el('div','qcard');
+      var p = el('div','prompt');
+      it.p.forEach(function(w){ p.appendChild(el('span','pw',w)); });
+      var sol = el('div','solrow','✓ '+esc(it.a));
+      var btn = el('button','revealbtn','Revelar oración');
+      var reveal=function(){ sol.classList.add('show'); btn.disabled=true; };
+      btn.addEventListener('click', reveal); c._reveal=reveal; c._sol=sol;
+      c.appendChild(p); c.appendChild(sol); c.appendChild(btn); box.appendChild(c); cards.push(c);
+    });
+    document.getElementById('reveal-build').addEventListener('click', function(){ cards.forEach(function(c){ if(!c._sol.classList.contains('show')) c._reveal(); }); });
+  })();
+
+  // 4 Q&A (reveal)
+  (function(){
+    var box = document.getElementById('ex-qa'); var cards=[];
+    DATA.qa.forEach(function(it){
+      var c = el('div','qcard');
+      var q = el('div','exq', esc(it.q));
+      var sol = el('div','solrow');
+      sol.innerHTML = '<span style="color:var(--applause-deep)">＋ '+esc(it.y)+'</span><br><span style="color:var(--curtain)">－ '+esc(it.n)+'</span>';
+      var btn = el('button','revealbtn','Ver respuestas');
+      var reveal=function(){ sol.classList.add('show'); btn.disabled=true; };
+      btn.addEventListener('click', reveal); c._reveal=reveal; c._sol=sol;
+      c.appendChild(q); c.appendChild(sol); c.appendChild(btn); box.appendChild(c); cards.push(c);
+    });
+    document.getElementById('reveal-qa').addEventListener('click', function(){ cards.forEach(function(c){ if(!c._sol.classList.contains('show')) c._reveal(); }); });
+  })();
+
+  // 5 match (scored)
+  (function(){
+    var box = document.getElementById('ex-match');
+    var qcol = el('div','mcol'); qcol.appendChild(el('div','lbl','Preguntas'));
+    var acol = el('div','mcol'); acol.appendChild(el('div','lbl','Respuestas'));
+    var selected = null; var solved = 0;
+    var ans = shuffle(DATA.match.map(function(d,i){return {t:d.a,id:i};}));
+    DATA.match.forEach(function(d,i){
+      var b = el('button','mitem','<span class="dot"></span><span>'+esc(d.q)+'</span>'); b.dataset.id=i; b.dataset.side='q';
+      b.addEventListener('click', function(){ pick(b); });
+      qcol.appendChild(b);
+    });
+    ans.forEach(function(d){
+      var b = el('button','mitem','<span class="dot"></span><span>'+esc(d.t)+'</span>'); b.dataset.id=d.id; b.dataset.side='a';
+      b.addEventListener('click', function(){ pick(b); });
+      acol.appendChild(b);
+    });
+    function pick(b){
+      if(b.classList.contains('locked')) return;
+      if(!selected){ selected=b; b.classList.add('sel'); return; }
+      if(selected===b){ b.classList.remove('sel'); selected=null; return; }
+      if(selected.dataset.side===b.dataset.side){ selected.classList.remove('sel'); selected=b; b.classList.add('sel'); return; }
+      // different sides -> check
+      if(selected.dataset.id===b.dataset.id){
+        selected.classList.remove('sel'); selected.classList.add('locked'); b.classList.add('locked');
+        selected=null; solved++; point(); cheer(solved===DATA.match.length?'¡Todas! 🎉':'¡Bien! ✓');
+      } else {
+        var a=selected; a.classList.add('miss'); b.classList.add('miss');
+        setTimeout(function(){ a.classList.remove('miss','sel'); b.classList.remove('miss'); },450);
+        selected=null;
+      }
+    }
+    box.appendChild(qcol); box.appendChild(acol);
+  })();
+
+  // 6 true/false (scored)
+  (function(){
+    var box = document.getElementById('ex-tf');
+    DATA.tf.forEach(function(it){
+      var c = el('div','tfcard');
+      c.appendChild(el('div','tfico',it.i));
+      c.appendChild(el('div','tfword',esc(it.w)));
+      var btns = el('div','tfbtns'); var done=false;
+      ['T','F'].forEach(function(v){
+        var want = (v==='T');
+        var b = el('button','tfbtn '+(want?'t':'f'),v);
+        b.addEventListener('click', function(){
+          if(done) return;
+          if(want===it.ok){ done=true; b.classList.add('good','lock'); point(); cheer('¡Correcto! ✓');
+            btns.querySelectorAll('.tfbtn').forEach(function(x){x.classList.add('lock');}); }
+          else { b.classList.add('bad'); setTimeout(function(){b.classList.remove('bad');},450); }
+        });
+        btns.appendChild(b);
+      });
+      c.appendChild(btns); box.appendChild(c);
+    });
+  })();
+
+  // 7 multiple choice (scored)
+  (function(){
+    var box = document.getElementById('ex-mc');
+    DATA.mc.forEach(function(it){
+      var c = el('div','exitem');
+      c.appendChild(el('div','exq', esc(it.q)));
+      var opts = el('div','optfull'); var done=false;
+      var why = el('div','why','💡 '+esc(it.why));
+      it.o.forEach(function(text,idx){
+        var b = el('button','opt line',(idx===0?'A) ':'B) ')+esc(text));
+        b.addEventListener('click', function(){
+          if(done) return;
+          if(idx===it.a){ done=true; b.classList.add('correct','lock'); point(); why.classList.add('show'); cheer('¡Correcto! ✓');
+            opts.querySelectorAll('.opt').forEach(function(x){ x.classList.add('lock'); if(x!==b)x.classList.add('dim'); }); }
+          else { b.classList.add('wrong'); setTimeout(function(){b.classList.remove('wrong');},450); }
+        });
+        opts.appendChild(b);
+      });
+      c.appendChild(opts); c.appendChild(why); box.appendChild(c);
+    });
+  })();
+
+  /* ---------------- deck navigation ---------------- */
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var i = 0;
+  var bulbsBox = document.getElementById('bulbs');
+  var curEl = document.getElementById('cur'), totEl = document.getElementById('tot');
+  var prevBtn = document.getElementById('prev'), nextBtn = document.getElementById('next');
+  totEl.textContent = slides.length;
+  var bulbEls = slides.map(function(){ var d=el('span','bulb'); bulbsBox.appendChild(d); return d; });
+
+  function render(){
+    slides.forEach(function(s,k){ s.classList.toggle('is-active', k===i); if(k===i) s.scrollTop=0; });
+    bulbEls.forEach(function(b,k){ b.classList.toggle('on', k<=i); b.classList.toggle('cur', k===i); });
+    curEl.textContent = i+1;
+    prevBtn.disabled = (i===0);
+    nextBtn.disabled = (i===slides.length-1);
+    nextBtn.textContent = (i===slides.length-1) ? '¡Fin! 🎭' : 'Siguiente →';
+  }
+  function go(n){ i = Math.max(0, Math.min(slides.length-1, n)); render(); }
+  prevBtn.addEventListener('click', function(){ go(i-1); });
+  nextBtn.addEventListener('click', function(){ go(i+1); });
+
+  document.addEventListener('keydown', function(e){
+    if(e.key==='ArrowRight' || e.key==='PageDown'){ e.preventDefault(); go(i+1); }
+    else if(e.key==='ArrowLeft' || e.key==='PageUp'){ e.preventDefault(); go(i-1); }
+    else if(e.key===' '){ e.preventDefault(); go(i+1); }
+    else if(e.key==='Home'){ e.preventDefault(); go(0); }
+    else if(e.key==='End'){ e.preventDefault(); go(slides.length-1); }
+    else if(e.key==='f' || e.key==='F'){ toggleFs(); }
+  });
+
+  /* fullscreen */
+  var fsBtn = document.getElementById('fs');
+  function toggleFs(){
+    if(!document.fullscreenElement){
+      (document.documentElement.requestFullscreen||document.documentElement.webkitRequestFullscreen||function(){}).call(document.documentElement);
+    } else {
+      (document.exitFullscreen||document.webkitExitFullscreen||function(){}).call(document);
+    }
+  }
+  fsBtn.addEventListener('click', toggleFs);
+  document.addEventListener('fullscreenchange', function(){ fsBtn.textContent = document.fullscreenElement ? '⤡' : '⤢'; });
+
+  render();
+})();
+</script>
+</body>
+</html>
